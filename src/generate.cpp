@@ -36,40 +36,50 @@ using namespace generate;
 // common includes
 #include "time.hpp"
 
-void output_execution_time(double total_ms, uint32_t N) {
+void output_execution_time(double total_ms, uint32_t n, uint32_t N, uint32_t R) {
+	cout << "n= " << n << endl;
+	cout << "N= " << N << endl;
+	cout << "R= " << R << endl;
 	cout << "Total execution time: " << profiling::time_to_str(total_ms) << endl;
-	cout << "Average execution time: " << profiling::time_to_str(total_ms/N) << endl;
+	cout << "    Average (ms/replica): " << profiling::time_to_str(total_ms/R) << endl;
+	cout << "    Average (ms/get_tree): " << profiling::time_to_str(total_ms/(R*N)) << endl;
 }
 
 template<class T, class GEN>
-void profile_all(uint32_t n, uint32_t N) {
+void profile_all(uint32_t n, uint32_t N, uint32_t R) {
 	double total = 0.0;
 
-	GEN Gen(n);
-	for (uint32_t i = 0; i < N and Gen.has_next(); ++i) {
-		const auto begin = profiling::now();
-		Gen.next();
-		const T tree = Gen.get_tree();
-		const auto end = profiling::now();
-		total += profiling::elapsed_time(begin, end);
+	GEN Gen;
+	for (uint32_t r = 0; r < R; ++r) {
+		Gen.init(n);
+		for (uint32_t i = 0; i < N and Gen.has_next(); ++i) {
+			const auto begin = profiling::now();
+			Gen.next();
+			const T tree = Gen.get_tree();
+			const auto end = profiling::now();
+			total += profiling::elapsed_time(begin, end);
+		}
 	}
 
-	output_execution_time(total, N);
+	output_execution_time(total, n, N, R);
 }
 
 template<class T, class GEN>
-void profile_random(uint32_t n, uint32_t N) {
+void profile_random(uint32_t n, uint32_t N, uint32_t R) {
 	double total = 0.0;
 
-	GEN Gen(n);
-	for (uint32_t i = 0; i < N; ++i) {
-		const auto begin = profiling::now();
-		const T tree = Gen.make_rand_tree();
-		const auto end = profiling::now();
-		total += profiling::elapsed_time(begin, end);
+	GEN Gen;
+	for (uint32_t r = 0; r < R; ++r) {
+		Gen.init(n);
+		for (uint32_t i = 0; i < N; ++i) {
+			const auto begin = profiling::now();
+			const T tree = Gen.make_rand_tree();
+			const auto end = profiling::now();
+			total += profiling::elapsed_time(begin, end);
+		}
 	}
 
-	output_execution_time(total, N);
+	output_execution_time(total, n, N, R);
 }
 
 void profiling_generate(int argc, char *argv[]) {
@@ -79,30 +89,31 @@ void profiling_generate(int argc, char *argv[]) {
 	const string what(argv[2]);
 	const uint32_t n = atoi(argv[3]);
 	const uint32_t N = atoi(argv[4]);
+	const uint32_t R = atoi(argv[5]);
 
 	if (what == "all_lab_free") {
-		profile_all<free_tree, all_lab_free_trees>(n, N);
+		profile_all<free_tree, all_lab_free_trees>(n, N, R);
 	}
 	else if (what == "all_lab_rooted") {
-		profile_all<rooted_tree, all_lab_rooted_trees>(n, N);
+		profile_all<rooted_tree, all_lab_rooted_trees>(n, N, R);
 	}
 	else if (what == "all_ulab_free") {
-		profile_all<free_tree, all_ulab_free_trees>(n, N);
+		profile_all<free_tree, all_ulab_free_trees>(n, N, R);
 	}
 	else if (what == "all_ulab_rooted") {
-		profile_all<rooted_tree, all_ulab_rooted_trees>(n, N);
+		profile_all<rooted_tree, all_ulab_rooted_trees>(n, N, R);
 	}
 	else if (what == "rand_lab_free") {
-		profile_random<free_tree, rand_lab_free_trees>(n, N);
+		profile_random<free_tree, rand_lab_free_trees>(n, N, R);
 	}
 	else if (what == "rand_lab_rooted") {
-		profile_random<rooted_tree, rand_lab_rooted_trees>(n, N);
+		profile_random<rooted_tree, rand_lab_rooted_trees>(n, N, R);
 	}
 	else if (what == "rand_ulab_free") {
-		profile_random<free_tree, rand_ulab_free_trees>(n, N);
+		profile_random<free_tree, rand_ulab_free_trees>(n, N, R);
 	}
 	else if (what == "rand_ulab_rooted") {
-		profile_random<rooted_tree, rand_ulab_rooted_trees>(n, N);
+		profile_random<rooted_tree, rand_ulab_rooted_trees>(n, N, R);
 	}
 	else {
 		cout << "Error:" << endl;
