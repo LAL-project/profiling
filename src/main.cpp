@@ -28,10 +28,14 @@ using namespace std;
 
 // profiling functions
 void profiling_generate(int argc, char *argv[]);
+void profiling_linarr_C(int argc, char *argv[]);
 
 int main(int argc, char *argv[]) {
 	const string first(argv[1]);
 	if (first == "generate") {
 		profiling_generate(argc, argv);
+	}
+	else if (first == "linarr_C") {
+		profiling_linarr_C(argc, argv);
 	}
 }

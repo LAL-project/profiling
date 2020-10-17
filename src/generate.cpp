@@ -36,6 +36,8 @@ using namespace generate;
 // common includes
 #include "time.hpp"
 
+namespace profile_generate {
+
 void output_execution_time(double total_ms, uint32_t n, uint32_t N, uint32_t R) {
 	cout << "n= " << n << endl;
 	cout << "N= " << N << endl;
@@ -82,6 +84,8 @@ void profile_random(uint32_t n, uint32_t N, uint32_t R) {
 	output_execution_time(total, n, N, R);
 }
 
+} // -- namespace profile_generate
+
 void profiling_generate(int argc, char *argv[]) {
 	if (argc < 2) {
 		return;
@@ -92,28 +96,28 @@ void profiling_generate(int argc, char *argv[]) {
 	const uint32_t R = atoi(argv[5]);
 
 	if (what == "all_lab_free") {
-		profile_all<free_tree, all_lab_free_trees>(n, N, R);
+		profile_generate::profile_all<free_tree, all_lab_free_trees>(n, N, R);
 	}
 	else if (what == "all_lab_rooted") {
-		profile_all<rooted_tree, all_lab_rooted_trees>(n, N, R);
+		profile_generate::profile_all<rooted_tree, all_lab_rooted_trees>(n, N, R);
 	}
 	else if (what == "all_ulab_free") {
-		profile_all<free_tree, all_ulab_free_trees>(n, N, R);
+		profile_generate::profile_all<free_tree, all_ulab_free_trees>(n, N, R);
 	}
 	else if (what == "all_ulab_rooted") {
-		profile_all<rooted_tree, all_ulab_rooted_trees>(n, N, R);
+		profile_generate::profile_all<rooted_tree, all_ulab_rooted_trees>(n, N, R);
 	}
 	else if (what == "rand_lab_free") {
-		profile_random<free_tree, rand_lab_free_trees>(n, N, R);
+		profile_generate::profile_random<free_tree, rand_lab_free_trees>(n, N, R);
 	}
 	else if (what == "rand_lab_rooted") {
-		profile_random<rooted_tree, rand_lab_rooted_trees>(n, N, R);
+		profile_generate::profile_random<rooted_tree, rand_lab_rooted_trees>(n, N, R);
 	}
 	else if (what == "rand_ulab_free") {
-		profile_random<free_tree, rand_ulab_free_trees>(n, N, R);
+		profile_generate::profile_random<free_tree, rand_ulab_free_trees>(n, N, R);
 	}
 	else if (what == "rand_ulab_rooted") {
-		profile_random<rooted_tree, rand_ulab_rooted_trees>(n, N, R);
+		profile_generate::profile_random<rooted_tree, rand_ulab_rooted_trees>(n, N, R);
 	}
 	else {
 		cout << "Error:" << endl;
