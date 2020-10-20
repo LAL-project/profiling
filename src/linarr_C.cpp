@@ -39,8 +39,10 @@ using namespace linarr;
 
 // common includes
 #include "time.hpp"
+#include "linarr_C_pp.hpp"
 
-namespace profile_linarr_C {
+namespace profiling {
+namespace linarr_C {
 
 void output_execution_time(double total_ms, uint32_t n, uint32_t T, uint32_t N) {
 	cout << "Number of vertices (n)= " << n << endl;
@@ -88,19 +90,22 @@ void profile_algo(
 	output_execution_time(total, n, T, N);
 }
 
-} // -- namespace profile_linarr_C
+} // -- namespace linarr_C
 
-void profiling_linarr_C(int argc, char *argv[]) {
-	if (argc < 2) {
-		return;
+void linarr_crossings(int argc, char *argv[]) {
+	linarr_C::linarr_C_pp parser(argc, argv);
+	{
+	if (parser.parse_params() > 0) { return; }
+	if (parser.check_errors() > 0) { return; }
 	}
-	const string what(argv[2]);
-	const uint32_t n = atoi(argv[3]);
-	const uint32_t T = atoi(argv[4]);
-	const uint32_t N = atoi(argv[5]);
+
+	const string what = parser.get_algo();
+	const uint32_t n = parser.get_n();
+	const uint32_t T = parser.get_T();
+	const uint32_t N = parser.get_N();
 
 	if (what == "brute_force") {
-		profile_linarr_C::profile_algo(
+		linarr_C::profile_algo(
 		[](const free_tree& t, const linear_arrangement& arr) -> uint32_t {
 			return n_crossings(t, arr, algorithms_C::brute_force);
 		},
@@ -108,7 +113,7 @@ void profiling_linarr_C(int argc, char *argv[]) {
 		);
 	}
 	else if (what == "dynamic_programming") {
-		profile_linarr_C::profile_algo(
+		linarr_C::profile_algo(
 		[](const free_tree& t, const linear_arrangement& arr) -> uint32_t {
 			return n_crossings(t, arr, algorithms_C::dynamic_programming);
 		},
@@ -116,7 +121,7 @@ void profiling_linarr_C(int argc, char *argv[]) {
 		);
 	}
 	else if (what == "ladder") {
-		profile_linarr_C::profile_algo(
+		linarr_C::profile_algo(
 		[](const free_tree& t, const linear_arrangement& arr) -> uint32_t {
 			return n_crossings(t, arr, algorithms_C::ladder);
 		},
@@ -124,7 +129,7 @@ void profiling_linarr_C(int argc, char *argv[]) {
 		);
 	}
 	else if (what == "stack_based") {
-		profile_linarr_C::profile_algo(
+		linarr_C::profile_algo(
 		[](const free_tree& t, const linear_arrangement& arr) -> uint32_t {
 			return n_crossings(t, arr, algorithms_C::stack_based);
 		},
@@ -136,3 +141,5 @@ void profiling_linarr_C(int argc, char *argv[]) {
 		cout << "Unknown/Unhandled '" << what << "'." << endl;
 	}
 }
+
+} // -- namespace profiling

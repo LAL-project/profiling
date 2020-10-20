@@ -64,8 +64,12 @@ LIBS += -lgmp -fopenmp
 
 SOURCES += \
     generate.cpp \
+    generate_pp.cpp \
     linarr_C.cpp \
+    linarr_C_pp.cpp \
 	main.cpp
 
 HEADERS += \
+    generate_pp.hpp \
+    linarr_C_pp.hpp \
     time.hpp

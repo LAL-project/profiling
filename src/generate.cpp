@@ -35,8 +35,10 @@ using namespace generate;
 
 // common includes
 #include "time.hpp"
+#include "generate_pp.hpp"
 
-namespace profile_generate {
+namespace profiling {
+namespace generate {
 
 void output_execution_time(double total_ms, uint32_t n, uint32_t N, uint32_t R) {
 	cout << "n= " << n << endl;
@@ -48,7 +50,7 @@ void output_execution_time(double total_ms, uint32_t n, uint32_t N, uint32_t R) 
 }
 
 template<class T, class GEN>
-void profile_all(uint32_t n, uint32_t N, uint32_t R) {
+void profile_exhaustive(uint32_t n, uint32_t N, uint32_t R) {
 	double total = 0.0;
 
 	GEN Gen;
@@ -84,43 +86,48 @@ void profile_random(uint32_t n, uint32_t N, uint32_t R) {
 	output_execution_time(total, n, N, R);
 }
 
-} // -- namespace profile_generate
+} // -- namespace generate
 
-void profiling_generate(int argc, char *argv[]) {
-	if (argc < 2) {
-		return;
+void generate_trees(int argc, char *argv[]) {
+	generate::generate_pp parser(argc, argv);
+	{
+	if (parser.parse_params() > 0) { return; }
+	if (parser.check_errors() > 0) { return; }
 	}
-	const string what(argv[2]);
-	const uint32_t n = atoi(argv[3]);
-	const uint32_t N = atoi(argv[4]);
-	const uint32_t R = atoi(argv[5]);
+
+	const string& what = parser.get_gen_class();
+	const uint32_t n = parser.get_n();
+	const uint32_t N = parser.get_N();
+	const uint32_t R = parser.get_R();
 
 	if (what == "all_lab_free") {
-		profile_generate::profile_all<free_tree, all_lab_free_trees>(n, N, R);
+		generate::profile_exhaustive<free_tree, all_lab_free_trees>(n, N, R);
 	}
 	else if (what == "all_lab_rooted") {
-		profile_generate::profile_all<rooted_tree, all_lab_rooted_trees>(n, N, R);
+		generate::profile_exhaustive<rooted_tree, all_lab_rooted_trees>(n, N, R);
 	}
 	else if (what == "all_ulab_free") {
-		profile_generate::profile_all<free_tree, all_ulab_free_trees>(n, N, R);
+		generate::profile_exhaustive<free_tree, all_ulab_free_trees>(n, N, R);
 	}
 	else if (what == "all_ulab_rooted") {
-		profile_generate::profile_all<rooted_tree, all_ulab_rooted_trees>(n, N, R);
+		generate::profile_exhaustive<rooted_tree, all_ulab_rooted_trees>(n, N, R);
 	}
 	else if (what == "rand_lab_free") {
-		profile_generate::profile_random<free_tree, rand_lab_free_trees>(n, N, R);
+		generate::profile_random<free_tree, rand_lab_free_trees>(n, N, R);
 	}
 	else if (what == "rand_lab_rooted") {
-		profile_generate::profile_random<rooted_tree, rand_lab_rooted_trees>(n, N, R);
+		generate::profile_random<rooted_tree, rand_lab_rooted_trees>(n, N, R);
 	}
 	else if (what == "rand_ulab_free") {
-		profile_generate::profile_random<free_tree, rand_ulab_free_trees>(n, N, R);
+		generate::profile_random<free_tree, rand_ulab_free_trees>(n, N, R);
 	}
 	else if (what == "rand_ulab_rooted") {
-		profile_generate::profile_random<rooted_tree, rand_ulab_rooted_trees>(n, N, R);
+		generate::profile_random<rooted_tree, rand_ulab_rooted_trees>(n, N, R);
 	}
 	else {
 		cout << "Error:" << endl;
 		cout << "Unknown/Unhandled '" << what << "'." << endl;
 	}
 }
+
+} // -- namespace profiling
