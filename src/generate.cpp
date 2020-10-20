@@ -28,6 +28,7 @@
 using namespace std;
 
 // lal includes
+#include <lal/iterators/E_iterator.hpp>
 #include <lal/generate.hpp>
 using namespace lal;
 using namespace graphs;
@@ -39,6 +40,13 @@ using namespace generate;
 
 namespace profiling {
 namespace generate {
+
+template<class T>
+edge gimme_edge(const T& t) {
+	iterators::E_iterator it(t);
+	it.next();
+	return it.get_edge();
+}
 
 void output_execution_time(double total_ms, uint32_t n, uint32_t N, uint32_t R) {
 	cout << "n= " << n << endl;
@@ -59,9 +67,12 @@ void profile_exhaustive(uint32_t n, uint32_t N, uint32_t R) {
 		for (uint32_t i = 0; i < N and Gen.has_next(); ++i) {
 			const auto begin = profiling::now();
 			Gen.next();
-			const T tree = Gen.get_tree();
+			T tree = Gen.get_tree();
 			const auto end = profiling::now();
 			total += profiling::elapsed_time(begin, end);
+
+			const edge e = gimme_edge(tree);
+			tree.remove_edge(e.first, e.second);
 		}
 	}
 
@@ -77,9 +88,12 @@ void profile_random(uint32_t n, uint32_t N, uint32_t R) {
 		Gen.init(n);
 		for (uint32_t i = 0; i < N; ++i) {
 			const auto begin = profiling::now();
-			const T tree = Gen.make_rand_tree();
+			T tree = Gen.make_rand_tree();
 			const auto end = profiling::now();
 			total += profiling::elapsed_time(begin, end);
+
+			const edge e = gimme_edge(tree);
+			tree.remove_edge(e.first, e.second);
 		}
 	}
 

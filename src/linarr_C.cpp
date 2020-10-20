@@ -81,9 +81,12 @@ void profile_algo(
 			// make the random arrangement
 			shuffle(arr.begin(), arr.end(), rand_gen);
 			const auto begin = profiling::now();
-			const auto res = A(tree, arr);
+			auto res = A(tree, arr);
 			const auto end = profiling::now();
 			total += profiling::elapsed_time(begin, end);
+
+			res += 3;
+			res += 4;
 		}
 	}
 
