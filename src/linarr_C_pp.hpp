@@ -70,7 +70,10 @@ class linarr_C_pp {
 		
 		const std::set<std::string> m_allowed_algorithms =
 		std::set<std::string>({
-			"brute_force", "dynamic_programming", "ladder", "stack_based"
+			"brute_force", "brute_force_list",
+			"dynamic_programming", "dynamic_programming_list",
+			"ladder", "ladder_list",
+			"stack_based", "stack_based_list"
 		}
 		);
 		int m_argc;

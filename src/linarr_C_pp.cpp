@@ -94,7 +94,7 @@ int linarr_C_pp::parse_params() {
 			m_has_T = true;
 			++i;
 		}
-		else if (param == "-class") {
+		else if (param == "-algorithm") {
 			m_gen_algo = string(m_argv[i + 1]);
 			++i;
 		}
@@ -121,7 +121,7 @@ int linarr_C_pp::check_errors() const {
 		return 1;
 	}
 	if (m_gen_algo == "none") {
-		cout << "Error: missing parameter '-class'." << endl;
+		cout << "Error: missing parameter '-algorithm'." << endl;
 		return 1;
 	}
 
