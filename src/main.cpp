@@ -31,6 +31,7 @@ namespace profiling {
 // profiling functions
 void generate_trees(int argc, char *argv[]);
 void linarr_crossings(int argc, char *argv[]);
+void linarr_minimum_D(int argc, char *argv[]);
 
 } // -- namespace profiling
 
@@ -47,6 +48,9 @@ void usage() {
 	cout << "    linarr_crossings : Profile the algorithms for the calculation" << endl;
 	cout << "        of the number of crossings." << endl;
 	cout << endl;
+	cout << "    linarr_Dmin : Profile the algorithms for the calculation" << endl;
+	cout << "        of the minimum sum of edge lengths." << endl;
+	cout << endl;
 }
 
 int main(int argc, char *argv[]) {
@@ -61,6 +65,9 @@ int main(int argc, char *argv[]) {
 	}
 	else if (first == "linarr_crossings") {
 		profiling::linarr_crossings(argc, argv);
+	}
+	else if (first == "linarr_Dmin") {
+		profiling::linarr_minimum_D(argc, argv);
 	}
 	else {
 		cout << "Unknown/Unhandled: '" << first << "'" << endl;

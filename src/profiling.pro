@@ -67,9 +67,12 @@ SOURCES += \
     generate_pp.cpp \
     linarr_C.cpp \
     linarr_C_pp.cpp \
+    linarr_Dmin.cpp \
+    linarr_Dmin_pp.cpp \
 	main.cpp
 
 HEADERS += \
     generate_pp.hpp \
     linarr_C_pp.hpp \
+    linarr_Dmin_pp.hpp \
     time.hpp
