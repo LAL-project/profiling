@@ -28,15 +28,16 @@ using namespace std;
 
 namespace profiling {
 
-// profiling functions
 void generate_trees(int argc, char *argv[]);
 void linarr_crossings(int argc, char *argv[]);
 void linarr_minimum_D(int argc, char *argv[]);
+void utilities_tree_isomorphism(int argc, char *argv[]);
 
 } // -- namespace profiling
 
 void usage() {
 	cout << "Profiler of the Linear Arrangement Library" << endl;
+	cout << "==========================================" << endl;
 	cout << endl;
 	cout << "The first parameter indicates what is going to be profiled." << endl;
 	cout << "The following parameters depend on the option chosen in the first" << endl;
@@ -50,6 +51,9 @@ void usage() {
 	cout << endl;
 	cout << "    linarr_Dmin : Profile the algorithms for the calculation" << endl;
 	cout << "        of the minimum sum of edge lengths." << endl;
+	cout << endl;
+	cout << "    utilities_isomorphism : Profile the algorithms for the tree" << endl;
+	cout << "        isomorphism test." << endl;
 	cout << endl;
 }
 
@@ -68,6 +72,9 @@ int main(int argc, char *argv[]) {
 	}
 	else if (first == "linarr_Dmin") {
 		profiling::linarr_minimum_D(argc, argv);
+	}
+	else if (first == "utilities_isomorphism") {
+		profiling::utilities_tree_isomorphism(argc, argv);
 	}
 	else {
 		cout << "Unknown/Unhandled: '" << first << "'" << endl;

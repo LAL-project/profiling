@@ -69,7 +69,8 @@ SOURCES += \
     linarr_C_pp.cpp \
     linarr_Dmin.cpp \
     linarr_Dmin_pp.cpp \
-	main.cpp
+	main.cpp \
+    utilities_tree_isomorphism.cpp
 
 HEADERS += \
     generate_pp.hpp \
