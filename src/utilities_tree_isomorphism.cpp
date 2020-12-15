@@ -75,7 +75,7 @@ void shuffle_tree(vector<edge>& edges, rooted_tree& T) {
 
 	T.init(to_uint32(edges.size() + 1));
 	T.set_root(r);
-	T.add_all_edges(edges);
+	T.set_edges(edges);
 	T.set_valid_orientation(true);
 }
 
@@ -85,7 +85,7 @@ void shuffle_tree(vector<edge>& edges, free_tree& T) {
 
 	node dummy = 0;
 	relabel_edges(edges, dummy);
-	T.add_all_edges(edges);
+	T.set_edges(edges);
 }
 
 void output_info(uint32_t n, uint32_t N_relabs, uint32_t n_calls, double total_time) {
