@@ -29,16 +29,15 @@
 #include <set>
 
 namespace profiling {
-namespace linarr_C {
+namespace dir_to_undir {
 
-class linarr_C_pp {
+class dir_to_undir {
 	public:
-		linarr_C_pp(int argc, char *argv[]);
-		~linarr_C_pp();
+		dir_to_undir(int argc, char *argv[]);
+		~dir_to_undir();
 		
-		const std::string& get_algo() const { return m_gen_algo; }
+		const std::string& get_mode() const { return m_mode; }
 		constexpr uint32_t get_n() const { return m_n; }
-		constexpr uint32_t get_N() const { return m_N; }
 		constexpr uint32_t get_T() const { return m_T; }
 
 		void print_usage() const;
@@ -54,31 +53,24 @@ class linarr_C_pp {
 
 	private:
 		// algorithm to execute
-		std::string m_gen_algo = "none";
+		std::string m_mode = "none";
 
 		// number of vertices
 		uint32_t m_n = 0;
 		bool m_has_n = false;
 
-		// number of trees to generate
-		uint32_t m_N = 0;
-		bool m_has_N = false;
-
 		// number of replicas (times to repeat the same execution)
 		uint32_t m_T = 0;
 		bool m_has_T = false;
 		
-		const std::set<std::string> m_allowed_algorithms =
+		const std::set<std::string> m_allowed_modes =
 		std::set<std::string>({
-			"brute_force", "brute_force_list",
-			"dynamic_programming", "dynamic_programming_list",
-			"ladder", "ladder_list",
-			"stack_based", "stack_based_list"
+			"dgraph_to_ugraph", "rtree_to_ftree"
 		}
 		);
 		int m_argc;
 		char **m_argv;
 };
 
-} // -- namespace linarr_C
+} // -- namespace dir_to_undir
 } // -- namespace profiling

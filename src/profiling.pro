@@ -63,6 +63,8 @@ equals(ENVIR, "CLUSTER") {
 LIBS += -lgmp -fopenmp
 
 SOURCES += \
+    conversion.cpp \
+    dir_to_undir_pp.cpp \
     generate.cpp \
     generate_pp.cpp \
     linarr_C.cpp \
@@ -73,6 +75,7 @@ SOURCES += \
     utilities_tree_isomorphism.cpp
 
 HEADERS += \
+    dir_to_undir_pp.hpp \
     generate_pp.hpp \
     linarr_C_pp.hpp \
     linarr_Dmin_pp.hpp \

@@ -32,6 +32,7 @@ void generate_trees(int argc, char *argv[]);
 void linarr_crossings(int argc, char *argv[]);
 void linarr_minimum_D(int argc, char *argv[]);
 void utilities_tree_isomorphism(int argc, char *argv[]);
+void conversion(int argc, char *argv[]);
 
 } // -- namespace profiling
 
@@ -55,6 +56,9 @@ void usage() {
 	cout << "    utilities_isomorphism : Profile the algorithms for the tree" << endl;
 	cout << "        isomorphism test." << endl;
 	cout << endl;
+	cout << "    conversion : Profile the conversion of a directed" << endl;
+	cout << "        graph to an undirected graph." << endl;
+	cout << endl;
 }
 
 int main(int argc, char *argv[]) {
@@ -75,6 +79,9 @@ int main(int argc, char *argv[]) {
 	}
 	else if (first == "utilities_isomorphism") {
 		profiling::utilities_tree_isomorphism(argc, argv);
+	}
+	else if (first == "conversion") {
+		profiling::conversion(argc, argv);
 	}
 	else {
 		cout << "Unknown/Unhandled: '" << first << "'" << endl;
