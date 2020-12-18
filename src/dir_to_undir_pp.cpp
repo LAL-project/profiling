@@ -53,6 +53,10 @@ void dir_to_undir::print_usage() const {
 	cout << "    [*]   -T T" << endl;
 	cout << "          Indicate the number of trees to generate." << endl;
 	cout << endl;
+	cout << "    [?]   -C C" << endl;
+	cout << "          Indicate the number of calls to the conversion method." << endl;
+	cout << "          Default: 1" << endl;
+	cout << endl;
 	cout << "    [*]   -mode M" << endl;
 	cout << "          Indicate the mode of execution." << endl;
 	cout << endl;
@@ -83,6 +87,10 @@ int dir_to_undir::parse_params() {
 		else if (param == "-T") {
 			m_T = static_cast<uint32_t>(atoi(m_argv[i + 1]));
 			m_has_T = true;
+			++i;
+		}
+		else if (param == "-C") {
+			m_C = static_cast<uint32_t>(atoi(m_argv[i + 1]));
 			++i;
 		}
 		else if (param == "-mode") {

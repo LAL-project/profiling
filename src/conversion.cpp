@@ -45,13 +45,14 @@ using namespace linarr;
 namespace profiling {
 namespace dir_to_undir {
 
-void output_total_time(double total, uint32_t n, uint32_t T) {
+void output_total_time(double total, size_t num_calls, uint32_t n, uint32_t T) {
 	cout << "Number of vertices: " << n << endl;
 	cout << "Total execution time: " << time_to_str(total) << endl;
 	cout << "    Time per graph: " << time_to_str(total/T) << endl;
+	cout << "    Time per call: " << time_to_str(total/(num_calls*T)) << endl;
 }
 
-void dgraph_to_ugraph(uint32_t n, uint32_t T) {
+void dgraph_to_ugraph(size_t num_calls, uint32_t n, uint32_t T) {
 	double total_time = 0.0;
 
 	generate::rand_ulab_rooted_trees Gen(n);
@@ -59,29 +60,33 @@ void dgraph_to_ugraph(uint32_t n, uint32_t T) {
 		const auto T = Gen.make_rand_tree();
 		const auto dG = static_cast<directed_graph>(T);
 
-		const auto begin = now();
-		const auto uG = dG.to_undirected();
-		const auto end = now();
-		total_time += elapsed_time(begin, end);
+		for (size_t i = 0; i < num_calls; ++i) {
+			const auto begin = now();
+			const auto uG = dG.to_undirected();
+			const auto end = now();
+			total_time += elapsed_time(begin, end);
+		}
 	}
 
-	output_total_time(total_time, n, T);
+	output_total_time(total_time, num_calls, n, T);
 }
 
-void rtree_to_ftree(uint32_t n, uint32_t T) {
+void rtree_to_ftree(size_t num_calls, uint32_t n, uint32_t T) {
 	double total_time = 0.0;
 
 	generate::rand_ulab_rooted_trees Gen(n);
 	for (uint32_t t = 0; t < T; ++t) {
 		const auto rT = Gen.make_rand_tree();
 
-		const auto begin = now();
-		const auto fT = rT.to_undirected();
-		const auto end = now();
-		total_time += elapsed_time(begin, end);
+		for (size_t i = 0; i < num_calls; ++i) {
+			const auto begin = now();
+			const auto fT = rT.to_undirected();
+			const auto end = now();
+			total_time += elapsed_time(begin, end);
+		}
 	}
 
-	output_total_time(total_time, n, T);
+	output_total_time(total_time, num_calls, n, T);
 }
 
 } // -- namespace dir_to_undir
@@ -96,12 +101,13 @@ void conversion(int argc, char *argv[]) {
 	const string mode = parser.get_mode();
 	const uint32_t n = parser.get_n();
 	const uint32_t T = parser.get_T();
+	const uint32_t C = parser.get_C();
 
 	if (mode == "dgraph_to_ugraph") {
-		dir_to_undir::dgraph_to_ugraph(n, T);
+		dir_to_undir::dgraph_to_ugraph(C, n, T);
 	}
 	if (mode == "rtree_to_ftree") {
-		dir_to_undir::rtree_to_ftree(n, T);
+		dir_to_undir::rtree_to_ftree(C, n, T);
 	}
 }
 
