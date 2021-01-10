@@ -75,7 +75,7 @@ void profile_algo(
 	generate::rand_ulab_free_trees Gen(n);
 
 	for (uint32_t t = 0; t < T; ++t) {
-		const free_tree tree = Gen.make_rand_tree();
+		const free_tree tree = Gen.get_tree();
 
 		for (uint32_t i = 0; i < N; ++i) {
 			// make the random arrangement
@@ -117,7 +117,7 @@ void profile_algo_list(
 	generate::rand_ulab_free_trees Gen(n);
 
 	for (uint32_t t = 0; t < T; ++t) {
-		const free_tree tree = Gen.make_rand_tree();
+		const free_tree tree = Gen.get_tree();
 
 		vector<linear_arrangement> rand_arr(N);
 		for (uint32_t i = 0; i < N; ++i) {

@@ -66,7 +66,7 @@ void profile_algo(
 	GEN Gen(n);
 
 	for (uint32_t t = 0; t < T; ++t) {
-		const auto tree = Gen.make_rand_tree();
+		const auto tree = Gen.get_tree();
 
 		const auto begin = profiling::now();
 		auto res = A(tree);

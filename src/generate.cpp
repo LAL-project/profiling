@@ -84,11 +84,15 @@ void profile_random(uint32_t n, uint32_t N, uint32_t R) {
 	double total = 0.0;
 
 	GEN Gen;
+	Gen.calculate_size_subtrees = false;
+	Gen.normalise_tree = false;
+	Gen.calculate_tree_type = false;
+
 	for (uint32_t r = 0; r < R; ++r) {
 		Gen.init(n);
 		for (uint32_t i = 0; i < N; ++i) {
 			const auto begin = profiling::now();
-			T tree = Gen.make_rand_tree();
+			T tree = Gen.get_tree();
 			const auto end = profiling::now();
 			total += profiling::elapsed_time(begin, end);
 

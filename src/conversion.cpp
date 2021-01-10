@@ -57,7 +57,7 @@ void dgraph_to_ugraph(size_t num_calls, uint32_t n, uint32_t T) {
 
 	generate::rand_ulab_rooted_trees Gen(n);
 	for (uint32_t t = 0; t < T; ++t) {
-		const auto T = Gen.make_rand_tree();
+		const auto T = Gen.get_tree();
 		const auto dG = static_cast<directed_graph>(T);
 
 		for (size_t i = 0; i < num_calls; ++i) {
@@ -76,7 +76,7 @@ void rtree_to_ftree(size_t num_calls, uint32_t n, uint32_t T) {
 
 	generate::rand_ulab_rooted_trees Gen(n);
 	for (uint32_t t = 0; t < T; ++t) {
-		const auto rT = Gen.make_rand_tree();
+		const auto rT = Gen.get_tree();
 
 		for (size_t i = 0; i < num_calls; ++i) {
 			const auto begin = now();
