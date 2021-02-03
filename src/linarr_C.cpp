@@ -161,7 +161,7 @@ void linarr_crossings(int argc, char *argv[]) {
 		n, T, N
 		);
 	}
-	if (what == "brute_force_list") {
+	else if (what == "brute_force_list") {
 		linarr_C::profile_algo_list(
 		[](const free_tree& t, const vector<linear_arrangement>& arr) {
 			return n_crossings_list(t, arr, algorithms_C::brute_force);
