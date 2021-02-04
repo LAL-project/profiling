@@ -61,9 +61,10 @@ template<class T, class GEN>
 void profile_exhaustive(uint32_t n, uint32_t N, uint32_t R) {
 	double total = 0.0;
 
-	GEN Gen;
+	GEN Gen(n);
+
 	for (uint32_t r = 0; r < R; ++r) {
-		Gen.init(n);
+
 		for (uint32_t i = 0; i < N and Gen.has_next(); ++i) {
 			const auto begin = profiling::now();
 			Gen.next();
@@ -74,6 +75,8 @@ void profile_exhaustive(uint32_t n, uint32_t N, uint32_t R) {
 			const edge e = gimme_edge(tree);
 			tree.remove_edge(e.first, e.second);
 		}
+
+		Gen.reset();
 	}
 
 	output_execution_time(total, n, N, R);
@@ -83,13 +86,12 @@ template<class T, class GEN>
 void profile_random(uint32_t n, uint32_t N, uint32_t R) {
 	double total = 0.0;
 
-	GEN Gen;
-	Gen.calculate_size_subtrees = false;
-	Gen.normalise_tree = false;
-	Gen.calculate_tree_type = false;
-
 	for (uint32_t r = 0; r < R; ++r) {
-		Gen.init(n);
+		GEN Gen(n, 1234);
+		Gen.calculate_size_subtrees = false;
+		Gen.normalise_tree = false;
+		Gen.calculate_tree_type = false;
+
 		for (uint32_t i = 0; i < N; ++i) {
 			const auto begin = profiling::now();
 			T tree = Gen.get_tree();
