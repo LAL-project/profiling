@@ -24,16 +24,6 @@ equals(ENVIR, "HOME") {
 
     # add definitions
 	DEFINES += "__ENVIR=0"
-
-    # add linkage
-	CONFIG(debug, debug|release) {
-	    LIBS += -L $$LAL_DIR/lal-debug/ -llaldebug
-		PRE_TARGETDEPS += $$LAL_DIR/lal-debug/liblaldebug.a
-	}
-	CONFIG(release, debug|release) {
-	    LIBS += -L $$LAL_DIR/lal-release -llal
-		PRE_TARGETDEPS += $$LAL_DIR/lal-release/liblal.a
-	}
 }
 
 # configure cluster
@@ -47,16 +37,16 @@ equals(ENVIR, "CLUSTER") {
 
     # add definitions
 	DEFINES += "__ENVIR=1"
+}
 
-    # add linkage
-	CONFIG(debug, debug|release) {
-	    LIBS += -L $$LAL_DIR/lal-debug/ -llaldebug
-		PRE_TARGETDEPS += $$LAL_DIR/lal-debug/liblaldebug.so
-	}
-	CONFIG(release, debug|release) {
-	    LIBS += -L $$LAL_DIR/lal-release/ -llal
-		PRE_TARGETDEPS += $$LAL_DIR/lal-release/liblal.so
-	}
+# add linkage
+CONFIG(debug, debug|release) {
+    LIBS += -L $$LAL_DIR/lal-debug/ -llaldebug
+	PRE_TARGETDEPS += $$LAL_DIR/lal-debug/liblaldebug.so
+}
+CONFIG(release, debug|release) {
+    LIBS += -L $$LAL_DIR/lal-release -llal
+	PRE_TARGETDEPS += $$LAL_DIR/lal-release/liblal.so
 }
 
 # link against gmp and fopenmp
