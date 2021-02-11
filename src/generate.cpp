@@ -72,8 +72,10 @@ void profile_exhaustive(uint32_t n, uint32_t N, uint32_t R) {
 			const auto end = profiling::now();
 			total += profiling::elapsed_time(begin, end);
 
-			const edge e = gimme_edge(tree);
-			tree.remove_edge(e.first, e.second);
+			if (n > 1) {
+				const edge e = gimme_edge(tree);
+				tree.remove_edge(e.first, e.second);
+			}
 		}
 
 		Gen.reset();
@@ -98,8 +100,10 @@ void profile_random(uint32_t n, uint32_t N, uint32_t R) {
 			const auto end = profiling::now();
 			total += profiling::elapsed_time(begin, end);
 
-			const edge e = gimme_edge(tree);
-			tree.remove_edge(e.first, e.second);
+			if (n > 1) {
+				const edge e = gimme_edge(tree);
+				tree.remove_edge(e.first, e.second);
+			}
 		}
 	}
 
