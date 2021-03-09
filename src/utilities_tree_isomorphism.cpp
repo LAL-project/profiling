@@ -109,7 +109,7 @@ void pos_exh_test(uint32_t n, uint32_t N_relabs) {
 	while (Gen.has_next()) {
 		Gen.next();
 		const Tree cur_tree = Gen.get_tree();
-		vector<edge> edges_cur = cur_tree.edges();
+		vector<edge> edges_cur = cur_tree.get_edges();
 		if constexpr (is_base_of_v<directed_graph, Tree>) {
 			relab_tree.init(n);
 			relab_tree.set_root(cur_tree.get_root());
@@ -169,7 +169,7 @@ void neg_exh_test(uint32_t n, uint32_t N_relabs) {
 		for (size_t j = i + 1; j < all_trees.size(); ++j) {
 
 			const Tree& tj = all_trees[j];
-			vector<edge> edges_tj = tj.edges();
+			vector<edge> edges_tj = tj.get_edges();
 			if constexpr (is_base_of_v<directed_graph, Tree>) {
 				relab_tree.init(n);
 				relab_tree.set_root(tj.get_root());
