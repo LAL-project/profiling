@@ -53,7 +53,7 @@ void output_execution_time(double total_ms, uint32_t n, uint32_t T, uint32_t N) 
 	cout << "    Average (ms/tree*pi): " << profiling::time_to_str(total_ms/(T*N)) << endl;
 }
 
-void profile_algo(
+uint32_t profile_algo(
 	const function<uint32_t (const free_tree&, const linear_arrangement&)>& A,
 	uint32_t n, uint32_t T, uint32_t N, bool seed = true
 )
@@ -72,6 +72,8 @@ void profile_algo(
 	linear_arrangement arr(n);
 	std::iota(arr.begin(), arr.end(), 0);
 
+	uint64_t asdf = 0;
+
 	generate::rand_ulab_free_trees Gen(n);
 
 	for (uint32_t t = 0; t < T; ++t) {
@@ -87,10 +89,12 @@ void profile_algo(
 
 			res += 3;
 			res += 4;
+			asdf += res;
 		}
 	}
 
 	output_execution_time(total, n, T, N);
+	return asdf;
 }
 
 void profile_algo_list(
@@ -164,7 +168,7 @@ void linarr_crossings(int argc, char *argv[]) {
 	else if (what == "brute_force_list") {
 		linarr_C::profile_algo_list(
 		[](const free_tree& t, const vector<linear_arrangement>& arr) {
-			return number_of_crossings_list(t, arr, algorithms_C::brute_force);
+			return number_of_crossings(t, arr, algorithms_C::brute_force);
 		},
 		n, T, N
 		);
@@ -181,7 +185,7 @@ void linarr_crossings(int argc, char *argv[]) {
 	else if (what == "dynamic_programming_list") {
 		linarr_C::profile_algo_list(
 		[](const free_tree& t, const vector<linear_arrangement>& arr) {
-			return number_of_crossings_list(t, arr, algorithms_C::dynamic_programming);
+			return number_of_crossings(t, arr, algorithms_C::dynamic_programming);
 		},
 		n, T, N
 		);
@@ -198,7 +202,7 @@ void linarr_crossings(int argc, char *argv[]) {
 	else if (what == "ladder_list") {
 		linarr_C::profile_algo_list(
 		[](const free_tree& t, const vector<linear_arrangement>& arr) {
-			return number_of_crossings_list(t, arr, algorithms_C::ladder);
+			return number_of_crossings(t, arr, algorithms_C::ladder);
 		},
 		n, T, N
 		);
@@ -215,7 +219,7 @@ void linarr_crossings(int argc, char *argv[]) {
 	else if (what == "stack_based_list") {
 		linarr_C::profile_algo_list(
 		[](const free_tree& t, const vector<linear_arrangement>& arr) {
-			return number_of_crossings_list(t, arr, algorithms_C::stack_based);
+			return number_of_crossings(t, arr, algorithms_C::stack_based);
 		},
 		n, T, N
 		);
