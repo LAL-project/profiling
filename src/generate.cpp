@@ -90,9 +90,9 @@ void profile_random(uint32_t n, uint32_t N, uint32_t R) {
 
 	for (uint32_t r = 0; r < R; ++r) {
 		GEN Gen(n, 1234);
-		Gen.calculate_size_subtrees = false;
-		Gen.normalise_tree = false;
-		Gen.calculate_tree_type = false;
+		Gen.set_calculate_size_subtrees(false);
+		Gen.set_normalise_tree(false);
+		Gen.set_calculate_tree_type(false);
 
 		for (uint32_t i = 0; i < N; ++i) {
 			const auto begin = profiling::now();
