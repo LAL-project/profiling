@@ -32,7 +32,7 @@ equals(ENVIR, "CLUSTER") {
 	QMAKE_LINK = /home/soft/gcc-9.2.0/bin/g++
 	QMAKE_CXXFLAGS += -std=c++17
 
-    LAL_DIR = /home/usuaris/lalemany/installations/linear-arrangement-library
+    LAL_DIR = /home/usuaris/lalemany/linear-arrangement-library
 	INCLUDEPATH += $$LAL_DIR
 
     # add definitions
