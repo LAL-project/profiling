@@ -103,7 +103,7 @@ void linarr_minimum_D(int argc, char *argv[]) {
 		n, T
 		);
 	}
-	if (what == "unconstrained_FC") {
+	else if (what == "unconstrained_FC") {
 		linarr_Dmin::profile_algo
 		<free_tree, generate::rand_ulab_free_trees>
 		(
