@@ -128,7 +128,7 @@ void linarr_minimum_D(int argc, char *argv[]) {
 		<free_tree, generate::rand_ulab_free_trees>
 		(
 		[](const free_tree& t) {
-			return linarr::Dmin(t, linarr::algorithms_Dmin::Unconstrained_FC);
+			return linarr::Dmin(t, linarr::algorithms_Dmin::Planar);
 		},
 		n, T
 		);
