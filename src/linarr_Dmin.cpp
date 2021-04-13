@@ -118,7 +118,7 @@ void linarr_minimum_D(int argc, char *argv[]) {
 		<rooted_tree, generate::rand_ulab_rooted_trees>
 		(
 		[](const rooted_tree& t) {
-			return linarr::Dmin(t, linarr::algorithms_Dmin::Projective);
+			return linarr::Dmin_Projective(t);
 		},
 		n, T
 		);
@@ -128,7 +128,7 @@ void linarr_minimum_D(int argc, char *argv[]) {
 		<free_tree, generate::rand_ulab_free_trees>
 		(
 		[](const free_tree& t) {
-			return linarr::Dmin(t, linarr::algorithms_Dmin::Planar);
+			return linarr::Dmin_Planar(t);
 		},
 		n, T
 		);
