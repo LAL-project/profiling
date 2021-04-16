@@ -32,48 +32,48 @@ namespace profiling {
 namespace dir_to_undir {
 
 class dir_to_undir {
-	public:
-		dir_to_undir(int argc, char *argv[]);
-		~dir_to_undir();
-		
-		const std::string& get_mode() const { return m_mode; }
-		constexpr uint32_t get_n() const { return m_n; }
-		constexpr uint32_t get_T() const { return m_T; }
-		constexpr uint32_t get_C() const { return m_C; }
+public:
+	dir_to_undir(int argc, char *argv[]);
+	~dir_to_undir();
 
-		void print_usage() const;
+	const std::string& get_mode() const { return m_mode; }
+	constexpr uint32_t get_n() const { return m_n; }
+	constexpr uint32_t get_T() const { return m_T; }
+	constexpr uint32_t get_C() const { return m_C; }
 
-		// returns 0 on success,
-		// returns 1 on help,
-		// returns 2 on error
-		int parse_params();
+	void print_usage() const;
 
-		// returns 0 if there are no errors.
-		// returns 1 if there are errors.
-		int check_errors() const;
+	// returns 0 on success,
+	// returns 1 on help,
+	// returns 2 on error
+	int parse_params();
 
-	private:
-		// algorithm to execute
-		std::string m_mode = "none";
+	// returns 0 if there are no errors.
+	// returns 1 if there are errors.
+	int check_errors() const;
 
-		// number of vertices
-		uint32_t m_n = 0;
-		bool m_has_n = false;
+private:
+	// algorithm to execute
+	std::string m_mode = "none";
 
-		// number of trees
-		uint32_t m_T = 0;
-		bool m_has_T = false;
+	// number of vertices
+	uint32_t m_n = 0;
+	bool m_has_n = false;
 
-		// number of calls
-		uint32_t m_C = 1;
-		
-		const std::set<std::string> m_allowed_modes =
-		std::set<std::string>({
-			"dgraph_to_ugraph", "rtree_to_ftree"
-		}
-		);
-		int m_argc;
-		char **m_argv;
+	// number of trees
+	uint32_t m_T = 0;
+	bool m_has_T = false;
+
+	// number of calls
+	uint32_t m_C = 1;
+
+	const std::set<std::string> m_allowed_modes =
+	std::set<std::string>({
+		"dgraph_to_ugraph", "rtree_to_ftree"
+	}
+	);
+	int m_argc;
+	char **m_argv;
 };
 
 } // -- namespace dir_to_undir

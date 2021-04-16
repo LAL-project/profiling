@@ -31,6 +31,7 @@ namespace profiling {
 void generate_trees(int argc, char *argv[]);
 void linarr_crossings(int argc, char *argv[]);
 void linarr_minimum_D(int argc, char *argv[]);
+void properties_centroid_tree(int argc, char *argv[]);
 void utilities_tree_isomorphism(int argc, char *argv[]);
 void conversion(int argc, char *argv[]);
 
@@ -52,6 +53,9 @@ void usage() {
 	cout << endl;
 	cout << "    linarr_Dmin : Profile the algorithms for the calculation" << endl;
 	cout << "        of the minimum sum of edge lengths." << endl;
+	cout << endl;
+	cout << "    properties_centroid_tree : Profile the algorithm for the computation" << endl;
+	cout << "        of the centroid of a tree." << endl;
 	cout << endl;
 	cout << "    utilities_isomorphism : Profile the algorithms for the tree" << endl;
 	cout << "        isomorphism test." << endl;
@@ -76,6 +80,9 @@ int main(int argc, char *argv[]) {
 	}
 	else if (first == "linarr_Dmin") {
 		profiling::linarr_minimum_D(argc, argv);
+	}
+	else if (first == "properties_centroid_tree") {
+		profiling::properties_centroid_tree(argc, argv);
 	}
 	else if (first == "utilities_isomorphism") {
 		profiling::utilities_tree_isomorphism(argc, argv);

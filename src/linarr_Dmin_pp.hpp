@@ -32,45 +32,45 @@ namespace profiling {
 namespace linarr_Dmin {
 
 class linarr_Dmin_pp {
-	public:
-		linarr_Dmin_pp(int argc, char *argv[]);
-		~linarr_Dmin_pp();
+public:
+	linarr_Dmin_pp(int argc, char *argv[]);
+	~linarr_Dmin_pp();
 
-		const std::string& get_algo() const { return m_gen_algo; }
-		uint32_t get_n() const { return m_n; }
-		uint32_t get_T() const { return m_T; }
+	const std::string& get_algo() const { return m_gen_algo; }
+	uint32_t get_n() const { return m_n; }
+	uint32_t get_T() const { return m_T; }
 
-		void print_usage() const;
+	void print_usage() const;
 
-		// returns 0 on success,
-		// returns 1 on help,
-		// returns 2 on error
-		int parse_params();
+	// returns 0 on success,
+	// returns 1 on help,
+	// returns 2 on error
+	int parse_params();
 
-		// returns 0 if there are no errors.
-		// returns 1 if there are errors.
-		int check_errors() const;
+	// returns 0 if there are no errors.
+	// returns 1 if there are errors.
+	int check_errors() const;
 
-	private:
-		// algorithm to execute
-		std::string m_gen_algo = "none";
+private:
+	// algorithm to execute
+	std::string m_gen_algo = "none";
 
-		// number of vertices
-		uint32_t m_n = 0;
-		bool m_has_n = false;
+	// number of vertices
+	uint32_t m_n = 0;
+	bool m_has_n = false;
 
-		// number of replicas (times to repeat the same execution)
-		uint32_t m_T = 0;
-		bool m_has_T = false;
+	// number of replicas (times to repeat the same execution)
+	uint32_t m_T = 0;
+	bool m_has_T = false;
 
-		const std::set<std::string> m_allowed_algorithms =
-		std::set<std::string>({
-			"unconstrained_YS", "unconstrained_FC",
-			"projective", "planar"
-		}
-		);
-		int m_argc;
-		char **m_argv;
+	const std::set<std::string> m_allowed_algorithms =
+	std::set<std::string>({
+		"unconstrained_YS", "unconstrained_FC",
+		"projective", "planar"
+	}
+	);
+	int m_argc;
+	char **m_argv;
 };
 
 } // -- namespace linarr_Dmin

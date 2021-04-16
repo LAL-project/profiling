@@ -32,52 +32,52 @@ namespace profiling {
 namespace linarr_C {
 
 class linarr_C_pp {
-	public:
-		linarr_C_pp(int argc, char *argv[]);
-		~linarr_C_pp();
-		
-		const std::string& get_algo() const { return m_gen_algo; }
-		constexpr uint32_t get_n() const { return m_n; }
-		constexpr uint32_t get_N() const { return m_N; }
-		constexpr uint32_t get_T() const { return m_T; }
+public:
+	linarr_C_pp(int argc, char *argv[]);
+	~linarr_C_pp();
 
-		void print_usage() const;
+	const std::string& get_algo() const { return m_gen_algo; }
+	constexpr uint32_t get_n() const { return m_n; }
+	constexpr uint32_t get_N() const { return m_N; }
+	constexpr uint32_t get_T() const { return m_T; }
 
-		// returns 0 on success,
-		// returns 1 on help,
-		// returns 2 on error
-		int parse_params();
+	void print_usage() const;
 
-		// returns 0 if there are no errors.
-		// returns 1 if there are errors.
-		int check_errors() const;
+	// returns 0 on success,
+	// returns 1 on help,
+	// returns 2 on error
+	int parse_params();
 
-	private:
-		// algorithm to execute
-		std::string m_gen_algo = "none";
+	// returns 0 if there are no errors.
+	// returns 1 if there are errors.
+	int check_errors() const;
 
-		// number of vertices
-		uint32_t m_n = 0;
-		bool m_has_n = false;
+private:
+	// algorithm to execute
+	std::string m_gen_algo = "none";
 
-		// number of trees to generate
-		uint32_t m_N = 0;
-		bool m_has_N = false;
+	// number of vertices
+	uint32_t m_n = 0;
+	bool m_has_n = false;
 
-		// number of replicas (times to repeat the same execution)
-		uint32_t m_T = 0;
-		bool m_has_T = false;
-		
-		const std::set<std::string> m_allowed_algorithms =
-		std::set<std::string>({
-			"brute_force", "brute_force_list",
-			"dynamic_programming", "dynamic_programming_list",
-			"ladder", "ladder_list",
-			"stack_based", "stack_based_list"
-		}
-		);
-		int m_argc;
-		char **m_argv;
+	// number of trees to generate
+	uint32_t m_N = 0;
+	bool m_has_N = false;
+
+	// number of replicas (times to repeat the same execution)
+	uint32_t m_T = 0;
+	bool m_has_T = false;
+
+	const std::set<std::string> m_allowed_algorithms =
+	std::set<std::string>({
+		"brute_force", "brute_force_list",
+		"dynamic_programming", "dynamic_programming_list",
+		"ladder", "ladder_list",
+		"stack_based", "stack_based_list"
+	}
+	);
+	int m_argc;
+	char **m_argv;
 };
 
 } // -- namespace linarr_C
