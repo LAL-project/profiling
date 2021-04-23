@@ -160,7 +160,7 @@ void linarr_crossings(int argc, char *argv[]) {
 	if (what == "brute_force") {
 		linarr_C::profile_algo(
 		[](const free_tree& t, const linear_arrangement& arr) {
-			return number_of_crossings(t, arr, algorithms_C::brute_force);
+			return num_crossings(t, arr, algorithms_C::brute_force);
 		},
 		n, T, N
 		);
@@ -168,7 +168,7 @@ void linarr_crossings(int argc, char *argv[]) {
 	else if (what == "brute_force_list") {
 		linarr_C::profile_algo_list(
 		[](const free_tree& t, const vector<linear_arrangement>& arrs) {
-			return number_of_crossings_list(t, arrs, algorithms_C::brute_force);
+			return num_crossings_list(t, arrs, algorithms_C::brute_force);
 		},
 		n, T, N
 		);
@@ -177,7 +177,7 @@ void linarr_crossings(int argc, char *argv[]) {
 	else if (what == "dynamic_programming") {
 		linarr_C::profile_algo(
 		[](const free_tree& t, const linear_arrangement& arr) {
-			return number_of_crossings(t, arr, algorithms_C::dynamic_programming);
+			return num_crossings(t, arr, algorithms_C::dynamic_programming);
 		},
 		n, T, N
 		);
@@ -185,7 +185,7 @@ void linarr_crossings(int argc, char *argv[]) {
 	else if (what == "dynamic_programming_list") {
 		linarr_C::profile_algo_list(
 		[](const free_tree& t, const vector<linear_arrangement>& arr) {
-			return number_of_crossings_list(t, arr, algorithms_C::dynamic_programming);
+			return num_crossings_list(t, arr, algorithms_C::dynamic_programming);
 		},
 		n, T, N
 		);
@@ -194,7 +194,7 @@ void linarr_crossings(int argc, char *argv[]) {
 	else if (what == "ladder") {
 		linarr_C::profile_algo(
 		[](const free_tree& t, const linear_arrangement& arr) {
-			return number_of_crossings(t, arr, algorithms_C::ladder);
+			return num_crossings(t, arr, algorithms_C::ladder);
 		},
 		n, T, N
 		);
@@ -202,7 +202,7 @@ void linarr_crossings(int argc, char *argv[]) {
 	else if (what == "ladder_list") {
 		linarr_C::profile_algo_list(
 		[](const free_tree& t, const vector<linear_arrangement>& arr) {
-			return number_of_crossings_list(t, arr, algorithms_C::ladder);
+			return num_crossings_list(t, arr, algorithms_C::ladder);
 		},
 		n, T, N
 		);
@@ -211,7 +211,7 @@ void linarr_crossings(int argc, char *argv[]) {
 	else if (what == "stack_based") {
 		linarr_C::profile_algo(
 		[](const free_tree& t, const linear_arrangement& arr) {
-			return number_of_crossings(t, arr, algorithms_C::stack_based);
+			return num_crossings(t, arr, algorithms_C::stack_based);
 		},
 		n, T, N
 		);
@@ -219,7 +219,7 @@ void linarr_crossings(int argc, char *argv[]) {
 	else if (what == "stack_based_list") {
 		linarr_C::profile_algo_list(
 		[](const free_tree& t, const vector<linear_arrangement>& arr) {
-			return number_of_crossings_list(t, arr, algorithms_C::stack_based);
+			return num_crossings_list(t, arr, algorithms_C::stack_based);
 		},
 		n, T, N
 		);

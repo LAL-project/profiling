@@ -79,7 +79,7 @@ void properties_centroid_tree(int argc, char *argv[]) {
 		const auto tree = Gen.get_tree();
 
 		const auto beginglobal = profiling::now();
-		auto res = properties::get_centroid(tree);
+		auto res = properties::tree_centroid(tree);
 		const auto endglobal = profiling::now();
 		totallocal += profiling::elapsed_time(beginglobal, endglobal);
 

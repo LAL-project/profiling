@@ -107,7 +107,7 @@ void linarr_minimum_D(int argc, char *argv[]) {
 		linarr_Dmin::profile_algo<free_tree>
 		(
 		[](const free_tree& t) {
-			return linarr::Dmin(t, linarr::algorithms_Dmin::Unconstrained_YS);
+			return linarr::min_sum_edge_lengths(t, linarr::algorithms_Dmin::Unconstrained_YS);
 		},
 		n, T
 		);
@@ -116,7 +116,7 @@ void linarr_minimum_D(int argc, char *argv[]) {
 		linarr_Dmin::profile_algo<free_tree>
 		(
 		[](const free_tree& t) {
-			return linarr::Dmin(t, linarr::algorithms_Dmin::Unconstrained_FC);
+			return linarr::min_sum_edge_lengths(t, linarr::algorithms_Dmin::Unconstrained_FC);
 		},
 		n, T
 		);
@@ -125,7 +125,7 @@ void linarr_minimum_D(int argc, char *argv[]) {
 		linarr_Dmin::profile_algo<rooted_tree>
 		(
 		[](const rooted_tree& t) {
-			return linarr::Dmin_Projective(t);
+			return linarr::min_sum_edge_lengths_projective(t);
 		},
 		n, T
 		);
@@ -134,7 +134,7 @@ void linarr_minimum_D(int argc, char *argv[]) {
 		linarr_Dmin::profile_algo<free_tree>
 		(
 		[](const free_tree& t) {
-			return linarr::Dmin_Planar(t);
+			return linarr::min_sum_edge_lengths_planar(t);
 		},
 		n, T
 		);
