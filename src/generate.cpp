@@ -65,10 +65,10 @@ void profile_exhaustive(uint32_t n, uint32_t N, uint32_t R) {
 
 	for (uint32_t r = 0; r < R; ++r) {
 
-		for (uint32_t i = 0; i < N and Gen.has_next(); ++i) {
+		for (uint32_t i = 0; i < N and not Gen.end(); ++i) {
 			const auto begin = profiling::now();
-			Gen.next();
 			T tree = Gen.get_tree();
+			Gen.next();
 			const auto end = profiling::now();
 			total += profiling::elapsed_time(begin, end);
 
