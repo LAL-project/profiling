@@ -56,7 +56,8 @@ SOURCES += \
     conversion.cpp \
     dir_to_undir_pp.cpp \
     generate.cpp \
-    generate_pp.cpp \
+    generate_arrangements_pp.cpp \
+    generate_trees_pp.cpp \
     linarr_C.cpp \
     linarr_C_pp.cpp \
     linarr_Dmin.cpp \
@@ -68,7 +69,8 @@ SOURCES += \
 
 HEADERS += \
     dir_to_undir_pp.hpp \
-    generate_pp.hpp \
+    generate_arrangements_pp.hpp \
+    generate_trees_pp.hpp \
     linarr_C_pp.hpp \
     linarr_Dmin_pp.hpp \
     properties_centroid_pp.hpp \

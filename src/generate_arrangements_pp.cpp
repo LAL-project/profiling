@@ -2,27 +2,27 @@
  *
  * Research on Linear Arrangements project
  * Copyright (C) 2019 - 2021 Lluís Alemany Puig
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
  * by the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  * Contact:
  *
  *    Lluís Alemany Puig (lalemany@cs.upc.edu)
- * 
+ *
  ***********************************************************************/
 
-#include "generate_pp.hpp"
+#include "generate_arrangements_pp.hpp"
 
 // C++ includes
 #include <cstdlib>
@@ -33,14 +33,14 @@ using namespace std;
 namespace profiling {
 namespace generate {
 
-generate_pp::generate_pp(
+generate_arrangements_pp::generate_arrangements_pp(
 	int argc, char *argv[]
-) : m_argc(argc), m_argv(argv)
+) noexcept
+	: m_argc(argc), m_argv(argv)
 { }
-generate_pp::~generate_pp() { }
 
-void generate_pp::print_usage() const {
-	cout << "Profiling -- Generation of trees" << endl;
+void generate_arrangements_pp::print_usage() const noexcept {
+	cout << "Profiling -- Generation of arrangements" << endl;
 	cout << "==================" << endl;
 	cout << endl;
 	cout << "This program's options are the following:" << endl;
@@ -51,8 +51,11 @@ void generate_pp::print_usage() const {
 	cout << "    [*]   -n n" << endl;
 	cout << "          Indicate the number of vertices of the trees." << endl;
 	cout << endl;
-	cout << "    [*]   -N N" << endl;
+	cout << "    [*]   -T n" << endl;
 	cout << "          Indicate the number of trees to generate." << endl;
+	cout << endl;
+	cout << "    [*]   -N N" << endl;
+	cout << "          Indicate the number of arrangements to generate." << endl;
 	cout << endl;
 	cout << "    [*]   -R R" << endl;
 	cout << "          Indicate the number of replicas (times to replicate an" << endl;
@@ -68,7 +71,7 @@ void generate_pp::print_usage() const {
 	cout << endl;
 }
 
-int generate_pp::parse_params() {
+int generate_arrangements_pp::parse_params() noexcept {
 	if (m_argc == 2) {
 		print_usage();
 		return 1;
@@ -84,6 +87,11 @@ int generate_pp::parse_params() {
 		else if (param == "-n") {
 			m_n = static_cast<uint32_t>(atoi(m_argv[i + 1]));
 			m_has_n = true;
+			++i;
+		}
+		else if (param == "-T") {
+			m_nT = static_cast<uint32_t>(atoi(m_argv[i + 1]));
+			m_has_nT = true;
 			++i;
 		}
 		else if (param == "-N") {
@@ -109,9 +117,13 @@ int generate_pp::parse_params() {
 	return 0;
 }
 
-int generate_pp::check_errors() const {
+int generate_arrangements_pp::check_errors() const noexcept {
 	if (not m_has_n) {
 		cout << "Error: missing parameter '-n'." << endl;
+		return 1;
+	}
+	if (not m_has_nT) {
+		cout << "Error: missing parameter '-T'." << endl;
 		return 1;
 	}
 	if (not m_has_N) {

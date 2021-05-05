@@ -29,6 +29,7 @@ using namespace std;
 namespace profiling {
 
 void generate_trees(int argc, char *argv[]);
+void generate_arrangements(int argc, char *argv[]);
 void linarr_crossings(int argc, char *argv[]);
 void linarr_minimum_D(int argc, char *argv[]);
 void properties_centroid_tree(int argc, char *argv[]);
@@ -47,6 +48,9 @@ void usage() {
 	cout << endl;
 	cout << "    generate_trees : Profile the algorithms for the generation of" << endl;
 	cout << "        trees." << endl;
+	cout << endl;
+	cout << "    generate_arrangements : Profile the algorithms for the generation of" << endl;
+	cout << "        arrangements." << endl;
 	cout << endl;
 	cout << "    linarr_crossings : Profile the algorithms for the calculation" << endl;
 	cout << "        of the number of crossings." << endl;
@@ -74,6 +78,9 @@ int main(int argc, char *argv[]) {
 	const string first(argv[1]);
 	if (first == "generate_trees") {
 		profiling::generate_trees(argc, argv);
+	}
+	else if (first == "generate_arrangements") {
+		profiling::generate_arrangements(argc, argv);
 	}
 	else if (first == "linarr_crossings") {
 		profiling::linarr_crossings(argc, argv);
