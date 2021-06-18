@@ -71,6 +71,7 @@ void profile_algo(
 		generate::unlabelled_t,
 		TREE
 	> Gen(n, 1234);
+	Gen.deactivate_all_postprocessing_actions();
 
 	const auto beginglobal = profiling::now();
 	for (uint32_t t = 0; t < T; ++t) {
