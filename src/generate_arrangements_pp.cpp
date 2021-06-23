@@ -85,22 +85,22 @@ int generate_arrangements_pp::parse_params() noexcept {
 			return 1;
 		}
 		else if (param == "-n") {
-			m_n = static_cast<uint32_t>(atoi(m_argv[i + 1]));
+			m_n = static_cast<uint64_t>(atoi(m_argv[i + 1]));
 			m_has_n = true;
 			++i;
 		}
 		else if (param == "-T") {
-			m_nT = static_cast<uint32_t>(atoi(m_argv[i + 1]));
+			m_nT = static_cast<uint64_t>(atoi(m_argv[i + 1]));
 			m_has_nT = true;
 			++i;
 		}
 		else if (param == "-N") {
-			m_N = static_cast<uint32_t>(atoi(m_argv[i + 1]));
+			m_N = static_cast<uint64_t>(atoi(m_argv[i + 1]));
 			m_has_N = true;
 			++i;
 		}
 		else if (param == "-R") {
-			m_R = static_cast<uint32_t>(atoi(m_argv[i + 1]));
+			m_R = static_cast<uint64_t>(atoi(m_argv[i + 1]));
 			m_has_R = true;
 			++i;
 		}

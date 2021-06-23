@@ -37,10 +37,10 @@ public:
 	~generate_arrangements_pp() noexcept { }
 
 	const std::string& get_gen_class() const noexcept { return m_gen_class; }
-	uint32_t get_n() const noexcept { return m_n; }
-	uint32_t get_T() const noexcept { return m_nT; }
-	uint32_t get_N() const noexcept { return m_N; }
-	uint32_t get_R() const noexcept { return m_R; }
+	uint64_t get_n() const noexcept { return m_n; }
+	uint64_t get_T() const noexcept { return m_nT; }
+	uint64_t get_N() const noexcept { return m_N; }
+	uint64_t get_R() const noexcept { return m_R; }
 
 	void print_usage() const noexcept;
 
@@ -58,19 +58,19 @@ private:
 	std::string m_gen_class = "none";
 
 	// number of vertices
-	uint32_t m_n = 0;
+	uint64_t m_n = 0;
 	bool m_has_n = false;
 
 	// number of trees to generate
-	uint32_t m_nT = 0;
+	uint64_t m_nT = 0;
 	bool m_has_nT = false;
 
 	// number of arrangements to generate
-	uint32_t m_N = 0;
+	uint64_t m_N = 0;
 	bool m_has_N = false;
 
 	// number of replicas (times to repeat the same execution)
-	uint32_t m_R = 0;
+	uint64_t m_R = 0;
 	bool m_has_R = false;
 
 	const std::set<std::string> m_allowed_gen_classes =

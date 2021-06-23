@@ -44,7 +44,7 @@ namespace profiling {
 namespace properties_centroid {
 
 void output_execution_time(
-	double totalglobal_ms, double totallocal_ms, uint32_t n, uint32_t T
+	double totalglobal_ms, double totallocal_ms, uint64_t n, uint64_t T
 )
 {
 	cout << "Number of vertices (n)= " << n << endl;
@@ -63,8 +63,8 @@ void properties_centroid_tree(int argc, char *argv[]) {
 	if (parser.check_errors() > 0) { return; }
 	}
 
-	const uint32_t n = parser.get_n();
-	const uint32_t T = parser.get_T();
+	const uint64_t n = parser.get_n();
+	const uint64_t T = parser.get_T();
 
 	double totallocal = 0.0;
 
@@ -75,7 +75,7 @@ void properties_centroid_tree(int argc, char *argv[]) {
 	> Gen(n, 1234);
 
 	const auto beginglobal = profiling::now();
-	for (uint32_t t = 0; t < T; ++t) {
+	for (uint64_t t = 0; t < T; ++t) {
 		const auto tree = Gen.get_tree();
 
 		const auto beginglobal = profiling::now();

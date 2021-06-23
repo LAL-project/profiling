@@ -44,7 +44,7 @@ using namespace linarr;
 namespace profiling {
 namespace linarr_C {
 
-void output_execution_time(double total_ms, uint32_t n, uint32_t T, uint32_t N) {
+void output_execution_time(double total_ms, uint64_t n, uint64_t T, uint64_t N) {
 	cout << "Number of vertices (n)= " << n << endl;
 	cout << "Number of trees generated (T)= " << T << endl;
 	cout << "Number of arrangements generated (N)= " << N << endl;
@@ -53,9 +53,9 @@ void output_execution_time(double total_ms, uint32_t n, uint32_t T, uint32_t N) 
 	cout << "    Average (ms/tree*pi): " << profiling::time_to_str(total_ms/(T*N)) << endl;
 }
 
-uint32_t profile_algo(
-	const function<uint32_t (const free_tree&, const linear_arrangement&)>& A,
-	uint32_t n, uint32_t T, uint32_t N, bool seed = true
+uint64_t profile_algo(
+	const function<uint64_t (const free_tree&, const linear_arrangement&)>& A,
+	uint64_t n, uint64_t T, uint64_t N, bool seed = true
 )
 {
 	double total = 0.0;
@@ -76,10 +76,10 @@ uint32_t profile_algo(
 
 	generate::rand_ulab_free_trees Gen(n);
 
-	for (uint32_t t = 0; t < T; ++t) {
+	for (uint64_t t = 0; t < T; ++t) {
 		const free_tree tree = Gen.get_tree();
 
-		for (uint32_t i = 0; i < N; ++i) {
+		for (uint64_t i = 0; i < N; ++i) {
 			// make the random arrangement
 			shuffle(arr.begin(), arr.end(), rand_gen);
 			const auto begin = profiling::now();
@@ -99,9 +99,9 @@ uint32_t profile_algo(
 
 void profile_algo_list(
 	const function<
-		vector<uint32_t> (const free_tree&, const vector<linear_arrangement>&)
+		vector<uint64_t> (const free_tree&, const vector<linear_arrangement>&)
 	>& A,
-	uint32_t n, uint32_t T, uint32_t N, bool seed = true
+	uint64_t n, uint64_t T, uint64_t N, bool seed = true
 )
 {
 	double total = 0.0;
@@ -120,11 +120,11 @@ void profile_algo_list(
 
 	generate::rand_ulab_free_trees Gen(n);
 
-	for (uint32_t t = 0; t < T; ++t) {
+	for (uint64_t t = 0; t < T; ++t) {
 		const free_tree tree = Gen.get_tree();
 
 		vector<linear_arrangement> rand_arr(N);
-		for (uint32_t i = 0; i < N; ++i) {
+		for (uint64_t i = 0; i < N; ++i) {
 			// make the random arrangement
 			shuffle(arr.begin(), arr.end(), rand_gen);
 			rand_arr[i] = arr;
@@ -152,9 +152,9 @@ void linarr_crossings(int argc, char *argv[]) {
 	}
 
 	const string what = parser.get_algo();
-	const uint32_t n = parser.get_n();
-	const uint32_t T = parser.get_T();
-	const uint32_t N = parser.get_N();
+	const uint64_t n = parser.get_n();
+	const uint64_t T = parser.get_T();
+	const uint64_t N = parser.get_N();
 
 	// bruteforce
 	if (what == "brute_force") {

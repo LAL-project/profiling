@@ -35,8 +35,8 @@ public:
 	properties_centroid_pp(int argc, char *argv[]);
 	~properties_centroid_pp();
 
-	constexpr uint32_t get_n() const { return m_n; }
-	constexpr uint32_t get_T() const { return m_T; }
+	constexpr uint64_t get_n() const { return m_n; }
+	constexpr uint64_t get_T() const { return m_T; }
 
 	void print_usage() const;
 
@@ -51,11 +51,11 @@ public:
 
 private:
 	// number of vertices
-	uint32_t m_n = 0;
+	uint64_t m_n = 0;
 	bool m_has_n = false;
 
 	// number of trees to generate
-	uint32_t m_T = 0;
+	uint64_t m_T = 0;
 	bool m_has_T = false;
 
 	int m_argc;

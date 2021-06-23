@@ -41,19 +41,19 @@ using namespace generate;
 
 #include "time.hpp"
 
-#define to_uint32(x) static_cast<uint32_t>(x)
+#define to_uint64(x) static_cast<uint64_t>(x)
 
 namespace profiling {
 
 void relabel_edges(vector<edge>& edges, node& r) {
-	const uint32_t n = to_uint32(edges.size() + 1);
+	const uint64_t n = to_uint64(edges.size() + 1);
 
 	mt19937 gen(1234);
 
 	vector<node> relab(n);
 	iota(relab.begin(), relab.end(), 0);
 
-	for (uint32_t i = 0; i < n; ++i) {
+	for (uint64_t i = 0; i < n; ++i) {
 		shuffle(relab.begin(), relab.end(), gen);
 
 		// relabel each vertex accoring to 'relab'
@@ -73,7 +73,7 @@ void shuffle_tree(vector<edge>& edges, rooted_tree& T) {
 
 	T.clear();
 
-	T.init(to_uint32(edges.size() + 1));
+	T.init(to_uint64(edges.size() + 1));
 	T.set_root(r);
 	T.set_edges(edges);
 	T.set_valid_orientation(true);
@@ -81,14 +81,14 @@ void shuffle_tree(vector<edge>& edges, rooted_tree& T) {
 
 void shuffle_tree(vector<edge>& edges, free_tree& T) {
 	T.clear();
-	T.init(to_uint32(edges.size() + 1));
+	T.init(to_uint64(edges.size() + 1));
 
 	node dummy = 0;
 	relabel_edges(edges, dummy);
 	T.set_edges(edges);
 }
 
-void output_info(uint32_t n, uint32_t N_relabs, uint32_t n_calls, double total_time) {
+void output_info(uint64_t n, uint64_t N_relabs, uint64_t n_calls, double total_time) {
 	cout << "Number of vertices: " << n << endl;
 	cout << "Total calls: " << n_calls << endl;
 	cout << "Total time: " << time_to_str(total_time) << endl;
@@ -99,8 +99,8 @@ void output_info(uint32_t n, uint32_t N_relabs, uint32_t n_calls, double total_t
 // ground truth: ISOMORPHIC
 
 template<class Tree, class GEN>
-void pos_exh_test(uint32_t n, uint32_t N_relabs) {
-	uint32_t n_calls = 0;
+void pos_exh_test(uint64_t n, uint64_t N_relabs) {
+	uint64_t n_calls = 0;
 	double total_time = 0.0;
 
 	Tree relab_tree;
@@ -116,7 +116,7 @@ void pos_exh_test(uint32_t n, uint32_t N_relabs) {
 			relab_tree.set_root(cur_tree.get_root());
 		}
 
-		for (uint32_t N = 0; N < N_relabs; ++N) {
+		for (uint64_t N = 0; N < N_relabs; ++N) {
 			relab_tree.clear();
 			shuffle_tree(edges_cur, relab_tree);
 
@@ -135,7 +135,7 @@ void pos_exh_test(uint32_t n, uint32_t N_relabs) {
 // ground truth: NON-ISOMORPHIC
 
 template<class Tree, class GEN>
-void neg_exh_test(uint32_t n, uint32_t N_relabs) {
+void neg_exh_test(uint64_t n, uint64_t N_relabs) {
 
 	if constexpr (is_base_of_v<undirected_graph, Tree>) {
 		if (n > 21) {
@@ -161,7 +161,7 @@ void neg_exh_test(uint32_t n, uint32_t N_relabs) {
 		Gen.next();
 	}
 
-	uint32_t n_calls = 0;
+	uint64_t n_calls = 0;
 	double total_time = 0.0;
 
 	Tree relab_tree;
@@ -176,7 +176,7 @@ void neg_exh_test(uint32_t n, uint32_t N_relabs) {
 				relab_tree.set_root(tj.get_root());
 			}
 
-			for (uint32_t l = 0; l < N_relabs; ++l) {
+			for (uint64_t l = 0; l < N_relabs; ++l) {
 				shuffle_tree(edges_tj, relab_tree);
 
 				const auto begin = now();
@@ -210,8 +210,8 @@ void utilities_tree_isomorphism(int argc, char *argv[]) {
 
 	const string tree_type(argv[2]);
 	const string expected_answer(argv[3]);
-	const uint32_t n = atoi(argv[4]);
-	const uint32_t r = atoi(argv[5]);
+	const uint64_t n = atoi(argv[4]);
+	const uint64_t r = atoi(argv[5]);
 	if (tree_type == "free") {
 		if (expected_answer == "positive") {
 			pos_exh_test<free_tree, all_ulab_free_trees>(n, r);

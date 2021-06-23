@@ -46,7 +46,7 @@ namespace profiling {
 namespace linarr_Dmin {
 
 void output_execution_time(
-	double totalglobal_ms, double totallocal_ms, uint32_t n, uint32_t T
+	double totalglobal_ms, double totallocal_ms, uint64_t n, uint64_t T
 )
 {
 	cout << "Number of vertices (n)= " << n << endl;
@@ -59,9 +59,9 @@ void output_execution_time(
 template<class TREE>
 void profile_algo(
 	const function<
-		std::pair<uint32_t, linear_arrangement> (const TREE&)
+		std::pair<uint64_t, linear_arrangement> (const TREE&)
 	>& A,
-	uint32_t n, uint32_t T
+	uint64_t n, uint64_t T
 )
 {
 	double totallocal = 0.0;
@@ -74,7 +74,7 @@ void profile_algo(
 	Gen.deactivate_all_postprocessing_actions();
 
 	const auto beginglobal = profiling::now();
-	for (uint32_t t = 0; t < T; ++t) {
+	for (uint64_t t = 0; t < T; ++t) {
 		const auto tree = Gen.get_tree();
 
 		const auto beginglobal = profiling::now();
@@ -101,8 +101,8 @@ void linarr_minimum_D(int argc, char *argv[]) {
 	}
 
 	const string what = parser.get_algo();
-	const uint32_t n = parser.get_n();
-	const uint32_t T = parser.get_T();
+	const uint64_t n = parser.get_n();
+	const uint64_t T = parser.get_T();
 
 	if (what == "unconstrained_YS") {
 		linarr_Dmin::profile_algo<free_tree>

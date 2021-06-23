@@ -37,8 +37,8 @@ public:
 	~linarr_Dmin_pp();
 
 	const std::string& get_algo() const { return m_gen_algo; }
-	uint32_t get_n() const { return m_n; }
-	uint32_t get_T() const { return m_T; }
+	uint64_t get_n() const { return m_n; }
+	uint64_t get_T() const { return m_T; }
 
 	void print_usage() const;
 
@@ -56,11 +56,11 @@ private:
 	std::string m_gen_algo = "none";
 
 	// number of vertices
-	uint32_t m_n = 0;
+	uint64_t m_n = 0;
 	bool m_has_n = false;
 
 	// number of replicas (times to repeat the same execution)
-	uint32_t m_T = 0;
+	uint64_t m_T = 0;
 	bool m_has_T = false;
 
 	const std::set<std::string> m_allowed_algorithms =

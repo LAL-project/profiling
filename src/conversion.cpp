@@ -45,18 +45,18 @@ using namespace linarr;
 namespace profiling {
 namespace dir_to_undir {
 
-void output_total_time(double total, size_t num_calls, uint32_t n, uint32_t T) {
+void output_total_time(double total, size_t num_calls, uint64_t n, uint64_t T) {
 	cout << "Number of vertices: " << n << endl;
 	cout << "Total execution time: " << time_to_str(total) << endl;
 	cout << "    Time per graph: " << time_to_str(total/T) << endl;
 	cout << "    Time per call: " << time_to_str(total/(num_calls*T)) << endl;
 }
 
-void dgraph_to_ugraph(size_t num_calls, uint32_t n, uint32_t T) {
+void dgraph_to_ugraph(size_t num_calls, uint64_t n, uint64_t T) {
 	double total_time = 0.0;
 
 	generate::rand_ulab_rooted_trees Gen(n);
-	for (uint32_t t = 0; t < T; ++t) {
+	for (uint64_t t = 0; t < T; ++t) {
 		const auto T = Gen.get_tree();
 		const auto dG = static_cast<directed_graph>(T);
 
@@ -71,11 +71,11 @@ void dgraph_to_ugraph(size_t num_calls, uint32_t n, uint32_t T) {
 	output_total_time(total_time, num_calls, n, T);
 }
 
-void rtree_to_ftree(size_t num_calls, uint32_t n, uint32_t T) {
+void rtree_to_ftree(size_t num_calls, uint64_t n, uint64_t T) {
 	double total_time = 0.0;
 
 	generate::rand_ulab_rooted_trees Gen(n);
-	for (uint32_t t = 0; t < T; ++t) {
+	for (uint64_t t = 0; t < T; ++t) {
 		const auto rT = Gen.get_tree();
 
 		for (size_t i = 0; i < num_calls; ++i) {
@@ -99,9 +99,9 @@ void conversion(int argc, char *argv[]) {
 	}
 
 	const string mode = parser.get_mode();
-	const uint32_t n = parser.get_n();
-	const uint32_t T = parser.get_T();
-	const uint32_t C = parser.get_C();
+	const uint64_t n = parser.get_n();
+	const uint64_t T = parser.get_T();
+	const uint64_t C = parser.get_C();
 
 	if (mode == "dgraph_to_ugraph") {
 		dir_to_undir::dgraph_to_ugraph(C, n, T);

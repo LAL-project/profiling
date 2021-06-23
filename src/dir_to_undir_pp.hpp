@@ -37,9 +37,9 @@ public:
 	~dir_to_undir();
 
 	const std::string& get_mode() const { return m_mode; }
-	constexpr uint32_t get_n() const { return m_n; }
-	constexpr uint32_t get_T() const { return m_T; }
-	constexpr uint32_t get_C() const { return m_C; }
+	constexpr uint64_t get_n() const { return m_n; }
+	constexpr uint64_t get_T() const { return m_T; }
+	constexpr uint64_t get_C() const { return m_C; }
 
 	void print_usage() const;
 
@@ -57,15 +57,15 @@ private:
 	std::string m_mode = "none";
 
 	// number of vertices
-	uint32_t m_n = 0;
+	uint64_t m_n = 0;
 	bool m_has_n = false;
 
 	// number of trees
-	uint32_t m_T = 0;
+	uint64_t m_T = 0;
 	bool m_has_T = false;
 
 	// number of calls
-	uint32_t m_C = 1;
+	uint64_t m_C = 1;
 
 	const std::set<std::string> m_allowed_modes =
 	std::set<std::string>({

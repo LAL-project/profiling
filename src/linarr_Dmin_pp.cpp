@@ -75,12 +75,12 @@ int linarr_Dmin_pp::parse_params() {
 			return 1;
 		}
 		else if (param == "-n") {
-			m_n = static_cast<uint32_t>(atoi(m_argv[i + 1]));
+			m_n = static_cast<uint64_t>(atoi(m_argv[i + 1]));
 			m_has_n = true;
 			++i;
 		}
 		else if (param == "-T") {
-			m_T = static_cast<uint32_t>(atoi(m_argv[i + 1]));
+			m_T = static_cast<uint64_t>(atoi(m_argv[i + 1]));
 			m_has_T = true;
 			++i;
 		}
