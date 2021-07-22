@@ -108,7 +108,7 @@ void linarr_minimum_D(int argc, char *argv[]) {
 		linarr_Dmin::profile_algo<free_tree>
 		(
 		[](const free_tree& t) {
-			return linarr::min_sum_edge_lengths(t, linarr::algorithms_Dmin::Unconstrained_YS);
+			return linarr::min_sum_edge_lengths(t, linarr::algorithms_Dmin::Shiloach);
 		},
 		n, T
 		);
@@ -117,7 +117,7 @@ void linarr_minimum_D(int argc, char *argv[]) {
 		linarr_Dmin::profile_algo<free_tree>
 		(
 		[](const free_tree& t) {
-			return linarr::min_sum_edge_lengths(t, linarr::algorithms_Dmin::Unconstrained_FC);
+			return linarr::min_sum_edge_lengths(t, linarr::algorithms_Dmin::Chung_2);
 		},
 		n, T
 		);
