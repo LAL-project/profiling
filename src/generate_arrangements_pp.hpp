@@ -54,9 +54,6 @@ public:
 	int check_errors() const noexcept;
 
 private:
-	// algorithm to execute
-	std::string m_gen_class = "none";
-
 	// number of vertices
 	uint64_t m_n = 0;
 	bool m_has_n = false;
@@ -73,14 +70,18 @@ private:
 	uint64_t m_R = 0;
 	bool m_has_R = false;
 
-	const std::set<std::string> m_allowed_gen_classes =
-	std::set<std::string>({
-		"all_arrangements", "all_projective_arrangements",
-		"rand_arrangements", "rand_projective_arrangements",
-	}
-	);
 	int m_argc;
 	char **m_argv;
+
+	// algorithm to execute
+	std::string m_gen_class = "none";
+
+	const std::set<std::string> m_allowed_gen_classes =
+	std::set<std::string>({
+	"all_arrangements", "all_projective_arrangements", "all_planar_arrangements",
+	"rand_arrangements", "rand_projective_arrangements", "rand_planar_arrangements",
+	}
+	);
 };
 
 } // -- namespace generate

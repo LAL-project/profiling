@@ -213,7 +213,6 @@ void profile_random_arrangements
 
 	for (uint64_t r = 0; r < R; ++r) {
 		tree_randgen_type TreeGen(n);
-
 		for (size_t i = 0; i < T; ++i) {
 			const tree_type randtree = TreeGen.get_tree();
 
@@ -256,14 +255,24 @@ void generate_arrangements(int argc, char *argv[]) {
 		<rooted_tree, rand_ulab_rooted_trees, all_projective_arrangements>
 		(n, R, T, N);
 	}
+	else if (what == "all_planar_arrangements") {
+		generate::profile_exhaustive_arrangements
+		<free_tree, rand_ulab_free_trees, all_planar_arrangements>
+		(n, R, T, N);
+	}
 	else if (what == "rand_arrangements") {
 		generate::profile_random_arrangements
 		<free_tree, rand_ulab_free_trees, rand_arrangements>
 		(n, R, T, N);
 	}
 	else if (what == "rand_projective_arrangements") {
-		generate::profile_exhaustive_arrangements
-		<rooted_tree, rand_ulab_rooted_trees, all_arrangements>
+		generate::profile_random_arrangements
+		<rooted_tree, rand_ulab_rooted_trees, rand_projective_arrangements>
+		(n, R, T, N);
+	}
+	else if (what == "rand_planar_arrangements") {
+		generate::profile_random_arrangements
+		<free_tree, rand_ulab_free_trees, rand_planar_arrangements>
 		(n, R, T, N);
 	}
 	else {
