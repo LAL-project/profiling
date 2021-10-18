@@ -1,13 +1,14 @@
 TEMPLATE = app
-CONFIG += console c++1z
+CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
 
-# compilation flags
-QMAKE_CXXFLAGS += -fPIC -fopenmp
+QMAKE_CXXFLAGS += -fPIC -fopenmp -std=c++17
 QMAKE_CXXFLAGS_DEBUG += -O3 -DDEBUG -D_GLIBCXX_DEBUG
 QMAKE_CXXFLAGS_RELEASE -= -O2
 QMAKE_CXXFLAGS_RELEASE += -O3 -UDEBUG -DNDEBUG -fstrict-aliasing
+
+LIBS += -lgmp -fopenmp -lpthread
 
 # uncomment when doing actual profiling
 #QMAKE_CXXFLAGS_RELEASE += -pg
@@ -28,14 +29,12 @@ equals(ENVIR, "HOME") {
 
 # configure cluster
 equals(ENVIR, "CLUSTER") {
-    QMAKE_CXX = /home/soft/gcc-9.2.0/bin/g++
-	QMAKE_LINK = /home/soft/gcc-9.2.0/bin/g++
-	QMAKE_CXXFLAGS += -std=c++17
+    QMAKE_CXX = /home/soft/gcc-11.2.0/bin/g++
+	QMAKE_LINK = /home/soft/gcc-11.2.0/bin/g++
 
     LAL_DIR = /home/usuaris/lalemany/linear-arrangement-library
 	INCLUDEPATH += $$LAL_DIR
 
-    # add definitions
 	DEFINES += "__ENVIR=1"
 }
 
@@ -48,9 +47,6 @@ CONFIG(release, debug|release) {
     LIBS += -L $$LAL_DIR/lal-release -llal
 	PRE_TARGETDEPS += $$LAL_DIR/lal-release/liblal.so
 }
-
-# link against gmp and fopenmp
-LIBS += -lgmp -fopenmp
 
 SOURCES += \
     conversion.cpp \
