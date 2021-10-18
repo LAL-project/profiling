@@ -3,4 +3,4 @@
 cd $HOME/LAL-profiling
 
 cd $1
-make -j4
+make -j8
