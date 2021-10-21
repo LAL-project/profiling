@@ -28,7 +28,6 @@
 #include <cstdlib>
 #include <iostream>
 #include <vector>
-using namespace std;
 
 namespace profiling {
 namespace generate {
@@ -40,32 +39,32 @@ generate_trees_pp::generate_trees_pp(
 { }
 
 void generate_trees_pp::print_usage() const noexcept {
-	cout << "Profiling -- Generation of trees" << endl;
-	cout << "==================" << endl;
-	cout << endl;
-	cout << "This program's options are the following:" << endl;
-	cout << "    Those marked with [*] are mandatory for all execution modes." << endl;
-	cout << "    Those marked with [i] are mandatory for execution mode i." << endl;
-	cout << "    Those marked with [?] are optional." << endl;
-	cout << endl;
-	cout << "    [*]   -n n" << endl;
-	cout << "          Indicate the number of vertices of the trees." << endl;
-	cout << endl;
-	cout << "    [*]   -N N" << endl;
-	cout << "          Indicate the number of trees to generate." << endl;
-	cout << endl;
-	cout << "    [*]   -R R" << endl;
-	cout << "          Indicate the number of replicas (times to replicate an" << endl;
-	cout << "          execution)." << endl;
-	cout << endl;
-	cout << "    [*]   -class C" << endl;
-	cout << "          Indicate the class of generation to profile. The available" << endl;
-	cout << "          classes are the following:" << endl;
-	cout << endl;
-	for (const string& algo : m_allowed_gen_classes) {
-	cout << "          " << algo << endl;
+	std::cout << "Profiling -- Generation of trees" << '\n';
+	std::cout << "==================" << '\n';
+	std::cout << '\n';
+	std::cout << "This program's options are the following:" << '\n';
+	std::cout << "    Those marked with [*] are mandatory for all execution modes." << '\n';
+	std::cout << "    Those marked with [i] are mandatory for execution mode i." << '\n';
+	std::cout << "    Those marked with [?] are optional." << '\n';
+	std::cout << '\n';
+	std::cout << "    [*]   -n n" << '\n';
+	std::cout << "          Indicate the number of vertices of the trees." << '\n';
+	std::cout << '\n';
+	std::cout << "    [*]   -N N" << '\n';
+	std::cout << "          Indicate the number of trees to generate." << '\n';
+	std::cout << '\n';
+	std::cout << "    [*]   -R R" << '\n';
+	std::cout << "          Indicate the number of replicas (times to replicate an" << '\n';
+	std::cout << "          execution)." << '\n';
+	std::cout << '\n';
+	std::cout << "    [*]   -class C" << '\n';
+	std::cout << "          Indicate the class of generation to profile. The available" << '\n';
+	std::cout << "          classes are the following:" << '\n';
+	std::cout << '\n';
+	for (const std::string& algo : m_allowed_gen_classes) {
+	std::cout << "          " << algo << '\n';
 	}
-	cout << endl;
+	std::cout << '\n';
 }
 
 int generate_trees_pp::parse_params() noexcept {
@@ -75,7 +74,7 @@ int generate_trees_pp::parse_params() noexcept {
 	}
 
 	for (int i = 2; i < m_argc; ++i) {
-		const string param(m_argv[i]);
+		const std::string param(m_argv[i]);
 
 		if (param == "--help" or param == "-h") {
 			print_usage();
@@ -97,12 +96,12 @@ int generate_trees_pp::parse_params() noexcept {
 			++i;
 		}
 		else if (param == "-class") {
-			m_gen_class = string(m_argv[i + 1]);
+			m_gen_class = std::string(m_argv[i + 1]);
 			++i;
 		}
 		else {
-			cerr << "Error: unrecognised option" << endl;
-			cerr << "    " << string(m_argv[i]) << endl;
+			std::cerr << "Error: unrecognised option" << '\n';
+			std::cerr << "    " << std::string(m_argv[i]) << '\n';
 			return 2;
 		}
 	}
@@ -111,19 +110,19 @@ int generate_trees_pp::parse_params() noexcept {
 
 int generate_trees_pp::check_errors() const noexcept {
 	if (not m_has_n) {
-		cout << "Error: missing parameter '-n'." << endl;
+		std::cout << "Error: missing parameter '-n'." << '\n';
 		return 1;
 	}
 	if (not m_has_N) {
-		cout << "Error: missing parameter '-N'." << endl;
+		std::cout << "Error: missing parameter '-N'." << '\n';
 		return 1;
 	}
 	if (not m_has_R) {
-		cout << "Error: missing parameter '-R'." << endl;
+		std::cout << "Error: missing parameter '-R'." << '\n';
 		return 1;
 	}
 	if (m_gen_class == "none") {
-		cout << "Error: missing parameter '-class'." << endl;
+		std::cout << "Error: missing parameter '-class'." << '\n';
 		return 1;
 	}
 

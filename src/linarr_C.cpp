@@ -27,15 +27,11 @@
 #include <iostream>
 #include <random>
 #include <string>
-using namespace std;
 
 // lal includes
 #include <lal/generate/rand_ulab_free_trees.hpp>
 #include <lal/linarr/C.hpp>
 #include <lal/graphs/free_tree.hpp>
-using namespace lal;
-using namespace graphs;
-using namespace linarr;
 
 // common includes
 #include "time.hpp"
@@ -45,16 +41,16 @@ namespace profiling {
 namespace linarr_C {
 
 void output_execution_time(double total_ms, uint64_t n, uint64_t T, uint64_t N) {
-	cout << "Number of vertices (n)= " << n << endl;
-	cout << "Number of trees generated (T)= " << T << endl;
-	cout << "Number of arrangements generated (N)= " << N << endl;
-	cout << "Total execution time: " << profiling::time_to_str(total_ms) << endl;
-	cout << "    Average (ms/tree): " << profiling::time_to_str(total_ms/T) << endl;
-	cout << "    Average (ms/tree*pi): " << profiling::time_to_str(total_ms/(T*N)) << endl;
+	std::cout << "Number of vertices (n)= " << n << '\n';
+	std::cout << "Number of trees generated (T)= " << T << '\n';
+	std::cout << "Number of arrangements generated (N)= " << N << '\n';
+	std::cout << "Total execution time: " << profiling::time_to_str(total_ms) << '\n';
+	std::cout << "    Average (ms/tree): " << profiling::time_to_str(total_ms/T) << '\n';
+	std::cout << "    Average (ms/tree*pi): " << profiling::time_to_str(total_ms/(T*N)) << '\n';
 }
 
 uint64_t profile_algo(
-	const function<uint64_t (const free_tree&, const linear_arrangement&)>& A,
+	const std::function<uint64_t (const lal::graphs::free_tree&, const lal::linear_arrangement&)>& A,
 	uint64_t n, uint64_t T, uint64_t N, bool seed = true
 )
 {
@@ -62,22 +58,22 @@ uint64_t profile_algo(
 
 	std::mt19937 rand_gen;
 	if (seed == 0) {
-		random_device rd;
-		rand_gen = mt19937(rd());
+		std::random_device rd;
+		rand_gen = std::mt19937(rd());
 	}
 	else {
-		rand_gen = mt19937(seed);
+		rand_gen = std::mt19937(seed);
 	}
 
-	linear_arrangement arr(n);
+	lal::linear_arrangement arr(n);
 	std::iota(arr.begin(), arr.end(), 0);
 
 	uint64_t asdf = 0;
 
-	generate::rand_ulab_free_trees Gen(n);
+	lal::generate::rand_ulab_free_trees Gen(n);
 
 	for (uint64_t t = 0; t < T; ++t) {
-		const free_tree tree = Gen.get_tree();
+		const lal::graphs::free_tree tree = Gen.get_tree();
 
 		for (uint64_t i = 0; i < N; ++i) {
 			// make the random arrangement
@@ -98,8 +94,8 @@ uint64_t profile_algo(
 }
 
 void profile_algo_list(
-	const function<
-		vector<uint64_t> (const free_tree&, const vector<linear_arrangement>&)
+	const std::function<
+		std::vector<uint64_t> (const lal::graphs::free_tree&, const std::vector<lal::linear_arrangement>&)
 	>& A,
 	uint64_t n, uint64_t T, uint64_t N, bool seed = true
 )
@@ -108,22 +104,22 @@ void profile_algo_list(
 
 	std::mt19937 rand_gen;
 	if (seed == 0) {
-		random_device rd;
-		rand_gen = mt19937(rd());
+		std::random_device rd;
+		rand_gen = std::mt19937(rd());
 	}
 	else {
-		rand_gen = mt19937(seed);
+		rand_gen = std::mt19937(seed);
 	}
 
-	linear_arrangement arr(n);
+	lal::linear_arrangement arr(n);
 	std::iota(arr.begin(), arr.end(), 0);
 
-	generate::rand_ulab_free_trees Gen(n);
+	lal::generate::rand_ulab_free_trees Gen(n);
 
 	for (uint64_t t = 0; t < T; ++t) {
-		const free_tree tree = Gen.get_tree();
+		const lal::graphs::free_tree tree = Gen.get_tree();
 
-		vector<linear_arrangement> rand_arr(N);
+		std::vector<lal::linear_arrangement> rand_arr(N);
 		for (uint64_t i = 0; i < N; ++i) {
 			// make the random arrangement
 			shuffle(arr.begin(), arr.end(), rand_gen);
@@ -151,7 +147,7 @@ void linarr_crossings(int argc, char *argv[]) {
 	if (parser.check_errors() > 0) { return; }
 	}
 
-	const string what = parser.get_algo();
+	const std::string what = parser.get_algo();
 	const uint64_t n = parser.get_n();
 	const uint64_t T = parser.get_T();
 	const uint64_t N = parser.get_N();
@@ -159,16 +155,16 @@ void linarr_crossings(int argc, char *argv[]) {
 	// bruteforce
 	if (what == "brute_force") {
 		linarr_C::profile_algo(
-		[](const free_tree& t, const linear_arrangement& arr) {
-			return num_crossings(t, arr, algorithms_C::brute_force);
+		[](const lal::graphs::free_tree& t, const lal::linear_arrangement& arr) {
+			return num_crossings(t, arr, lal::linarr::algorithms_C::brute_force);
 		},
 		n, T, N
 		);
 	}
 	else if (what == "brute_force_list") {
 		linarr_C::profile_algo_list(
-		[](const free_tree& t, const vector<linear_arrangement>& arrs) {
-			return num_crossings_list(t, arrs, algorithms_C::brute_force);
+		[](const lal::graphs::free_tree& t, const std::vector<lal::linear_arrangement>& arrs) {
+			return num_crossings_list(t, arrs, lal::linarr::algorithms_C::brute_force);
 		},
 		n, T, N
 		);
@@ -176,16 +172,16 @@ void linarr_crossings(int argc, char *argv[]) {
 	// dynamic programming
 	else if (what == "dynamic_programming") {
 		linarr_C::profile_algo(
-		[](const free_tree& t, const linear_arrangement& arr) {
-			return num_crossings(t, arr, algorithms_C::dynamic_programming);
+		[](const lal::graphs::free_tree& t, const lal::linear_arrangement& arr) {
+			return num_crossings(t, arr, lal::linarr::algorithms_C::dynamic_programming);
 		},
 		n, T, N
 		);
 	}
 	else if (what == "dynamic_programming_list") {
 		linarr_C::profile_algo_list(
-		[](const free_tree& t, const vector<linear_arrangement>& arr) {
-			return num_crossings_list(t, arr, algorithms_C::dynamic_programming);
+		[](const lal::graphs::free_tree& t, const std::vector<lal::linear_arrangement>& arr) {
+			return num_crossings_list(t, arr, lal::linarr::algorithms_C::dynamic_programming);
 		},
 		n, T, N
 		);
@@ -193,16 +189,16 @@ void linarr_crossings(int argc, char *argv[]) {
 	// ladder
 	else if (what == "ladder") {
 		linarr_C::profile_algo(
-		[](const free_tree& t, const linear_arrangement& arr) {
-			return num_crossings(t, arr, algorithms_C::ladder);
+		[](const lal::graphs::free_tree& t, const lal::linear_arrangement& arr) {
+			return num_crossings(t, arr, lal::linarr::algorithms_C::ladder);
 		},
 		n, T, N
 		);
 	}
 	else if (what == "ladder_list") {
 		linarr_C::profile_algo_list(
-		[](const free_tree& t, const vector<linear_arrangement>& arr) {
-			return num_crossings_list(t, arr, algorithms_C::ladder);
+		[](const lal::graphs::free_tree& t, const std::vector<lal::linear_arrangement>& arr) {
+			return num_crossings_list(t, arr, lal::linarr::algorithms_C::ladder);
 		},
 		n, T, N
 		);
@@ -210,23 +206,23 @@ void linarr_crossings(int argc, char *argv[]) {
 	// stack based
 	else if (what == "stack_based") {
 		linarr_C::profile_algo(
-		[](const free_tree& t, const linear_arrangement& arr) {
-			return num_crossings(t, arr, algorithms_C::stack_based);
+		[](const lal::graphs::free_tree& t, const lal::linear_arrangement& arr) {
+			return num_crossings(t, arr, lal::linarr::algorithms_C::stack_based);
 		},
 		n, T, N
 		);
 	}
 	else if (what == "stack_based_list") {
 		linarr_C::profile_algo_list(
-		[](const free_tree& t, const vector<linear_arrangement>& arr) {
-			return num_crossings_list(t, arr, algorithms_C::stack_based);
+		[](const lal::graphs::free_tree& t, const std::vector<lal::linear_arrangement>& arr) {
+			return num_crossings_list(t, arr, lal::linarr::algorithms_C::stack_based);
 		},
 		n, T, N
 		);
 	}
 	else {
-		cout << "Error:" << endl;
-		cout << "Unknown/Unhandled '" << what << "'." << endl;
+		std::cout << "Error:" << '\n';
+		std::cout << "Unknown/Unhandled '" << what << "'." << '\n';
 	}
 }
 

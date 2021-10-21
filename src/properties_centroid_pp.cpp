@@ -28,7 +28,6 @@
 #include <cstdlib>
 #include <iostream>
 #include <vector>
-using namespace std;
 
 namespace profiling {
 namespace properties_centroid {
@@ -40,21 +39,21 @@ properties_centroid_pp::properties_centroid_pp(
 properties_centroid_pp::~properties_centroid_pp() { }
 
 void properties_centroid_pp::print_usage() const {
-	cout << "Profiling -- Calculation of the centroid of a tree" << endl;
-	cout << "==================================================" << endl;
-	cout << endl;
-	cout << "This program's options are the following:" << endl;
-	cout << "    Those marked with [*] are mandatory for all execution modes." << endl;
-	cout << "    Those marked with [i] are mandatory for execution mode i." << endl;
-	cout << "    Those marked with [?] are optional." << endl;
-	cout << endl;
-	cout << "    [*]   -n n" << endl;
-	cout << "          Indicate the number of vertices of the trees." << endl;
-	cout << endl;
-	cout << "    [*]   -T T" << endl;
-	cout << "          Indicate the number of trees to generate." << endl;
-	cout << endl;
-	cout << endl;
+	std::cout << "Profiling -- Calculation of the centroid of a tree" << '\n';
+	std::cout << "==================================================" << '\n';
+	std::cout << '\n';
+	std::cout << "This program's options are the following:" << '\n';
+	std::cout << "    Those marked with [*] are mandatory for all execution modes." << '\n';
+	std::cout << "    Those marked with [i] are mandatory for execution mode i." << '\n';
+	std::cout << "    Those marked with [?] are optional." << '\n';
+	std::cout << '\n';
+	std::cout << "    [*]   -n n" << '\n';
+	std::cout << "          Indicate the number of vertices of the trees." << '\n';
+	std::cout << '\n';
+	std::cout << "    [*]   -T T" << '\n';
+	std::cout << "          Indicate the number of trees to generate." << '\n';
+	std::cout << '\n';
+	std::cout << '\n';
 }
 
 int properties_centroid_pp::parse_params() {
@@ -64,7 +63,7 @@ int properties_centroid_pp::parse_params() {
 	}
 
 	for (int i = 2; i < m_argc; ++i) {
-		const string param(m_argv[i]);
+		const std::string param(m_argv[i]);
 
 		if (param == "--help" or param == "-h") {
 			print_usage();
@@ -81,8 +80,8 @@ int properties_centroid_pp::parse_params() {
 			++i;
 		}
 		else {
-			cerr << "Error: unrecognised option" << endl;
-			cerr << "    " << string(m_argv[i]) << endl;
+			std::cerr << "Error: unrecognised option" << '\n';
+			std::cerr << "    " << std::string(m_argv[i]) << '\n';
 			return 2;
 		}
 	}
@@ -91,11 +90,11 @@ int properties_centroid_pp::parse_params() {
 
 int properties_centroid_pp::check_errors() const {
 	if (not m_has_n) {
-		cout << "Error: missing parameter '-n'." << endl;
+		std::cout << "Error: missing parameter '-n'." << '\n';
 		return 1;
 	}
 	if (not m_has_T) {
-		cout << "Error: missing parameter '-R'." << endl;
+		std::cout << "Error: missing parameter '-R'." << '\n';
 		return 1;
 	}
 	return 0;

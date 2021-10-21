@@ -27,16 +27,12 @@
 #include <iostream>
 #include <random>
 #include <string>
-using namespace std;
 
 // lal includes
 #include <lal/generate/tree_generator_type.hpp>
 #include <lal/linarr/Dmin.hpp>
 #include <lal/graphs/free_tree.hpp>
 #include <lal/graphs/rooted_tree.hpp>
-using namespace lal;
-using namespace graphs;
-using namespace linarr;
 
 // common includes
 #include "time.hpp"
@@ -49,26 +45,26 @@ void output_execution_time(
 	double totalglobal_ms, double totallocal_ms, uint64_t n, uint64_t T
 )
 {
-	cout << "Number of vertices (n)= " << n << endl;
-	cout << "Number of trees generated (T)= " << T << endl;
-	cout << "Total (global) execution time: " << profiling::time_to_str(totalglobal_ms) << endl;
-	cout << "Total (local) execution time: " << profiling::time_to_str(totallocal_ms) << endl;
-	cout << "    Average (ms/tree): " << profiling::time_to_str(totallocal_ms/T) << endl;
+	std::cout << "Number of vertices (n)= " << n << '\n';
+	std::cout << "Number of trees generated (T)= " << T << '\n';
+	std::cout << "Total (global) execution time: " << profiling::time_to_str(totalglobal_ms) << '\n';
+	std::cout << "Total (local) execution time: " << profiling::time_to_str(totallocal_ms) << '\n';
+	std::cout << "    Average (ms/tree): " << profiling::time_to_str(totallocal_ms/T) << '\n';
 }
 
 template<class TREE>
 void profile_algo(
-	const function<
-		std::pair<uint64_t, linear_arrangement> (const TREE&)
+	const std::function<
+		std::pair<uint64_t, lal::linear_arrangement> (const TREE&)
 	>& A,
 	uint64_t n, uint64_t T
 )
 {
 	double totallocal = 0.0;
 
-	generate::tree_generator_type_t<
-		generate::random_t,
-		generate::unlabelled_t,
+	lal::generate::tree_generator_type_t<
+		lal::generate::random_t,
+		lal::generate::unlabelled_t,
 		TREE
 	> Gen(n, 1234);
 	Gen.deactivate_all_postprocessing_actions();
@@ -100,49 +96,49 @@ void linarr_minimum_D(int argc, char *argv[]) {
 	if (parser.check_errors() > 0) { return; }
 	}
 
-	const string what = parser.get_algo();
+	const std::string what = parser.get_algo();
 	const uint64_t n = parser.get_n();
 	const uint64_t T = parser.get_T();
 
 	if (what == "unconstrained_YS") {
-		linarr_Dmin::profile_algo<free_tree>
+		linarr_Dmin::profile_algo<lal::graphs::free_tree>
 		(
-		[](const free_tree& t) {
-			return linarr::min_sum_edge_lengths(t, linarr::algorithms_Dmin::Shiloach);
+		[](const lal::graphs::free_tree& t) {
+			return lal::linarr::min_sum_edge_lengths(t, lal::linarr::algorithms_Dmin::Shiloach);
 		},
 		n, T
 		);
 	}
 	else if (what == "unconstrained_FC") {
-		linarr_Dmin::profile_algo<free_tree>
+		linarr_Dmin::profile_algo<lal::graphs::free_tree>
 		(
-		[](const free_tree& t) {
-			return linarr::min_sum_edge_lengths(t, linarr::algorithms_Dmin::Chung_2);
+		[](const lal::graphs::free_tree& t) {
+			return lal::linarr::min_sum_edge_lengths(t, lal::linarr::algorithms_Dmin::Chung_2);
 		},
 		n, T
 		);
 	}
 	else if (what == "projective") {
-		linarr_Dmin::profile_algo<rooted_tree>
+		linarr_Dmin::profile_algo<lal::graphs::rooted_tree>
 		(
-		[](const rooted_tree& t) {
-			return linarr::min_sum_edge_lengths_projective(t);
+		[](const lal::graphs::rooted_tree& t) {
+			return lal::linarr::min_sum_edge_lengths_projective(t);
 		},
 		n, T
 		);
 	}
 	else if (what == "planar") {
-		linarr_Dmin::profile_algo<free_tree>
+		linarr_Dmin::profile_algo<lal::graphs::free_tree>
 		(
-		[](const free_tree& t) {
-			return linarr::min_sum_edge_lengths_planar(t);
+		[](const lal::graphs::free_tree& t) {
+			return lal::linarr::min_sum_edge_lengths_planar(t);
 		},
 		n, T
 		);
 	}
 	else {
-		cout << "Error:" << endl;
-		cout << "Unknown/Unhandled '" << what << "'." << endl;
+		std::cout << "Error:" << '\n';
+		std::cout << "Unknown/Unhandled '" << what << "'." << '\n';
 	}
 }
 

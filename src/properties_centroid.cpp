@@ -27,14 +27,11 @@
 #include <iostream>
 #include <random>
 #include <string>
-using namespace std;
 
 // lal includes
 #include <lal/generate/tree_generator_type.hpp>
 #include <lal/graphs/free_tree.hpp>
 #include <lal/properties/tree_centroid.hpp>
-using namespace lal;
-using namespace graphs;
 
 // common includes
 #include "time.hpp"
@@ -47,11 +44,11 @@ void output_execution_time(
 	double totalglobal_ms, double totallocal_ms, uint64_t n, uint64_t T
 )
 {
-	cout << "Number of vertices (n)= " << n << endl;
-	cout << "Number of trees generated (T)= " << T << endl;
-	cout << "Total (global) execution time: " << profiling::time_to_str(totalglobal_ms) << endl;
-	cout << "Total (local) execution time: " << profiling::time_to_str(totallocal_ms) << endl;
-	cout << "    Average (ms/tree): " << profiling::time_to_str(totallocal_ms/T) << endl;
+	std::cout << "Number of vertices (n)= " << n << '\n';
+	std::cout << "Number of trees generated (T)= " << T << '\n';
+	std::cout << "Total (global) execution time: " << profiling::time_to_str(totalglobal_ms) << '\n';
+	std::cout << "Total (local) execution time: " << profiling::time_to_str(totallocal_ms) << '\n';
+	std::cout << "    Average (ms/tree): " << profiling::time_to_str(totallocal_ms/T) << '\n';
 }
 
 } // -- namespace properties_centroid
@@ -68,10 +65,10 @@ void properties_centroid_tree(int argc, char *argv[]) {
 
 	double totallocal = 0.0;
 
-	generate::tree_generator_type_t<
-		generate::random_t,
-		generate::unlabelled_t,
-		free_tree
+	lal::generate::tree_generator_type_t<
+		lal::generate::random_t,
+		lal::generate::unlabelled_t,
+		lal::graphs::free_tree
 	> Gen(n, 1234);
 
 	const auto beginglobal = profiling::now();
@@ -79,7 +76,7 @@ void properties_centroid_tree(int argc, char *argv[]) {
 		const auto tree = Gen.get_tree();
 
 		const auto beginglobal = profiling::now();
-		auto res = properties::tree_centroid(tree);
+		auto res = lal::properties::tree_centroid(tree);
 		const auto endglobal = profiling::now();
 		totallocal += profiling::elapsed_time(beginglobal, endglobal);
 

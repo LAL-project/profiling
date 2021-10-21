@@ -24,7 +24,6 @@
 
 // C++ includes
 #include <iostream>
-using namespace std;
 
 namespace profiling {
 
@@ -39,34 +38,34 @@ void conversion(int argc, char *argv[]);
 } // -- namespace profiling
 
 void usage() {
-	cout << "Profiler of the Linear Arrangement Library" << endl;
-	cout << "==========================================" << endl;
-	cout << endl;
-	cout << "The first parameter indicates what is going to be profiled." << endl;
-	cout << "The following parameters depend on the option chosen in the first" << endl;
-	cout << "place." << endl;
-	cout << endl;
-	cout << "    generate_trees : Profile the algorithms for the generation of" << endl;
-	cout << "        trees." << endl;
-	cout << endl;
-	cout << "    generate_arrangements : Profile the algorithms for the generation of" << endl;
-	cout << "        arrangements." << endl;
-	cout << endl;
-	cout << "    linarr_crossings : Profile the algorithms for the calculation" << endl;
-	cout << "        of the number of crossings." << endl;
-	cout << endl;
-	cout << "    linarr_Dmin : Profile the algorithms for the calculation" << endl;
-	cout << "        of the minimum sum of edge lengths." << endl;
-	cout << endl;
-	cout << "    properties_centroid_tree : Profile the algorithm for the computation" << endl;
-	cout << "        of the centroid of a tree." << endl;
-	cout << endl;
-	cout << "    utilities_isomorphism : Profile the algorithms for the tree" << endl;
-	cout << "        isomorphism test." << endl;
-	cout << endl;
-	cout << "    conversion : Profile the conversion of a directed" << endl;
-	cout << "        graph to an undirected graph." << endl;
-	cout << endl;
+	std::cout << "Profiler of the Linear Arrangement Library" << '\n';
+	std::cout << "==========================================" << '\n';
+	std::cout << '\n';
+	std::cout << "The first parameter indicates what is going to be profiled." << '\n';
+	std::cout << "The following parameters depend on the option chosen in the first" << '\n';
+	std::cout << "place." << '\n';
+	std::cout << '\n';
+	std::cout << "    generate_trees : Profile the algorithms for the generation of" << '\n';
+	std::cout << "        trees." << '\n';
+	std::cout << '\n';
+	std::cout << "    generate_arrangements : Profile the algorithms for the generation of" << '\n';
+	std::cout << "        arrangements." << '\n';
+	std::cout << '\n';
+	std::cout << "    linarr_crossings : Profile the algorithms for the calculation" << '\n';
+	std::cout << "        of the number of crossings." << '\n';
+	std::cout << '\n';
+	std::cout << "    linarr_Dmin : Profile the algorithms for the calculation" << '\n';
+	std::cout << "        of the minimum sum of edge lengths." << '\n';
+	std::cout << '\n';
+	std::cout << "    properties_centroid_tree : Profile the algorithm for the computation" << '\n';
+	std::cout << "        of the centroid of a tree." << '\n';
+	std::cout << '\n';
+	std::cout << "    utilities_isomorphism : Profile the algorithms for the tree" << '\n';
+	std::cout << "        isomorphism test." << '\n';
+	std::cout << '\n';
+	std::cout << "    conversion : Profile the conversion of a directed" << '\n';
+	std::cout << "        graph to an undirected graph." << '\n';
+	std::cout << '\n';
 }
 
 int main(int argc, char *argv[]) {
@@ -75,7 +74,7 @@ int main(int argc, char *argv[]) {
 		return 0;
 	}
 
-	const string first(argv[1]);
+	const std::string first(argv[1]);
 	if (first == "generate_trees") {
 		profiling::generate_trees(argc, argv);
 	}
@@ -98,6 +97,6 @@ int main(int argc, char *argv[]) {
 		profiling::conversion(argc, argv);
 	}
 	else {
-		cout << "Unknown/Unhandled: '" << first << "'" << endl;
+		std::cout << "Unknown/Unhandled: '" << first << "'" << '\n';
 	}
 }

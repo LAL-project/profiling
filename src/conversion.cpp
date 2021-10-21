@@ -27,16 +27,12 @@
 #include <iostream>
 #include <vector>
 #include <string>
-using namespace std;
 
 // lal includes
 #include <lal/generate/rand_ulab_rooted_trees.hpp>
 #include <lal/linarr/C.hpp>
 #include <lal/graphs/free_tree.hpp>
 #include <lal/graphs/rooted_tree.hpp>
-using namespace lal;
-using namespace graphs;
-using namespace linarr;
 
 // common includes
 #include "dir_to_undir_pp.hpp"
@@ -46,19 +42,19 @@ namespace profiling {
 namespace dir_to_undir {
 
 void output_total_time(double total, size_t num_calls, uint64_t n, uint64_t T) {
-	cout << "Number of vertices: " << n << endl;
-	cout << "Total execution time: " << time_to_str(total) << endl;
-	cout << "    Time per graph: " << time_to_str(total/T) << endl;
-	cout << "    Time per call: " << time_to_str(total/(num_calls*T)) << endl;
+	std::cout << "Number of vertices: " << n << '\n';
+	std::cout << "Total execution time: " << time_to_str(total) << '\n';
+	std::cout << "    Time per graph: " << time_to_str(total/T) << '\n';
+	std::cout << "    Time per call: " << time_to_str(total/(num_calls*T)) << '\n';
 }
 
 void dgraph_to_ugraph(size_t num_calls, uint64_t n, uint64_t T) {
 	double total_time = 0.0;
 
-	generate::rand_ulab_rooted_trees Gen(n);
+	lal::generate::rand_ulab_rooted_trees Gen(n);
 	for (uint64_t t = 0; t < T; ++t) {
 		const auto T = Gen.get_tree();
-		const auto dG = static_cast<directed_graph>(T);
+		const auto dG = static_cast<lal::graphs::directed_graph>(T);
 
 		for (size_t i = 0; i < num_calls; ++i) {
 			const auto begin = now();
@@ -74,7 +70,7 @@ void dgraph_to_ugraph(size_t num_calls, uint64_t n, uint64_t T) {
 void rtree_to_ftree(size_t num_calls, uint64_t n, uint64_t T) {
 	double total_time = 0.0;
 
-	generate::rand_ulab_rooted_trees Gen(n);
+	lal::generate::rand_ulab_rooted_trees Gen(n);
 	for (uint64_t t = 0; t < T; ++t) {
 		const auto rT = Gen.get_tree();
 
@@ -98,7 +94,7 @@ void conversion(int argc, char *argv[]) {
 	if (parser.check_errors() > 0) { return; }
 	}
 
-	const string mode = parser.get_mode();
+	const std::string mode = parser.get_mode();
 	const uint64_t n = parser.get_n();
 	const uint64_t T = parser.get_T();
 	const uint64_t C = parser.get_C();

@@ -28,7 +28,6 @@
 #include <cstdlib>
 #include <iostream>
 #include <vector>
-using namespace std;
 
 namespace profiling {
 namespace dir_to_undir {
@@ -39,31 +38,31 @@ dir_to_undir::dir_to_undir(int argc, char *argv[])
 dir_to_undir::~dir_to_undir() { }
 
 void dir_to_undir::print_usage() const {
-	cout << "Profiling -- Conversion of directed to undirected" << endl;
-	cout << "=================================================" << endl;
-	cout << endl;
-	cout << "This program's options are the following:" << endl;
-	cout << "    Those marked with [*] are mandatory for all execution modes." << endl;
-	cout << "    Those marked with [i] are mandatory for execution mode i." << endl;
-	cout << "    Those marked with [?] are optional." << endl;
-	cout << endl;
-	cout << "    [*]   -n n" << endl;
-	cout << "          Indicate the number of vertices of the trees." << endl;
-	cout << endl;
-	cout << "    [*]   -T T" << endl;
-	cout << "          Indicate the number of trees to generate." << endl;
-	cout << endl;
-	cout << "    [?]   -C C" << endl;
-	cout << "          Indicate the number of calls to the conversion method." << endl;
-	cout << "          Default: 1" << endl;
-	cout << endl;
-	cout << "    [*]   -mode M" << endl;
-	cout << "          Indicate the mode of execution." << endl;
-	cout << endl;
-	for (const string& algo : m_allowed_modes) {
-	cout << "          " << algo << endl;
+	std::cout << "Profiling -- Conversion of directed to undirected \n";
+	std::cout << "================================================= \n";
+	std::cout << '\n';
+	std::cout << "This program's options are the following:\n";
+	std::cout << "    Those marked with [*] are mandatory for all execution modes.\n";
+	std::cout << "    Those marked with [i] are mandatory for execution mode i.\n";
+	std::cout << "    Those marked with [?] are optional.\n";
+	std::cout << '\n';
+	std::cout << "    [*]   -n n\n";
+	std::cout << "          Indicate the number of vertices of the trees.\n";
+	std::cout << '\n';
+	std::cout << "    [*]   -T T\n";
+	std::cout << "          Indicate the number of trees to generate.\n";
+	std::cout << '\n';
+	std::cout << "    [?]   -C C\n";
+	std::cout << "          Indicate the number of calls to the conversion method.\n";
+	std::cout << "          Default: 1\n";
+	std::cout << '\n';
+	std::cout << "    [*]   -mode M\n";
+	std::cout << "          Indicate the mode of execution.\n";
+	std::cout << '\n';
+	for (const std::string& algo : m_allowed_modes) {
+	std::cout << "          " << algo << '\n';
 	}
-	cout << endl;
+	std::cout << '\n';
 }
 
 int dir_to_undir::parse_params() {
@@ -73,7 +72,7 @@ int dir_to_undir::parse_params() {
 	}
 
 	for (int i = 2; i < m_argc; ++i) {
-		const string param(m_argv[i]);
+		const std::string param(m_argv[i]);
 
 		if (param == "--help" or param == "-h") {
 			print_usage();
@@ -94,12 +93,12 @@ int dir_to_undir::parse_params() {
 			++i;
 		}
 		else if (param == "-mode") {
-			m_mode = string(m_argv[i + 1]);
+			m_mode = std::string(m_argv[i + 1]);
 			++i;
 		}
 		else {
-			cerr << "Error: unrecognised option" << endl;
-			cerr << "    " << string(m_argv[i]) << endl;
+			std::cerr << "Error: unrecognised option\n";
+			std::cerr << "    " << std::string(m_argv[i]) << '\n';
 			return 2;
 		}
 	}
@@ -108,15 +107,15 @@ int dir_to_undir::parse_params() {
 
 int dir_to_undir::check_errors() const {
 	if (not m_has_n) {
-		cout << "Error: missing parameter '-n'." << endl;
+		std::cout << "Error: missing parameter '-n'.\n";
 		return 1;
 	}
 	if (not m_has_T) {
-		cout << "Error: missing parameter '-R'." << endl;
+		std::cout << "Error: missing parameter '-R'.\n";
 		return 1;
 	}
 	if (m_mode == "none") {
-		cout << "Error: missing parameter '-mode'." << endl;
+		std::cout << "Error: missing parameter '-mode'.\n";
 		return 1;
 	}
 

@@ -25,14 +25,10 @@
 // C++ includes
 #include <iostream>
 #include <string>
-using namespace std;
 
 // lal includes
 #include <lal/iterators/E_iterator.hpp>
 #include <lal/generate.hpp>
-using namespace lal;
-using namespace graphs;
-using namespace generate;
 
 // common includes
 #include "time.hpp"
@@ -43,19 +39,19 @@ namespace profiling {
 namespace generate {
 
 template<class T>
-edge gimme_edge(const T& t) {
-	iterators::E_iterator it(t);
+lal::edge gimme_edge(const T& t) {
+	lal::iterators::E_iterator it(t);
 	it.next();
 	return it.get_edge();
 }
 
 void output_execution_time_trees(double total_ms, uint64_t n, uint64_t N, uint64_t R) {
-	cout << "n= " << n << endl;
-	cout << "N= " << N << endl;
-	cout << "R= " << R << endl;
-	cout << "Total execution time: " << profiling::time_to_str(total_ms) << endl;
-	cout << "    Average (ms/replica): " << profiling::time_to_str(total_ms/R) << endl;
-	cout << "    Average (ms/get_tree): " << profiling::time_to_str(total_ms/(R*N)) << endl;
+	std::cout << "n= " << n << '\n';
+	std::cout << "N= " << N << '\n';
+	std::cout << "R= " << R << '\n';
+	std::cout << "Total execution time: " << profiling::time_to_str(total_ms) << '\n';
+	std::cout << "    Average (ms/replica): " << profiling::time_to_str(total_ms/R) << '\n';
+	std::cout << "    Average (ms/get_tree): " << profiling::time_to_str(total_ms/(R*N)) << '\n';
 }
 
 template<class tree_type, class GEN>
@@ -72,7 +68,7 @@ void profile_exhaustive_trees(uint64_t n, uint64_t N, uint64_t R) {
 			total += profiling::elapsed_time(begin, end);
 
 			if (n > 1) {
-				const edge e = gimme_edge(tree);
+				const lal::edge e = gimme_edge(tree);
 				tree.remove_edge(e.first, e.second);
 			}
 		}
@@ -99,7 +95,7 @@ void profile_random_trees(uint64_t n, uint64_t N, uint64_t R) {
 			total += profiling::elapsed_time(begin, end);
 
 			if (n > 1) {
-				const edge e = gimme_edge(tree);
+				const lal::edge e = gimme_edge(tree);
 				tree.remove_edge(e.first, e.second);
 			}
 		}
@@ -117,38 +113,38 @@ void generate_trees(int argc, char *argv[]) {
 	if (parser.check_errors() > 0) { return; }
 	}
 
-	const string& what = parser.get_gen_class();
+	const std::string& what = parser.get_gen_class();
 	const uint64_t n = parser.get_n();
 	const uint64_t N = parser.get_N();
 	const uint64_t R = parser.get_R();
 
 	if (what == "all_lab_free") {
-		generate::profile_exhaustive_trees<free_tree, all_lab_free_trees>(n, N, R);
+		generate::profile_exhaustive_trees<lal::graphs::free_tree, lal::generate::all_lab_free_trees>(n, N, R);
 	}
 	else if (what == "all_lab_rooted") {
-		generate::profile_exhaustive_trees<rooted_tree, all_lab_rooted_trees>(n, N, R);
+		generate::profile_exhaustive_trees<lal::graphs::rooted_tree, lal::generate::all_lab_rooted_trees>(n, N, R);
 	}
 	else if (what == "all_ulab_free") {
-		generate::profile_exhaustive_trees<free_tree, all_ulab_free_trees>(n, N, R);
+		generate::profile_exhaustive_trees<lal::graphs::free_tree, lal::generate::all_ulab_free_trees>(n, N, R);
 	}
 	else if (what == "all_ulab_rooted") {
-		generate::profile_exhaustive_trees<rooted_tree, all_ulab_rooted_trees>(n, N, R);
+		generate::profile_exhaustive_trees<lal::graphs::rooted_tree, lal::generate::all_ulab_rooted_trees>(n, N, R);
 	}
 	else if (what == "rand_lab_free") {
-		generate::profile_random_trees<free_tree, rand_lab_free_trees>(n, N, R);
+		generate::profile_random_trees<lal::graphs::free_tree, lal::generate::rand_lab_free_trees>(n, N, R);
 	}
 	else if (what == "rand_lab_rooted") {
-		generate::profile_random_trees<rooted_tree, rand_lab_rooted_trees>(n, N, R);
+		generate::profile_random_trees<lal::graphs::rooted_tree, lal::generate::rand_lab_rooted_trees>(n, N, R);
 	}
 	else if (what == "rand_ulab_free") {
-		generate::profile_random_trees<free_tree, rand_ulab_free_trees>(n, N, R);
+		generate::profile_random_trees<lal::graphs::free_tree, lal::generate::rand_ulab_free_trees>(n, N, R);
 	}
 	else if (what == "rand_ulab_rooted") {
-		generate::profile_random_trees<rooted_tree, rand_ulab_rooted_trees>(n, N, R);
+		generate::profile_random_trees<lal::graphs::rooted_tree, lal::generate::rand_ulab_rooted_trees>(n, N, R);
 	}
 	else {
-		cout << "Error:" << endl;
-		cout << "Unknown/Unhandled '" << what << "'." << endl;
+		std::cout << "Error:" << '\n';
+		std::cout << "Unknown/Unhandled '" << what << "'." << '\n';
 	}
 }
 
@@ -159,22 +155,22 @@ namespace generate {
 void output_execution_time_arrangements
 (double total_ms, uint64_t n, uint64_t R, uint64_t T, uint64_t N)
 {
-	cout << "n= " << n << endl;
-	cout << "R= " << R << endl;
-	cout << "T= " << T << endl;
-	cout << "N= " << N << endl;
-	cout << "Total execution time: "
+	std::cout << "n= " << n << '\n';
+	std::cout << "R= " << R << '\n';
+	std::cout << "T= " << T << '\n';
+	std::cout << "N= " << N << '\n';
+	std::cout << "Total execution time: "
 		 << profiling::time_to_str(total_ms)
-		 << endl;
-	cout << "    Average (ms/replica): "
+		 << '\n';
+	std::cout << "    Average (ms/replica): "
 		 << profiling::time_to_str(total_ms/R)
-		 << endl;
-	cout << "    Average (ms/(replica*tree)): "
+		 << '\n';
+	std::cout << "    Average (ms/(replica*tree)): "
 		 << profiling::time_to_str(total_ms/(R*T))
-		 << endl;
-	cout << "    Average (ms/(replica*tree*arrangement)): "
+		 << '\n';
+	std::cout << "    Average (ms/(replica*tree*arrangement)): "
 		 << profiling::time_to_str(total_ms/(R*T*N))
-		 << endl;
+		 << '\n';
 }
 
 template<class tree_type, class tree_randgen_type, class arr_gen_type>
@@ -239,7 +235,7 @@ void generate_arrangements(int argc, char *argv[]) {
 	if (parser.check_errors() > 0) { return; }
 	}
 
-	const string& what = parser.get_gen_class();
+	const std::string& what = parser.get_gen_class();
 	const uint64_t n = parser.get_n();
 	const uint64_t R = parser.get_R();
 	const uint64_t T = parser.get_T();
@@ -247,37 +243,37 @@ void generate_arrangements(int argc, char *argv[]) {
 
 	if (what == "all_arrangements") {
 		generate::profile_exhaustive_arrangements
-		<free_tree, rand_ulab_free_trees, all_arrangements>
+		<lal::graphs::free_tree, lal::generate::rand_ulab_free_trees, lal::generate::all_arrangements>
 		(n, R, T, N);
 	}
 	else if (what == "all_projective_arrangements") {
 		generate::profile_exhaustive_arrangements
-		<rooted_tree, rand_ulab_rooted_trees, all_projective_arrangements>
+		<lal::graphs::rooted_tree, lal::generate::rand_ulab_rooted_trees, lal::generate::all_projective_arrangements>
 		(n, R, T, N);
 	}
 	else if (what == "all_planar_arrangements") {
 		generate::profile_exhaustive_arrangements
-		<free_tree, rand_ulab_free_trees, all_planar_arrangements>
+		<lal::graphs::free_tree, lal::generate::rand_ulab_free_trees, lal::generate::all_planar_arrangements>
 		(n, R, T, N);
 	}
 	else if (what == "rand_arrangements") {
 		generate::profile_random_arrangements
-		<free_tree, rand_ulab_free_trees, rand_arrangements>
+		<lal::graphs::free_tree, lal::generate::rand_ulab_free_trees, lal::generate::rand_arrangements>
 		(n, R, T, N);
 	}
 	else if (what == "rand_projective_arrangements") {
 		generate::profile_random_arrangements
-		<rooted_tree, rand_ulab_rooted_trees, rand_projective_arrangements>
+		<lal::graphs::rooted_tree, lal::generate::rand_ulab_rooted_trees, lal::generate::rand_projective_arrangements>
 		(n, R, T, N);
 	}
 	else if (what == "rand_planar_arrangements") {
 		generate::profile_random_arrangements
-		<free_tree, rand_ulab_free_trees, rand_planar_arrangements>
+		<lal::graphs::free_tree, lal::generate::rand_ulab_free_trees, lal::generate::rand_planar_arrangements>
 		(n, R, T, N);
 	}
 	else {
-		cout << "Error:" << endl;
-		cout << "Unknown/Unhandled '" << what << "'." << endl;
+		std::cout << "Error:" << '\n';
+		std::cout << "Unknown/Unhandled '" << what << "'." << '\n';
 	}
 }
 
