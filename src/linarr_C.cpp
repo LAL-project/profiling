@@ -25,10 +25,10 @@
 // C++ includes
 #include <functional>
 #include <iostream>
-#include <random>
 #include <string>
 
 // lal includes
+#include <lal/generate/rand_arrangements.hpp>
 #include <lal/generate/rand_ulab_free_trees.hpp>
 #include <lal/linarr/C.hpp>
 #include <lal/graphs/free_tree.hpp>
@@ -51,33 +51,24 @@ void output_execution_time(double total_ms, uint64_t n, uint64_t T, uint64_t N) 
 
 uint64_t profile_algo(
 	const std::function<uint64_t (const lal::graphs::free_tree&, const lal::linear_arrangement&)>& A,
-	uint64_t n, uint64_t T, uint64_t N, bool seed = true
+	uint64_t n, uint64_t T, uint64_t N
 )
 {
 	double total = 0.0;
 
-	std::mt19937 rand_gen;
-	if (seed == 0) {
-		std::random_device rd;
-		rand_gen = std::mt19937(rd());
-	}
-	else {
-		rand_gen = std::mt19937(seed);
-	}
-
-	lal::linear_arrangement arr(n);
-	std::iota(arr.begin(), arr.end(), 0);
-
 	uint64_t asdf = 0;
 
-	lal::generate::rand_ulab_free_trees Gen(n);
+	lal::generate::rand_ulab_free_trees Gen(n, 1234);
 
 	for (uint64_t t = 0; t < T; ++t) {
 		const lal::graphs::free_tree tree = Gen.get_tree();
 
+		lal::generate::rand_arrangements RandArr(tree.get_num_nodes(), 1234);
+
 		for (uint64_t i = 0; i < N; ++i) {
 			// make the random arrangement
-			shuffle(arr.begin(), arr.end(), rand_gen);
+			const auto arr = RandArr.get_arrangement();
+
 			const auto begin = profiling::now();
 			auto res = A(tree, arr);
 			const auto end = profiling::now();
@@ -97,33 +88,21 @@ void profile_algo_list(
 	const std::function<
 		std::vector<uint64_t> (const lal::graphs::free_tree&, const std::vector<lal::linear_arrangement>&)
 	>& A,
-	uint64_t n, uint64_t T, uint64_t N, bool seed = true
+	uint64_t n, uint64_t T, uint64_t N
 )
 {
 	double total = 0.0;
 
-	std::mt19937 rand_gen;
-	if (seed == 0) {
-		std::random_device rd;
-		rand_gen = std::mt19937(rd());
-	}
-	else {
-		rand_gen = std::mt19937(seed);
-	}
-
-	lal::linear_arrangement arr(n);
-	std::iota(arr.begin(), arr.end(), 0);
-
-	lal::generate::rand_ulab_free_trees Gen(n);
+	lal::generate::rand_ulab_free_trees Gen(n, 1234);
 
 	for (uint64_t t = 0; t < T; ++t) {
 		const lal::graphs::free_tree tree = Gen.get_tree();
 
+		lal::generate::rand_arrangements RandArr(tree.get_num_nodes(), 1234);
+
 		std::vector<lal::linear_arrangement> rand_arr(N);
 		for (uint64_t i = 0; i < N; ++i) {
-			// make the random arrangement
-			shuffle(arr.begin(), arr.end(), rand_gen);
-			rand_arr[i] = arr;
+			rand_arr[i] = RandArr.get_arrangement();;
 		}
 
 		const auto begin = profiling::now();

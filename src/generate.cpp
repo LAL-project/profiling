@@ -189,7 +189,7 @@ void profile_exhaustive_arrangements
 			arr_gen_type ArrGen(randtree);
 			while (k < N and not ArrGen.end()) {
 				auto arr = ArrGen.get_arrangement();
-				arr[0] = 1;
+				arr.assign(0ULL, 1ULL);
 				ArrGen.next();
 				++k;
 			}
@@ -216,7 +216,7 @@ void profile_random_arrangements
 			arr_gen_type ArrGen(randtree);
 			for (size_t k = 0; k < N; ++k) {
 				auto arr = ArrGen.get_arrangement();
-				arr[0] = 1;
+				arr.assign(0ULL, 1ULL);
 			}
 			const auto end = profiling::now();
 			total += profiling::elapsed_time(begin, end);
