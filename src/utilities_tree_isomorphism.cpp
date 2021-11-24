@@ -72,7 +72,6 @@ void shuffle_tree(std::vector<lal::edge>& edges, lal::graphs::rooted_tree& T) {
 	T.init(to_uint64(edges.size() + 1));
 	T.set_root(r);
 	T.set_edges(edges);
-	T.set_valid_orientation(true);
 }
 
 void shuffle_tree(std::vector<lal::edge>& edges, lal::graphs::free_tree& T) {
