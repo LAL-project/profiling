@@ -1,7 +1,10 @@
 /***********************************************************************
  *
- * Research on Linear Arrangements project
+ * Profiling programs for LAL
  * Copyright (C) 2019 - 2021 Lluís Alemany Puig
+ *
+ * The full code is available at:
+ *     https://github.com/LAL-project/profiling.git
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
