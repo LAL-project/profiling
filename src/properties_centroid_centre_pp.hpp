@@ -31,26 +31,26 @@
 #include <string>
 
 namespace profiling {
-namespace properties_centroid {
+namespace properties_centroid_centre {
 
-class properties_centroid_pp {
+class properties_centroid_centre_pp {
 public:
-	properties_centroid_pp(int argc, char *argv[]);
-	~properties_centroid_pp();
+	properties_centroid_centre_pp(int argc, char *argv[]) noexcept;
+	~properties_centroid_centre_pp() noexcept = default;
 
-	constexpr uint64_t get_n() const { return m_n; }
-	constexpr uint64_t get_T() const { return m_T; }
+	constexpr uint64_t get_n() const noexcept { return m_n; }
+	constexpr uint64_t get_T() const noexcept { return m_T; }
 
-	void print_usage() const;
+	void print_usage() const noexcept;
 
 	// returns 0 on success,
 	// returns 1 on help,
 	// returns 2 on error
-	int parse_params();
+	int parse_params() noexcept;
 
 	// returns 0 if there are no errors.
 	// returns 1 if there are errors.
-	int check_errors() const;
+	int check_errors() const noexcept;
 
 private:
 	// number of vertices

@@ -59,8 +59,8 @@ SOURCES += \
     linarr_Dmin.cpp \
     linarr_Dmin_pp.cpp \
 	main.cpp \
-    properties_centroid.cpp \
-    properties_centroid_pp.cpp \
+    properties_centroid_centre.cpp \
+    properties_centroid_centre_pp.cpp \
     utilities_tree_isomorphism.cpp
 
 HEADERS += \
@@ -69,5 +69,5 @@ HEADERS += \
     generate_trees_pp.hpp \
     linarr_C_pp.hpp \
     linarr_Dmin_pp.hpp \
-    properties_centroid_pp.hpp \
+    properties_centroid_centre_pp.hpp \
     time.hpp

@@ -35,6 +35,7 @@ void generate_arrangements(int argc, char *argv[]);
 void linarr_crossings(int argc, char *argv[]);
 void linarr_minimum_D(int argc, char *argv[]);
 void properties_centroid_tree(int argc, char *argv[]);
+void properties_centre_tree(int argc, char *argv[]);
 void utilities_tree_isomorphism(int argc, char *argv[]);
 void conversion(int argc, char *argv[]);
 
@@ -62,6 +63,9 @@ void usage() {
 	std::cout << '\n';
 	std::cout << "    properties_centroid_tree : Profile the algorithm for the computation" << '\n';
 	std::cout << "        of the centroid of a tree." << '\n';
+	std::cout << '\n';
+	std::cout << "    properties_centre_tree : Profile the algorithm for the computation" << '\n';
+	std::cout << "        of the centre of a tree." << '\n';
 	std::cout << '\n';
 	std::cout << "    utilities_isomorphism : Profile the algorithms for the tree" << '\n';
 	std::cout << "        isomorphism test." << '\n';
@@ -92,6 +96,9 @@ int main(int argc, char *argv[]) {
 	}
 	else if (first == "properties_centroid_tree") {
 		profiling::properties_centroid_tree(argc, argv);
+	}
+	else if (first == "properties_centre_tree") {
+		profiling::properties_centre_tree(argc, argv);
 	}
 	else if (first == "utilities_isomorphism") {
 		profiling::utilities_tree_isomorphism(argc, argv);

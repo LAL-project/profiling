@@ -25,7 +25,7 @@
  *
  ***********************************************************************/
 
-#include "properties_centroid_pp.hpp"
+#include "properties_centroid_centre_pp.hpp"
 
 // C++ includes
 #include <cstdlib>
@@ -33,15 +33,15 @@
 #include <vector>
 
 namespace profiling {
-namespace properties_centroid {
+namespace properties_centroid_centre {
 
-properties_centroid_pp::properties_centroid_pp(
+properties_centroid_centre_pp::properties_centroid_centre_pp(
 	int argc, char *argv[]
-) : m_argc(argc), m_argv(argv)
+) noexcept
+	: m_argc(argc), m_argv(argv)
 { }
-properties_centroid_pp::~properties_centroid_pp() { }
 
-void properties_centroid_pp::print_usage() const {
+void properties_centroid_centre_pp::print_usage() const noexcept {
 	std::cout << "Profiling -- Calculation of the centroid of a tree" << '\n';
 	std::cout << "==================================================" << '\n';
 	std::cout << '\n';
@@ -59,7 +59,7 @@ void properties_centroid_pp::print_usage() const {
 	std::cout << '\n';
 }
 
-int properties_centroid_pp::parse_params() {
+int properties_centroid_centre_pp::parse_params() noexcept {
 	if (m_argc == 2) {
 		print_usage();
 		return 1;
@@ -91,7 +91,7 @@ int properties_centroid_pp::parse_params() {
 	return 0;
 }
 
-int properties_centroid_pp::check_errors() const {
+int properties_centroid_centre_pp::check_errors() const noexcept {
 	if (not m_has_n) {
 		std::cout << "Error: missing parameter '-n'." << '\n';
 		return 1;
