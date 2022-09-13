@@ -121,20 +121,38 @@ void linarr_minimum_D(int argc, char *argv[]) {
 		n, T
 		);
 	}
-	else if (what == "projective") {
+	else if (what == "projective_AEF") {
 		linarr_Dmin::profile_algo<lal::graphs::rooted_tree>
 		(
 		[](const lal::graphs::rooted_tree& t) {
-			return lal::linarr::min_sum_edge_lengths_projective(t);
+			return lal::linarr::min_sum_edge_lengths_projective(t, lal::linarr::algorithms_Dmin_projective::AlemanyEstebanFerrer);
 		},
 		n, T
 		);
 	}
-	else if (what == "planar") {
+	else if (what == "projective_HS") {
+		linarr_Dmin::profile_algo<lal::graphs::rooted_tree>
+		(
+		[](const lal::graphs::rooted_tree& t) {
+			return lal::linarr::min_sum_edge_lengths_projective(t, lal::linarr::algorithms_Dmin_projective::HochbergStallmann);
+		},
+		n, T
+		);
+	}
+	else if (what == "planar_AEF") {
 		linarr_Dmin::profile_algo<lal::graphs::free_tree>
 		(
 		[](const lal::graphs::free_tree& t) {
-			return lal::linarr::min_sum_edge_lengths_planar(t);
+			return lal::linarr::min_sum_edge_lengths_planar(t, lal::linarr::algorithms_Dmin_planar::AlemanyEstebanFerrer);
+		},
+		n, T
+		);
+	}
+	else if (what == "planar_HS") {
+		linarr_Dmin::profile_algo<lal::graphs::free_tree>
+		(
+		[](const lal::graphs::free_tree& t) {
+			return lal::linarr::min_sum_edge_lengths_planar(t, lal::linarr::algorithms_Dmin_planar::HochbergStallmann);
 		},
 		n, T
 		);

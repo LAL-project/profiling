@@ -69,7 +69,8 @@ private:
 	const std::set<std::string> m_allowed_algorithms =
 	std::set<std::string>({
 		"unconstrained_YS", "unconstrained_FC",
-		"projective", "planar"
+		"projective_AEF", "projective_HS",
+		"planar_AEF", "planar_HS"
 	}
 	);
 	int m_argc;
