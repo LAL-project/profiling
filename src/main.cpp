@@ -34,6 +34,7 @@ void generate_trees(int argc, char *argv[]);
 void generate_arrangements(int argc, char *argv[]);
 void linarr_crossings(int argc, char *argv[]);
 void linarr_minimum_D(int argc, char *argv[]);
+void linarr_maximum_D(int argc, char *argv[]);
 void properties_centroid_tree(int argc, char *argv[]);
 void properties_centre_tree(int argc, char *argv[]);
 void utilities_tree_isomorphism(int argc, char *argv[]);
@@ -60,6 +61,9 @@ void usage() {
 	std::cout << '\n';
 	std::cout << "    linarr_Dmin : Profile the algorithms for the calculation" << '\n';
 	std::cout << "        of the minimum sum of edge lengths." << '\n';
+	std::cout << '\n';
+	std::cout << "    linarr_DMax : Profile the algorithms for the calculation" << '\n';
+	std::cout << "        of the maximum sum of edge lengths." << '\n';
 	std::cout << '\n';
 	std::cout << "    properties_centroid_tree : Profile the algorithm for the computation" << '\n';
 	std::cout << "        of the centroid of a tree." << '\n';
@@ -93,6 +97,9 @@ int main(int argc, char *argv[]) {
 	}
 	else if (first == "linarr_Dmin") {
 		profiling::linarr_minimum_D(argc, argv);
+	}
+	else if (first == "linarr_DMax") {
+		profiling::linarr_maximum_D(argc, argv);
 	}
 	else if (first == "properties_centroid_tree") {
 		profiling::properties_centroid_tree(argc, argv);

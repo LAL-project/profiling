@@ -63,6 +63,8 @@ SOURCES += \
     linarr_C_pp.cpp \
     linarr_Dmin.cpp \
     linarr_Dmin_pp.cpp \
+	linarr_DMax.cpp \
+	linarr_DMax_pp.cpp \
 	main.cpp \
     properties_centroid_centre.cpp \
     properties_centroid_centre_pp.cpp \
@@ -74,5 +76,6 @@ HEADERS += \
     generate_trees_pp.hpp \
     linarr_C_pp.hpp \
     linarr_Dmin_pp.hpp \
+	linarr_DMax_pp.hpp \
     properties_centroid_centre_pp.hpp \
     time.hpp
