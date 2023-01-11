@@ -1,7 +1,7 @@
 /***********************************************************************
  *
  * Profiling programs for LAL
- * Copyright (C) 2019 - 2022 Lluís Alemany Puig
+ * Copyright (C) 2019 - 2023 Lluís Alemany Puig
  *
  * The full code is available at:
  *     https://github.com/LAL-project/profiling.git
