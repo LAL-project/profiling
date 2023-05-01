@@ -33,7 +33,7 @@
 
 // lal includes
 #include <lal/generate/tree_generator_type.hpp>
-#include <lal/linarr/Dmin.hpp>
+#include <lal/linarr/D/Dmin.hpp>
 #include <lal/graphs/free_tree.hpp>
 #include <lal/graphs/rooted_tree.hpp>
 
