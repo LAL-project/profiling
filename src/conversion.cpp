@@ -33,7 +33,7 @@
 
 // lal includes
 #include <lal/generate/rand_ulab_rooted_trees.hpp>
-#include <lal/linarr/C/C.hpp>
+#include <lal/linarr/C.hpp>
 #include <lal/graphs/free_tree.hpp>
 #include <lal/graphs/rooted_tree.hpp>
 
