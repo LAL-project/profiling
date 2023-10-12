@@ -3,13 +3,12 @@ CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
 
-QMAKE_CXXFLAGS += -std=c++17 -fPIC -fopenmp -flto -fno-fat-lto-objects -O3
+QMAKE_CXXFLAGS += -std=c++17 -fPIC -fopenmp #-flto -fno-fat-lto-objects -O3
 QMAKE_CXXFLAGS_DEBUG += -DDEBUG -D_GLIBCXX_DEBUG
 QMAKE_CXXFLAGS_RELEASE -= -O2
 QMAKE_CXXFLAGS_RELEASE += -UDEBUG -DNDEBUG -fstrict-aliasing
 
-# use Inter-Procedural Optimization (IPO)
-QMAKE_LFLAGS += -fPIC -O3 -flto -fno-fat-lto-objects
+QMAKE_LFLAGS += -fPIC -O3 #-flto -fno-fat-lto-objects
 QMAKE_LFLAGS_RELEASE += -DNDEBUG -UDEBUG
 QMAKE_LFLAGS_DEBUG += -DDEBUG -D_GLIBCXX_DEBUG
 
