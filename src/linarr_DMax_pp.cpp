@@ -30,12 +30,11 @@
 // C++ includes
 #include <cstdlib>
 #include <iostream>
-#include <vector>
 
 namespace profiling {
 namespace linarr_DMax {
 
-void linarr_DMax_pp::print_usage() const {
+void linarr_DMax_pp::print_usage() const noexcept {
 	std::cout << "Profiling -- Calculation of minimum D" << '\n';
 	std::cout << "=====================================" << '\n';
 	std::cout << '\n';
@@ -44,11 +43,22 @@ void linarr_DMax_pp::print_usage() const {
 	std::cout << "    Those marked with [i] are mandatory for execution mode i." << '\n';
 	std::cout << "    Those marked with [?] are optional." << '\n';
 	std::cout << '\n';
-	std::cout << "    [*]   -n n" << '\n';
+	std::cout << "    [*]   -mode m" << '\n';
+	std::cout << "          Indicate the mode in which to execute the profiler." << '\n';
+	std::cout << "          [1] automatic" << '\n';
+	std::cout << "          [2] manual" << '\n';
+	std::cout << '\n';
+	std::cout << "    [1]   -n n" << '\n';
 	std::cout << "          Indicate the number of vertices of the trees." << '\n';
 	std::cout << '\n';
-	std::cout << "    [*]   -T T" << '\n';
+	std::cout << "    [1]   -T T" << '\n';
 	std::cout << "          Indicate the number of trees to generate." << '\n';
+	std::cout << '\n';
+	std::cout << "    [2]   -hv k p_1 ... p_k" << '\n';
+	std::cout << "          Head vector of the tree." << '\n';
+	std::cout << '\n';
+	std::cout << "    [*]   -R r" << '\n';
+	std::cout << "          Number of replicas to execute the algorithm." << '\n';
 	std::cout << '\n';
 	std::cout << "    [*]   -algorithm A" << '\n';
 	std::cout << "          Indicate the algorithm to profile:" << '\n';
@@ -59,7 +69,7 @@ void linarr_DMax_pp::print_usage() const {
 	std::cout << '\n';
 }
 
-int linarr_DMax_pp::parse_params() {
+int linarr_DMax_pp::parse_params() noexcept {
 	if (m_argc == 2) {
 		print_usage();
 		return 1;
@@ -72,6 +82,10 @@ int linarr_DMax_pp::parse_params() {
 			print_usage();
 			return 1;
 		}
+		else if (param == "-mode") {
+			m_mode = std::string(m_argv[i + 1]);
+			++i;
+		}
 		else if (param == "-n") {
 			m_n = static_cast<uint64_t>(atoi(m_argv[i + 1]));
 			m_has_n = true;
@@ -80,6 +94,21 @@ int linarr_DMax_pp::parse_params() {
 		else if (param == "-T") {
 			m_T = static_cast<uint64_t>(atoi(m_argv[i + 1]));
 			m_has_T = true;
+			++i;
+		}
+		else if (param == "-hv") {
+			const int k = static_cast<int>(atoi(m_argv[i + 1]));
+			m_hv = lal::head_vector(k);
+			int j;
+			for (j = i + 2; j < i + 2 + k; ++j) {
+				m_hv[j - (i + 2)] = static_cast<uint64_t>(atoi(m_argv[j]));
+			}
+			m_has_hv = true;
+			i = j - 1;
+		}
+		else if (param == "-R") {
+			m_R = static_cast<uint64_t>(atoi(m_argv[i + 1]));
+			m_has_R = true;
 			++i;
 		}
 		else if (param == "-algorithm") {
@@ -95,14 +124,30 @@ int linarr_DMax_pp::parse_params() {
 	return 0;
 }
 
-int linarr_DMax_pp::check_errors() const {
-	if (not m_has_n) {
-		std::cout << "Error: missing parameter '-n'." << '\n';
+int linarr_DMax_pp::check_errors() const noexcept {
+	if (m_mode != "automatic" and m_mode != "manual") {
+		std::cout << "Error: wrong mode '" << m_mode << "'.\n";
 		return 1;
 	}
-	if (not m_has_T) {
-		std::cout << "Error: missing parameter '-T'." << '\n';
+	if (not m_has_R) {
+		std::cout << "Error: missing parameter '-R'." << '\n';
 		return 1;
+	}
+	if (m_mode == "automatic") {
+		if (not m_has_n) {
+			std::cout << "Error: missing parameter '-n'." << '\n';
+			return 1;
+		}
+		if (not m_has_T) {
+			std::cout << "Error: missing parameter '-T'." << '\n';
+			return 1;
+		}
+	}
+	else if (m_mode == "manual") {
+		if (not m_has_hv) {
+			std::cout << "Error: missing parameter '-hv'." << '\n';
+			return 1;
+		}
 	}
 	if (m_gen_algo == "none") {
 		std::cout << "Error: missing parameter '-algorithm'." << '\n';
