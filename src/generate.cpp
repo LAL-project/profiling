@@ -41,8 +41,8 @@
 namespace profiling {
 namespace generate {
 
-template<class T>
-lal::edge gimme_edge(const T& t) {
+template <class tree_t>
+inline lal::edge gimme_edge(const tree_t& t) noexcept {
 	lal::iterators::E_iterator it(t);
 	it.next();
 	return it.get_edge();
@@ -57,15 +57,15 @@ void output_execution_time_trees(double total_ms, uint64_t n, uint64_t N, uint64
 	std::cout << "    Average (ms/get_tree): " << profiling::time_to_str(total_ms/(R*N)) << '\n';
 }
 
-template<class tree_type, class GEN>
-void profile_exhaustive_trees(uint64_t n, uint64_t N, uint64_t R) {
+template <class tree_t, class gen_t>
+void profile_exhaustive_trees(uint64_t n, uint64_t N, uint64_t R) noexcept {
 	double total = 0.0;
 
 	for (uint64_t r = 0; r < R; ++r) {
-		GEN Gen(n);
+		gen_t Gen(n);
 		for (uint64_t i = 0; i < N and not Gen.end(); ++i) {
 			const auto begin = profiling::now();
-			tree_type tree = Gen.get_tree();
+			tree_t tree = Gen.get_tree();
 			Gen.next();
 			const auto end = profiling::now();
 			total += profiling::elapsed_time(begin, end);
@@ -81,19 +81,19 @@ void profile_exhaustive_trees(uint64_t n, uint64_t N, uint64_t R) {
 	output_execution_time_trees(total, n, N, R);
 }
 
-template<class tree_type, class tree_gen_type>
-void profile_random_trees(uint64_t n, uint64_t N, uint64_t R) {
+template<class tree_t, class gen_t>
+void profile_random_trees(uint64_t n, uint64_t N, uint64_t R) noexcept {
 	double total = 0.0;
 
 	for (uint64_t r = 0; r < R; ++r) {
-		tree_gen_type Gen(n, 1234);
+		gen_t Gen(n, 1234);
 		Gen.set_calculate_size_subtrees(false);
 		Gen.set_normalise_tree(false);
 		Gen.set_calculate_tree_type(false);
 
 		for (uint64_t i = 0; i < N; ++i) {
 			const auto begin = profiling::now();
-			tree_type tree = Gen.get_tree();
+			tree_t tree = Gen.get_tree();
 			const auto end = profiling::now();
 			total += profiling::elapsed_time(begin, end);
 
