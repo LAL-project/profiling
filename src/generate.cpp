@@ -69,11 +69,6 @@ void profile_exhaustive_trees(uint64_t n, uint64_t N, uint64_t R) noexcept {
 			Gen.next();
 			const auto end = profiling::now();
 			total += profiling::elapsed_time(begin, end);
-
-			if (n > 1) {
-				const lal::edge e = gimme_edge(tree);
-				tree.remove_edge(e.first, e.second);
-			}
 		}
 		Gen.reset();
 	}
