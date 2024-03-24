@@ -15,9 +15,9 @@ QMAKE_LFLAGS_DEBUG += -DDEBUG -D_GLIBCXX_DEBUG
 LIBS += -lgmp -fopenmp -lpthread
 
 # uncomment when doing actual profiling
-QMAKE_CXXFLAGS_RELEASE += -pg
-QMAKE_CXXFLAGS_RELEASE -= -O3
-QMAKE_LFLAGS += -pg
+# QMAKE_CXXFLAGS_RELEASE += -pg
+# QMAKE_CXXFLAGS_RELEASE -= -O3
+# QMAKE_LFLAGS += -pg
 
 isEmpty(ENVIR) {
     ENVIR = "HOME"
