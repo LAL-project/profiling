@@ -63,6 +63,7 @@ void profile_exhaustive_trees(uint64_t n, uint64_t N, uint64_t R) noexcept {
 
 	for (uint64_t r = 0; r < R; ++r) {
 		gen_t Gen(n);
+		Gen.deactivate_all_postprocessing_actions();
 		for (uint64_t i = 0; i < N and not Gen.end(); ++i) {
 			const auto begin = profiling::now();
 			tree_t tree = Gen.get_tree();
