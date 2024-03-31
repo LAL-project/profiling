@@ -77,26 +77,18 @@ void profile_exhaustive_trees(uint64_t n, uint64_t N, uint64_t R) noexcept {
 	output_execution_time_trees(total, n, N, R);
 }
 
-template<class tree_t, class gen_t>
+template <class tree_t, class gen_t>
 void profile_random_trees(uint64_t n, uint64_t N, uint64_t R) noexcept {
 	double total = 0.0;
 
 	for (uint64_t r = 0; r < R; ++r) {
 		gen_t Gen(n, 1234);
-		Gen.set_calculate_size_subtrees(false);
-		Gen.set_normalise_tree(false);
-		Gen.set_calculate_tree_type(false);
-
+		Gen.deactivate_all_postprocessing_actions();
 		for (uint64_t i = 0; i < N; ++i) {
 			const auto begin = profiling::now();
 			tree_t tree = Gen.get_tree();
 			const auto end = profiling::now();
 			total += profiling::elapsed_time(begin, end);
-
-			if (n > 1) {
-				const lal::edge e = gimme_edge(tree);
-				tree.remove_edge(e.first, e.second);
-			}
 		}
 	}
 
