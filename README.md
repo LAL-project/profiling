@@ -1,4 +1,4 @@
-# Profiling project
+# Profiling project of LAL
 
 This project is aimed at easing the process of profiling the library.
 
