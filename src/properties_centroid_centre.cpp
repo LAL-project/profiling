@@ -26,10 +26,7 @@
  ***********************************************************************/
 
 // C++ includes
-#include <functional>
 #include <iostream>
-#include <random>
-#include <string>
 
 // lal includes
 #include <lal/generate/tree_generator_type.hpp>

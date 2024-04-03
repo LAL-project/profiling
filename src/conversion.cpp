@@ -26,9 +26,7 @@
  ***********************************************************************/
 
 // C++ includes
-#include <algorithm>
 #include <iostream>
-#include <vector>
 #include <string>
 
 // lal includes

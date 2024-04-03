@@ -30,7 +30,6 @@
 // C++ includes
 #include <cstdlib>
 #include <iostream>
-#include <vector>
 
 namespace profiling {
 namespace properties_centroid_centre {
