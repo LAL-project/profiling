@@ -112,6 +112,8 @@ SOURCES += \
     generate.cpp \
     generate_arrangements_pp.cpp \
     generate_trees_pp.cpp \
+	graphs.cpp \
+	graphs_pp.cpp \
     linarr_C.cpp \
     linarr_C_pp.cpp \
     linarr_Dmin.cpp \
@@ -296,6 +298,7 @@ HEADERS += \
     dir_to_undir_pp.hpp \
     generate_arrangements_pp.hpp \
     generate_trees_pp.hpp \
+	graphs_pp.hpp \
     linarr_C_pp.hpp \
     linarr_Dmin_pp.hpp \
 	linarr_DMax_pp.hpp \

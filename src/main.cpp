@@ -30,6 +30,7 @@
 
 namespace profiling {
 
+void graph_operations(int argc, char *argv[]);
 void generate_trees(int argc, char *argv[]);
 void generate_arrangements(int argc, char *argv[]);
 void linarr_crossings(int argc, char *argv[]);
@@ -49,6 +50,8 @@ void usage() {
 	std::cout << "The first parameter indicates what is going to be profiled." << '\n';
 	std::cout << "The following parameters depend on the option chosen in the first" << '\n';
 	std::cout << "place." << '\n';
+	std::cout << '\n';
+	std::cout << "    graph_operations : Profile operations on graphs." << '\n';
 	std::cout << '\n';
 	std::cout << "    generate_trees : Profile the algorithms for the generation of" << '\n';
 	std::cout << "        trees." << '\n';
@@ -86,7 +89,10 @@ int main(int argc, char *argv[]) {
 	}
 
 	const std::string first(argv[1]);
-	if (first == "generate_trees") {
+	if (first == "graph_operations") {
+		profiling::graph_operations(argc - 2, &argv[2]);
+	}
+	else if (first == "generate_trees") {
 		profiling::generate_trees(argc - 2, &argv[2]);
 	}
 	else if (first == "generate_arrangements") {
