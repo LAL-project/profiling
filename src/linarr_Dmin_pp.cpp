@@ -63,12 +63,12 @@ void linarr_Dmin_pp::print_usage() const {
 }
 
 int linarr_Dmin_pp::parse_params() {
-	if (m_argc == 2) {
+	if (m_argc == 0) {
 		print_usage();
 		return 1;
 	}
 
-	for (int i = 2; i < m_argc; ++i) {
+	for (int i = 1; i < m_argc; ++i) {
 		const std::string param(m_argv[i]);
 
 		if (param == "--help" or param == "-h") {

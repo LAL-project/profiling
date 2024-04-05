@@ -54,10 +54,10 @@ void output_execution_time(
 	std::cout << "    Average (ms/tree): " << profiling::time_to_str(totallocal_ms/T) << '\n';
 }
 
-template<class TREE>
+template<class tree_t>
 void profile_algo(
 	const std::function<
-		std::pair<uint64_t, lal::linear_arrangement> (const TREE&)
+		std::pair<uint64_t, lal::linear_arrangement> (const tree_t&)
 	>& A,
 	uint64_t n, uint64_t T
 )
@@ -67,7 +67,7 @@ void profile_algo(
 	lal::generate::tree_generator_type_t<
 		lal::generate::random_t,
 		lal::generate::unlabelled_t,
-		TREE
+		tree_t
 	> Gen(n, 1234);
 	Gen.deactivate_all_postprocessing_actions();
 
@@ -75,10 +75,10 @@ void profile_algo(
 	for (uint64_t t = 0; t < T; ++t) {
 		const auto tree = Gen.get_tree();
 
-		const auto beginglobal = profiling::now();
+		const auto beginlocal = profiling::now();
 		auto res = A(tree);
-		const auto endglobal = profiling::now();
-		totallocal += profiling::elapsed_time(beginglobal, endglobal);
+		const auto endlocal = profiling::now();
+		totallocal += profiling::elapsed_time(beginlocal, endlocal);
 
 		res.first += 3;
 		res.first += 4;

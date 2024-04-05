@@ -87,31 +87,31 @@ int main(int argc, char *argv[]) {
 
 	const std::string first(argv[1]);
 	if (first == "generate_trees") {
-		profiling::generate_trees(argc, argv);
+		profiling::generate_trees(argc - 2, &argv[2]);
 	}
 	else if (first == "generate_arrangements") {
-		profiling::generate_arrangements(argc, argv);
+		profiling::generate_arrangements(argc - 2, &argv[2]);
 	}
 	else if (first == "linarr_crossings") {
-		profiling::linarr_crossings(argc, argv);
+		profiling::linarr_crossings(argc - 2, &argv[2]);
 	}
 	else if (first == "linarr_Dmin") {
-		profiling::linarr_minimum_D(argc, argv);
+		profiling::linarr_minimum_D(argc - 2, &argv[2]);
 	}
 	else if (first == "linarr_DMax") {
-		profiling::linarr_maximum_D(argc, argv);
+		profiling::linarr_maximum_D(argc - 2, &argv[2]);
 	}
 	else if (first == "properties_centroid_tree") {
-		profiling::properties_centroid_tree(argc, argv);
+		profiling::properties_centroid_tree(argc - 2, &argv[2]);
 	}
 	else if (first == "properties_centre_tree") {
-		profiling::properties_centre_tree(argc, argv);
+		profiling::properties_centre_tree(argc - 2, &argv[2]);
 	}
 	else if (first == "utilities_isomorphism") {
-		profiling::utilities_tree_isomorphism(argc, argv);
+		profiling::utilities_tree_isomorphism(argc - 2, &argv[2]);
 	}
 	else if (first == "conversion") {
-		profiling::conversion(argc, argv);
+		profiling::conversion(argc - 2, &argv[2]);
 	}
 	else {
 		std::cout << "Unknown/Unhandled: '" << first << "'" << '\n';
