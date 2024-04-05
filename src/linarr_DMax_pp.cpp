@@ -75,7 +75,7 @@ int linarr_DMax_pp::parse_params() noexcept {
 		return 1;
 	}
 
-	for (int i = 1; i < m_argc; ++i) {
+	for (int i = 0; i < m_argc; ++i) {
 		const std::string param(m_argv[i]);
 
 		if (param == "--help" or param == "-h") {
