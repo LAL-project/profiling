@@ -148,7 +148,7 @@ void do_profiling(const graphs_pp& parser) noexcept {
 			lal::generate::tree_generator_type_t
 			<
 				lal::generate::random_t,
-				lal::generate::unlabelled_t,
+				lal::generate::labelled_t,
 				graph_t
 			>
 			gen(parser.get_n(), 1234);
