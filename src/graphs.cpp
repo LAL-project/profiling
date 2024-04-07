@@ -94,6 +94,41 @@ void do_operation(const graphs_pp& parser, graph_t& g) noexcept {
 		std::cout << "Total execution time: " << profiling::time_to_str(total) << '\n';
 		std::cout << "    Average (per replica): " << profiling::time_to_str(total/R) << '\n';
 	}
+	else if (operation == "add/remove-edges-bulk") {
+		const double prob_choose = 0.5;
+		std::mt19937 gen(1234);
+		std::bernoulli_distribution d(prob_choose);
+
+		std::cout << "Picking edge list...\n";
+		lal::edge_list el;
+		el.reserve(g.get_num_edges()*prob_choose);
+		for (lal::iterators::E_iterator it(g); not it.end(); it.next()) {
+			// with a random probability, pick the edge
+			if (d(gen)) {
+				el.push_back(it.get_edge());
+			}
+		}
+
+		std::cout << "Operating " << el.size() << " edges...\n";
+		const uint64_t R = parser.get_replicas();
+
+		const auto begin = profiling::now();
+		for (uint64_t r = 0; r < R; ++r) {
+			for (const auto& [u,v] : el) {
+				g.remove_edge_bulk(u, v);
+			}
+			g.finish_bulk_remove(false, false);
+			for (const auto& [u,v] : el) {
+				g.add_edge_bulk(u, v);
+			}
+			g.finish_bulk_add(false, false);
+		}
+		const auto end = profiling::now();
+		const double total = profiling::elapsed_time(begin, end);
+
+		std::cout << "Total execution time: " << profiling::time_to_str(total) << '\n';
+		std::cout << "    Average (per replica): " << profiling::time_to_str(total/R) << '\n';
+	}
 }
 
 template <class graph_t>

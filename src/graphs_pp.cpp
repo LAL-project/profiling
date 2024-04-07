@@ -64,6 +64,8 @@ void graphs_pp::print_usage() const noexcept {
 	std::cout << "        Operation to perform. Possible values:" << '\n';
 	std::cout << "            - add/remove-edges : first removes and then adds\n";
 	std::cout << "                a random set of edges.\n";
+	std::cout << "            - add/remove-edges-bulk : first remove and then adds\n";
+	std::cout << "                a series of edges in bulk.\n";
 	std::cout << '\n';
 	std::cout << "    -graph-class g" << '\n';
 	std::cout << "        Graph class to use. Possible values:" << '\n';
@@ -163,6 +165,7 @@ int graphs_pp::check_errors() const noexcept {
 	)
 	{
 		std::cerr << "Error: wrong value for parameter '-graph-class'." << '\n';
+		std::cerr << "    Value: '" << m_graph_class << "'\n";
 		return 1;
 	}
 
@@ -183,8 +186,11 @@ int graphs_pp::check_errors() const noexcept {
 		std::cerr << "Error: missing parameter '-operation'." << '\n';
 		return 1;
 	}
-	if (m_operation != "add/remove-edges") {
-		std::cerr << "Error: wrong value for parameter '-graph-class'." << '\n';
+	if (m_operation != "add/remove-edges" and
+		m_operation != "add/remove-edges-bulk"
+	)
+	{
+		std::cerr << "Error: wrong value for parameter '-operation'." << '\n';
 		return 1;
 	}
 
