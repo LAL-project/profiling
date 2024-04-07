@@ -3,7 +3,7 @@ CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
 
-QMAKE_CXXFLAGS += -std=c++17 -fPIC -fopenmp #-flto -fno-fat-lto-objects -O3
+QMAKE_CXXFLAGS += -std=c++17 -fPIC -fopenmp -O3 #-flto -fno-fat-lto-objects
 QMAKE_CXXFLAGS_DEBUG += -DDEBUG -D_GLIBCXX_DEBUG
 QMAKE_CXXFLAGS_RELEASE -= -O2
 QMAKE_CXXFLAGS_RELEASE += -UDEBUG -DNDEBUG -fstrict-aliasing
