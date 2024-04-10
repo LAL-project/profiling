@@ -34,12 +34,6 @@
 namespace profiling {
 namespace generate {
 
-generate_arrangements_pp::generate_arrangements_pp(
-	int argc, char *argv[]
-) noexcept
-	: m_argc(argc), m_argv(argv)
-{ }
-
 void generate_arrangements_pp::print_usage() const noexcept {
 	std::cout << "Profiling -- Generation of arrangements" << '\n';
 	std::cout << "==================" << '\n';

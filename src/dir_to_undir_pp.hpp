@@ -36,8 +36,8 @@ namespace dir_to_undir {
 
 class dir_to_undir {
 public:
-	dir_to_undir(int argc, char *argv[]);
-	~dir_to_undir();
+	dir_to_undir(uint64_t argc, char *argv[]) noexcept : m_argc(argc), m_argv(argv) { }
+	~dir_to_undir() noexcept { }
 
 	const std::string& get_mode() const { return m_mode; }
 	constexpr uint64_t get_n() const { return m_n; }
@@ -75,7 +75,7 @@ private:
 		"dgraph_to_ugraph", "rtree_to_ftree"
 	}
 	);
-	int m_argc;
+	uint64_t  m_argc;
 	char **m_argv;
 };
 

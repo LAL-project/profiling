@@ -38,7 +38,7 @@ namespace graphs {
 
 class graphs_pp {
 public:
-	graphs_pp(int argc, char *argv[]) : m_argc(argc), m_argv(argv)
+	graphs_pp(uint64_t argc, char *argv[]) noexcept : m_argc(argc), m_argv(argv)
 	{ }
 	~graphs_pp() { }
 
@@ -82,7 +82,7 @@ private:
 	lal::head_vector m_hv;
 	bool m_has_hv = false;
 
-	int m_argc;
+	uint64_t m_argc;
 	char **m_argv;
 };
 

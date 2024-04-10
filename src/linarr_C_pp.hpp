@@ -36,24 +36,24 @@ namespace linarr_C {
 
 class linarr_C_pp {
 public:
-	linarr_C_pp(int argc, char *argv[]);
-	~linarr_C_pp();
+	linarr_C_pp(uint64_t argc, char *argv[]) noexcept : m_argc(argc), m_argv(argv) { }
+	~linarr_C_pp() noexcept { }
 
-	const std::string& get_algo() const { return m_gen_algo; }
-	constexpr uint64_t get_n() const { return m_n; }
-	constexpr uint64_t get_N() const { return m_N; }
-	constexpr uint64_t get_T() const { return m_T; }
+	const std::string& get_algo() const noexcept { return m_gen_algo; }
+	constexpr uint64_t get_n() const noexcept { return m_n; }
+	constexpr uint64_t get_N() const noexcept { return m_N; }
+	constexpr uint64_t get_T() const noexcept { return m_T; }
 
-	void print_usage() const;
+	void print_usage() const noexcept;
 
 	// returns 0 on success,
 	// returns 1 on help,
 	// returns 2 on error
-	int parse_params();
+	int parse_params() noexcept;
 
 	// returns 0 if there are no errors.
 	// returns 1 if there are errors.
-	int check_errors() const;
+	int check_errors() const noexcept;
 
 private:
 	// algorithm to execute
@@ -79,7 +79,7 @@ private:
 		"stack_based", "stack_based_list"
 	}
 	);
-	int m_argc;
+	uint64_t m_argc;
 	char **m_argv;
 };
 

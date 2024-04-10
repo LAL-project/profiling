@@ -89,7 +89,7 @@ void profile_algo(const function_t& A, uint64_t n, uint64_t T, uint64_t R) noexc
 
 } // -- namespace linarr_DMax
 
-void linarr_maximum_D(int argc, char *argv[]) {
+void linarr_maximum_D(uint64_t argc, char *argv[]) {
 	linarr_DMax::linarr_DMax_pp parser(argc, argv);
 	{
 	if (parser.parse_params() > 0) { return; }

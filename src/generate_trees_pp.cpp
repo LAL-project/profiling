@@ -34,12 +34,6 @@
 namespace profiling {
 namespace generate {
 
-generate_trees_pp::generate_trees_pp(
-	int argc, char *argv[]
-) noexcept
-	: m_argc(argc), m_argv(argv)
-{ }
-
 void generate_trees_pp::print_usage() const noexcept {
 	std::cout << "Profiling -- Generation of trees" << '\n';
 	std::cout << "==================" << '\n';
@@ -75,7 +69,7 @@ int generate_trees_pp::parse_params() noexcept {
 		return 1;
 	}
 
-	for (int i = 0; i < m_argc; ++i) {
+	for (uint64_t i = 0; i < m_argc; ++i) {
 		const std::string param(m_argv[i]);
 
 		if (param == "--help" or param == "-h") {

@@ -122,7 +122,7 @@ void profile_algo_list(
 
 } // -- namespace linarr_C
 
-void linarr_crossings(int argc, char *argv[]) {
+void linarr_crossings(uint64_t argc, char *argv[]) {
 	linarr_C::linarr_C_pp parser(argc, argv);
 	{
 	if (parser.parse_params() > 0) { return; }

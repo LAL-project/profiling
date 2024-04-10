@@ -36,7 +36,7 @@ namespace linarr_Dmin {
 
 class linarr_Dmin_pp {
 public:
-	linarr_Dmin_pp(int argc, char *argv[]);
+	linarr_Dmin_pp(uint64_t argc, char *argv[]);
 	~linarr_Dmin_pp();
 
 	const std::string& get_algo() const { return m_gen_algo; }
@@ -73,7 +73,7 @@ private:
 		"planar_AEF", "planar_HS"
 	}
 	);
-	int m_argc;
+	uint64_t m_argc;
 	char **m_argv;
 };
 

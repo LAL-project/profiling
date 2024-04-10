@@ -49,11 +49,11 @@ void output_total_time(double total, size_t num_calls, uint64_t n, uint64_t T) {
 	std::cout << "    Time per call: " << time_to_str(total/(num_calls*T)) << '\n';
 }
 
-void dgraph_to_ugraph(size_t num_calls, uint64_t n, uint64_t T) {
+void dgraph_to_ugraph(size_t num_calls, uint64_t n, uint64_t nT) {
 	double total_time = 0.0;
 
 	lal::generate::rand_ulab_rooted_trees Gen(n);
-	for (uint64_t t = 0; t < T; ++t) {
+	for (uint64_t t = 0; t < nT; ++t) {
 		const auto T = Gen.get_tree();
 		const auto dG = static_cast<lal::graphs::directed_graph>(T);
 
@@ -65,7 +65,7 @@ void dgraph_to_ugraph(size_t num_calls, uint64_t n, uint64_t T) {
 		}
 	}
 
-	output_total_time(total_time, num_calls, n, T);
+	output_total_time(total_time, num_calls, n, nT);
 }
 
 void rtree_to_ftree(size_t num_calls, uint64_t n, uint64_t T) {
@@ -88,7 +88,7 @@ void rtree_to_ftree(size_t num_calls, uint64_t n, uint64_t T) {
 
 } // -- namespace dir_to_undir
 
-void conversion(int argc, char *argv[]) {
+void conversion(uint64_t argc, char *argv[]) {
 	dir_to_undir::dir_to_undir parser(argc, argv);
 	{
 	if (parser.parse_params() > 0) { return; }

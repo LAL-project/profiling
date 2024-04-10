@@ -36,7 +36,7 @@ namespace generate {
 
 class generate_trees_pp {
 public:
-	generate_trees_pp(int argc, char *argv[]) noexcept;
+	generate_trees_pp(uint64_t argc, char *argv[]) noexcept : m_argc(argc), m_argv(argv) { }
 	~generate_trees_pp() noexcept { }
 
 	const std::string& get_gen_class() const noexcept { return m_gen_class; }
@@ -77,7 +77,7 @@ private:
 		"rand_lab_free", "rand_lab_rooted", "rand_ulab_free", "rand_ulab_rooted",
 	}
 	);
-	int m_argc;
+	uint64_t m_argc;
 	char **m_argv;
 };
 

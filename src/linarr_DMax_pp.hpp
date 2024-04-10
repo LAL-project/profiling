@@ -39,9 +39,8 @@ namespace linarr_DMax {
 
 class linarr_DMax_pp {
 public:
-	linarr_DMax_pp(int argc, char *argv[]) : m_argc(argc), m_argv(argv)
-	{ }
-	~linarr_DMax_pp() { }
+	linarr_DMax_pp(uint64_t argc, char *argv[]) noexcept : m_argc(argc), m_argv(argv) { }
+	~linarr_DMax_pp() noexcept { }
 
 	const std::string& get_algo() const noexcept { return m_gen_algo; }
 	const std::string& get_mode() const noexcept { return m_mode; }
@@ -95,7 +94,7 @@ private:
 	lal::head_vector m_hv;
 	bool m_has_hv = false;
 
-	int m_argc;
+	uint64_t m_argc;
 	char **m_argv;
 };
 

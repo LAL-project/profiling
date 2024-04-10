@@ -97,7 +97,7 @@ void profile_random_trees(uint64_t n, uint64_t N, uint64_t R) noexcept {
 
 } // -- namespace generate
 
-void generate_trees(int argc, char *argv[]) {
+void generate_trees(uint64_t argc, char *argv[]) {
 	generate::generate_trees_pp parser(argc, argv);
 	{
 	if (parser.parse_params() > 0) { return; }
@@ -219,7 +219,7 @@ void profile_random_arrangements
 
 } // -- namespace generate
 
-void generate_arrangements(int argc, char *argv[]) {
+void generate_arrangements(uint64_t argc, char *argv[]) {
 	generate::generate_arrangements_pp parser(argc, argv);
 	{
 	if (parser.parse_params() > 0) { return; }

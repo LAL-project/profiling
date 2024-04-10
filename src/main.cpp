@@ -30,16 +30,16 @@
 
 namespace profiling {
 
-void graph_operations(int argc, char *argv[]);
-void generate_trees(int argc, char *argv[]);
-void generate_arrangements(int argc, char *argv[]);
-void linarr_crossings(int argc, char *argv[]);
-void linarr_minimum_D(int argc, char *argv[]);
-void linarr_maximum_D(int argc, char *argv[]);
-void properties_centroid_tree(int argc, char *argv[]);
-void properties_centre_tree(int argc, char *argv[]);
-void utilities_tree_isomorphism(int argc, char *argv[]);
-void conversion(int argc, char *argv[]);
+void graph_operations(uint64_t argc, char *argv[]);
+void generate_trees(uint64_t argc, char *argv[]);
+void generate_arrangements(uint64_t argc, char *argv[]);
+void linarr_crossings(uint64_t argc, char *argv[]);
+void linarr_minimum_D(uint64_t argc, char *argv[]);
+void linarr_maximum_D(uint64_t argc, char *argv[]);
+void properties_centroid_tree(uint64_t argc, char *argv[]);
+void properties_centre_tree(uint64_t argc, char *argv[]);
+void utilities_tree_isomorphism(uint64_t argc, char *argv[]);
+void conversion(uint64_t argc, char *argv[]);
 
 } // -- namespace profiling
 
@@ -88,36 +88,38 @@ int main(int argc, char *argv[]) {
 		return 0;
 	}
 
+	const uint64_t _argc = static_cast<uint64_t>(argc);
+
 	const std::string first(argv[1]);
 	if (first == "graph_operations") {
-		profiling::graph_operations(argc - 2, &argv[2]);
+		profiling::graph_operations(_argc - 2, &argv[2]);
 	}
 	else if (first == "generate_trees") {
-		profiling::generate_trees(argc - 2, &argv[2]);
+		profiling::generate_trees(_argc - 2, &argv[2]);
 	}
 	else if (first == "generate_arrangements") {
-		profiling::generate_arrangements(argc - 2, &argv[2]);
+		profiling::generate_arrangements(_argc - 2, &argv[2]);
 	}
 	else if (first == "linarr_crossings") {
-		profiling::linarr_crossings(argc - 2, &argv[2]);
+		profiling::linarr_crossings(_argc - 2, &argv[2]);
 	}
 	else if (first == "linarr_Dmin") {
-		profiling::linarr_minimum_D(argc - 2, &argv[2]);
+		profiling::linarr_minimum_D(_argc - 2, &argv[2]);
 	}
 	else if (first == "linarr_DMax") {
-		profiling::linarr_maximum_D(argc - 2, &argv[2]);
+		profiling::linarr_maximum_D(_argc - 2, &argv[2]);
 	}
 	else if (first == "properties_centroid_tree") {
-		profiling::properties_centroid_tree(argc - 2, &argv[2]);
+		profiling::properties_centroid_tree(_argc - 2, &argv[2]);
 	}
 	else if (first == "properties_centre_tree") {
-		profiling::properties_centre_tree(argc - 2, &argv[2]);
+		profiling::properties_centre_tree(_argc - 2, &argv[2]);
 	}
 	else if (first == "utilities_isomorphism") {
-		profiling::utilities_tree_isomorphism(argc - 2, &argv[2]);
+		profiling::utilities_tree_isomorphism(_argc - 2, &argv[2]);
 	}
 	else if (first == "conversion") {
-		profiling::conversion(argc - 2, &argv[2]);
+		profiling::conversion(_argc - 2, &argv[2]);
 	}
 	else {
 		std::cout << "Unknown/Unhandled: '" << first << "'" << '\n';

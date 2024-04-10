@@ -35,7 +35,7 @@ namespace profiling {
 namespace properties_centroid_centre {
 
 properties_centroid_centre_pp::properties_centroid_centre_pp(
-	int argc, char *argv[]
+	uint64_t argc, char *argv[]
 ) noexcept
 	: m_argc(argc), m_argv(argv)
 { }

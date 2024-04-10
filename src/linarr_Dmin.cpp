@@ -56,9 +56,7 @@ void output_execution_time(
 
 template<class tree_t>
 void profile_algo(
-	const std::function<
-		std::pair<uint64_t, lal::linear_arrangement> (const tree_t&)
-	>& A,
+	const std::function<std::pair<uint64_t, lal::linear_arrangement> (const tree_t&)>& A,
 	uint64_t n, uint64_t T
 )
 {
@@ -91,7 +89,7 @@ void profile_algo(
 
 } // -- namespace linarr_Dmin
 
-void linarr_minimum_D(int argc, char *argv[]) {
+void linarr_minimum_D(uint64_t argc, char *argv[]) {
 	linarr_Dmin::linarr_Dmin_pp parser(argc, argv);
 	{
 	if (parser.parse_params() > 0) { return; }

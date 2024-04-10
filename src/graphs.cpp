@@ -162,7 +162,7 @@ void do_profiling(const graphs_pp& parser) noexcept {
 
 } // -- namespace linarr_C
 
-void graph_operations(int argc, char *argv[]) {
+void graph_operations(uint64_t argc, char *argv[]) {
 	graphs::graphs_pp parser(argc, argv);
 	{
 		if (parser.parse_params() > 0) { return; }

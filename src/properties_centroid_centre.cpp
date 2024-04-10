@@ -54,7 +54,7 @@ void output_execution_time(
 
 } // -- namespace properties_centroid
 
-void properties_centroid_tree(int argc, char *argv[]) {
+void properties_centroid_tree(uint64_t argc, char *argv[]) {
 	properties_centroid_centre::properties_centroid_centre_pp parser(argc, argv);
 	{
 	if (parser.parse_params() > 0) { return; }
@@ -76,10 +76,10 @@ void properties_centroid_tree(int argc, char *argv[]) {
 	for (uint64_t t = 0; t < T; ++t) {
 		const auto tree = Gen.get_tree();
 
-		const auto beginglobal = profiling::now();
+		const auto beginlocal = profiling::now();
 		auto res = lal::properties::tree_centroid(tree);
-		const auto endglobal = profiling::now();
-		totallocal += profiling::elapsed_time(beginglobal, endglobal);
+		const auto endlocal = profiling::now();
+		totallocal += profiling::elapsed_time(beginlocal, endlocal);
 
 		res.first += 3;
 		res.first += 4;
@@ -90,7 +90,7 @@ void properties_centroid_tree(int argc, char *argv[]) {
 	properties_centroid_centre::output_execution_time(totalglobal, totallocal, n, T);
 }
 
-void properties_centre_tree(int argc, char *argv[]) {
+void properties_centre_tree(uint64_t argc, char *argv[]) {
 	properties_centroid_centre::properties_centroid_centre_pp parser(argc, argv);
 	{
 	if (parser.parse_params() > 0) { return; }
@@ -112,10 +112,10 @@ void properties_centre_tree(int argc, char *argv[]) {
 	for (uint64_t t = 0; t < T; ++t) {
 		const auto tree = Gen.get_tree();
 
-		const auto beginglobal = profiling::now();
+		const auto beginlocal = profiling::now();
 		auto res = lal::properties::tree_centre(tree);
-		const auto endglobal = profiling::now();
-		totallocal += profiling::elapsed_time(beginglobal, endglobal);
+		const auto endlocal = profiling::now();
+		totallocal += profiling::elapsed_time(beginlocal, endlocal);
 
 		res.first += 3;
 		res.first += 4;

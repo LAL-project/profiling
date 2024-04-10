@@ -75,7 +75,7 @@ int linarr_DMax_pp::parse_params() noexcept {
 		return 1;
 	}
 
-	for (int i = 0; i < m_argc; ++i) {
+	for (uint64_t i = 0; i < m_argc; ++i) {
 		const std::string param(m_argv[i]);
 
 		if (param == "--help" or param == "-h") {
@@ -97,9 +97,9 @@ int linarr_DMax_pp::parse_params() noexcept {
 			++i;
 		}
 		else if (param == "-hv") {
-			const int k = static_cast<int>(atoi(m_argv[i + 1]));
+			const uint64_t k = static_cast<uint64_t>(atoi(m_argv[i + 1]));
 			m_hv = lal::head_vector(k);
-			int j;
+			uint64_t j;
 			for (j = i + 2; j < i + 2 + k; ++j) {
 				m_hv[j - (i + 2)] = static_cast<uint64_t>(atoi(m_argv[j]));
 			}

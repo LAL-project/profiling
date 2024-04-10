@@ -82,7 +82,7 @@ int graphs_pp::parse_params() noexcept {
 		return 1;
 	}
 
-	for (int i = 0; i < m_argc; ++i) {
+	for (uint64_t i = 0; i < m_argc; ++i) {
 		const std::string param(m_argv[i]);
 
 		if (param == "--help" or param == "-h") {
@@ -100,9 +100,9 @@ int graphs_pp::parse_params() noexcept {
 			++i;
 		}
 		else if (param == "-hv") {
-			const int k = static_cast<int>(atoi(m_argv[i + 1]));
+			const uint64_t k = static_cast<uint64_t>(atoi(m_argv[i + 1]));
 			m_hv = lal::head_vector(k);
-			int j;
+			uint64_t j;
 			for (j = i + 2; j < i + 2 + k; ++j) {
 				m_hv[j - (i + 2)] = static_cast<uint64_t>(atoi(m_argv[j]));
 			}
@@ -110,10 +110,10 @@ int graphs_pp::parse_params() noexcept {
 			i = j - 1;
 		}
 		else if (param == "-el") {
-			const int k = static_cast<int>(atoi(m_argv[i + 1]));
+			const uint64_t k = static_cast<uint64_t>(atoi(m_argv[i + 1]));
 			std::cout << "k= " << k << '\n';
 			m_list = lal::edge_list(k);
-			int j;
+			uint64_t j;
 			for (j = 0; j < k; ++j) {
 				m_list[j].first = static_cast<uint64_t>(atoi(m_argv[j + i + 2]));
 				m_list[j].second = static_cast<uint64_t>(atoi(m_argv[j + i + 2 + 1]));

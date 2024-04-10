@@ -28,14 +28,14 @@
 #pragma once
 
 // C++ includes
-#include <string>
+#include <cstdint>
 
 namespace profiling {
 namespace properties_centroid_centre {
 
 class properties_centroid_centre_pp {
 public:
-	properties_centroid_centre_pp(int argc, char *argv[]) noexcept;
+	properties_centroid_centre_pp(uint64_t argc, char *argv[]) noexcept;
 	~properties_centroid_centre_pp() noexcept = default;
 
 	constexpr uint64_t get_n() const noexcept { return m_n; }
@@ -61,7 +61,7 @@ private:
 	uint64_t m_T = 0;
 	bool m_has_T = false;
 
-	int m_argc;
+	uint64_t m_argc;
 	char **m_argv;
 };
 

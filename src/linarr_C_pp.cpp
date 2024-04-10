@@ -34,13 +34,7 @@
 namespace profiling {
 namespace linarr_C {
 
-linarr_C_pp::linarr_C_pp(
-	int argc, char *argv[]
-) : m_argc(argc), m_argv(argv)
-{ }
-linarr_C_pp::~linarr_C_pp() { }
-
-void linarr_C_pp::print_usage() const {
+void linarr_C_pp::print_usage() const noexcept {
 	std::cout << "Profiling -- Calculation of the number of crossings" << '\n';
 	std::cout << "===================================================" << '\n';
 	std::cout << '\n';
@@ -67,7 +61,7 @@ void linarr_C_pp::print_usage() const {
 	std::cout << '\n';
 }
 
-int linarr_C_pp::parse_params() {
+int linarr_C_pp::parse_params() noexcept {
 	if (m_argc == 0) {
 		print_usage();
 		return 0;
@@ -108,7 +102,7 @@ int linarr_C_pp::parse_params() {
 	return 0;
 }
 
-int linarr_C_pp::check_errors() const {
+int linarr_C_pp::check_errors() const noexcept {
 	if (not m_has_n) {
 		std::cout << "Error: missing parameter '-n'." << '\n';
 		return 1;

@@ -34,7 +34,7 @@
 namespace profiling {
 namespace linarr_Dmin {
 
-linarr_Dmin_pp::linarr_Dmin_pp(int argc, char *argv[]) : m_argc(argc), m_argv(argv)
+linarr_Dmin_pp::linarr_Dmin_pp(uint64_t argc, char *argv[]) : m_argc(argc), m_argv(argv)
 { }
 linarr_Dmin_pp::~linarr_Dmin_pp() { }
 

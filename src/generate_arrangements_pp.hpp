@@ -36,7 +36,7 @@ namespace generate {
 
 class generate_arrangements_pp {
 public:
-	generate_arrangements_pp(int argc, char *argv[]) noexcept;
+	generate_arrangements_pp(uint64_t argc, char *argv[]) noexcept : m_argc(argc), m_argv(argv) { }
 	~generate_arrangements_pp() noexcept { }
 
 	const std::string& get_gen_class() const noexcept { return m_gen_class; }
@@ -73,7 +73,7 @@ private:
 	uint64_t m_R = 0;
 	bool m_has_R = false;
 
-	int m_argc;
+	uint64_t m_argc;
 	char **m_argv;
 
 	// algorithm to execute

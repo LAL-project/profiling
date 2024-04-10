@@ -190,7 +190,7 @@ void neg_exh_test(uint64_t n, uint64_t N_relabs) {
 	output_info(n, N_relabs, n_calls, total_time);
 }
 
-void utilities_tree_isomorphism(int argc, char *argv[]) {
+void utilities_tree_isomorphism(uint64_t argc, char *argv[]) {
 	if (argc != 6) {
 		std::cout << "free positive   n r" << '\n';
 		std::cout << "free negative   n r" << '\n';
@@ -208,8 +208,8 @@ void utilities_tree_isomorphism(int argc, char *argv[]) {
 
 	const std::string tree_type(argv[2]);
 	const std::string expected_answer(argv[3]);
-	const uint64_t n = atoi(argv[4]);
-	const uint64_t r = atoi(argv[5]);
+	const uint64_t n = static_cast<uint64_t>(atoi(argv[4]));
+	const uint64_t r = static_cast<uint64_t>(atoi(argv[5]));
 	if (tree_type == "free") {
 		if (expected_answer == "positive") {
 			pos_exh_test<lal::graphs::free_tree, lal::generate::all_ulab_free_trees>(n, r);

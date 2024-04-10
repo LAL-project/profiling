@@ -2,22 +2,48 @@ TEMPLATE = app
 CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
+CONFIG += c++17
 
-QMAKE_CXXFLAGS += -std=c++17 -fPIC -fopenmp -O3 #-flto -fno-fat-lto-objects
+QMAKE_CXXFLAGS += -std=c++17 -fPIC -fopenmp
+QMAKE_CXXFLAGS +=			\
+	-Wall					\
+	-Wextra					\ # reasonable and standard
+	-Wshadow				\ # warn if a variable declaration shadows one from
+							\ # a parent context
+	-Wnon-virtual-dtor		\ # warn if a class with virtual functions has
+							\ # non-virtual destructors
+	-Wold-style-cast		\ # warn for c-style casts
+	-Wcast-align			\ # warn for potential performance problem casts
+	-Wunused				\ # warn on anything being unused
+	-Woverloaded-virtual	\ # warn if a virtual is overloaded (not overridden)
+	-Wpedantic				\ # warn if non-standard C++ is used
+	-Wconversion			\ # warn on type conversions that may lose data
+	-Wsign-conversion		\ # warn on sign conversions
+	-Wnull-dereference		\ # warn if a null dereference is detected
+	-Wdouble-promotion		\ # warn if float is implicitly promoted to double
+	-Wformat=2				\ # warn on security issues around functions that
+							\ # format output
+	-Wduplicated-cond		\ # warn if if-then-else chan has duplicated conditions
+	-Wduplicated-branches	\ # warn if if-then-else have duplicated code
+	-Wlogical-op			\ # warn about logical operations being used where
+							\ # bitwise were probably prefered
+	-Wuseless-cast			\ # warn if you perform a cast to the same type
+	-Wrestrict
+
 QMAKE_CXXFLAGS_DEBUG += -DDEBUG -D_GLIBCXX_DEBUG
 QMAKE_CXXFLAGS_RELEASE -= -O2
-QMAKE_CXXFLAGS_RELEASE += -UDEBUG -DNDEBUG -fstrict-aliasing
+QMAKE_CXXFLAGS_RELEASE += -UDEBUG -DNDEBUG -fstrict-aliasing -O3
 
-QMAKE_LFLAGS += -fPIC -O3 #-flto -fno-fat-lto-objects
+QMAKE_LFLAGS += -fPIC
 QMAKE_LFLAGS_RELEASE += -DNDEBUG -UDEBUG
 QMAKE_LFLAGS_DEBUG += -DDEBUG -D_GLIBCXX_DEBUG
 
 LIBS += -lgmp -fopenmp -lpthread
 
 # uncomment when doing actual profiling
-# QMAKE_CXXFLAGS_RELEASE += -pg
-# QMAKE_CXXFLAGS_RELEASE -= -O3
-# QMAKE_LFLAGS += -pg
+QMAKE_CXXFLAGS_RELEASE += -pg
+QMAKE_CXXFLAGS_RELEASE -= -O3
+QMAKE_LFLAGS += -pg
 
 isEmpty(ENVIR) {
     ENVIR = "HOME"
@@ -181,6 +207,7 @@ HEADERS += \
 	../../linear-arrangement-library/lal/detail/linear_queue.hpp \
 	../../linear-arrangement-library/lal/detail/linear_set.hpp \
 	../../linear-arrangement-library/lal/detail/macros/basic_convert.hpp \
+	../../linear-arrangement-library/lal/detail/macros/search.hpp \
 	../../linear-arrangement-library/lal/detail/make_array.hpp \
 	../../linear-arrangement-library/lal/detail/numeric/utils.hpp \
 	../../linear-arrangement-library/lal/detail/pairs_utils.hpp \
@@ -306,4 +333,23 @@ HEADERS += \
     time.hpp
 
 SUBDIRS += \
+	../../linear-arrangement-library/lal/lal.pro \
 	../../linear-arrangement-library/lal/lal.pro
+
+DISTFILES += \
+	../../linear-arrangement-library/lal/CMakeLists.txt \
+	../../linear-arrangement-library/lal/documentation/page_concepts.dox \
+	../../linear-arrangement-library/lal/documentation/page_main.dox \
+	../../linear-arrangement-library/lal/documentation/page_namespace_lal.dox \
+	../../linear-arrangement-library/lal/documentation/page_namespace_lal_detail.dox \
+	../../linear-arrangement-library/lal/documentation/page_namespace_lal_generate.dox \
+	../../linear-arrangement-library/lal/documentation/page_namespace_lal_graphs.dox \
+	../../linear-arrangement-library/lal/documentation/page_namespace_lal_io.dox \
+	../../linear-arrangement-library/lal/documentation/page_namespace_lal_iterators.dox \
+	../../linear-arrangement-library/lal/documentation/page_namespace_lal_linarr.dox \
+	../../linear-arrangement-library/lal/documentation/page_namespace_lal_numeric.dox \
+	../../linear-arrangement-library/lal/documentation/page_namespace_lal_properties.dox \
+	../../linear-arrangement-library/lal/documentation/page_namespace_lal_utilities.dox \
+	../../linear-arrangement-library/lal/documentation/page_notation.dox \
+	../../linear-arrangement-library/lal/documentation/page_user_defined_literals.dox \
+	../../linear-arrangement-library/lal/license_header

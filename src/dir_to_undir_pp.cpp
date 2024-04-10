@@ -34,11 +34,6 @@
 namespace profiling {
 namespace dir_to_undir {
 
-dir_to_undir::dir_to_undir(int argc, char *argv[])
-	: m_argc(argc), m_argv(argv)
-{ }
-dir_to_undir::~dir_to_undir() { }
-
 void dir_to_undir::print_usage() const {
 	std::cout << "Profiling -- Conversion of directed to undirected \n";
 	std::cout << "================================================= \n";
