@@ -89,6 +89,15 @@ void profile_random_trees(uint64_t n, uint64_t N, uint64_t R) noexcept {
 			tree_t tree = Gen.get_tree();
 			const auto end = profiling::now();
 			total += profiling::elapsed_time(begin, end);
+
+#if defined DEBUG
+			const auto hv = tree.get_head_vector();
+			std::cout << hv[0];
+			for (std::size_t j = 1; j < hv.size(); ++j) {
+				std::cout << ' ' << hv[j];
+			}
+			std::cout << '\n';
+#endif
 		}
 	}
 
