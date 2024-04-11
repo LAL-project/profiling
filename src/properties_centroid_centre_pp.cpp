@@ -64,7 +64,7 @@ int properties_centroid_centre_pp::parse_params() noexcept {
 		return 1;
 	}
 
-	for (int i = 0; i < m_argc; ++i) {
+	for (uint64_t i = 0; i < m_argc; ++i) {
 		const std::string param(m_argv[i]);
 
 		if (param == "--help" or param == "-h") {
