@@ -40,10 +40,17 @@ QMAKE_LFLAGS_DEBUG += -DDEBUG -D_GLIBCXX_DEBUG
 
 LIBS += -lgmp -fopenmp -lpthread
 
-# uncomment when doing actual profiling
-QMAKE_CXXFLAGS_RELEASE += -pg
-QMAKE_CXXFLAGS_RELEASE -= -O3
-QMAKE_LFLAGS += -pg
+isEmpty(PROFILING) {
+	PROFILING = 0
+}
+
+equals(PROFILING, 1) {
+	# this is actually a release mode compilation from Qt
+	message(PROFILE mode is enabled)
+	QMAKE_CXXFLAGS_RELEASE += -pg
+	QMAKE_CXXFLAGS_RELEASE -= -O3
+	QMAKE_LFLAGS += -pg
+}
 
 isEmpty(ENVIR) {
     ENVIR = "HOME"
