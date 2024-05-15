@@ -164,7 +164,7 @@ HEADERS += \
 	../../linear-arrangement-library/lal/basic_types.hpp \
 	../../linear-arrangement-library/lal/detail/arrangement_wrapper.hpp \
 	../../linear-arrangement-library/lal/detail/avl.hpp \
-	../../linear-arrangement-library/lal/detail/data_array.hpp \
+	../../linear-arrangement-library/lal/detail/array.hpp \
 	../../linear-arrangement-library/lal/detail/generate/make_arrangement.hpp \
 	../../linear-arrangement-library/lal/detail/graphs/conversions.hpp \
 	../../linear-arrangement-library/lal/detail/graphs/cycles.hpp \
@@ -211,8 +211,8 @@ HEADERS += \
 	../../linear-arrangement-library/lal/detail/linarr/headedness.hpp \
 	../../linear-arrangement-library/lal/detail/linarr/level_signature.hpp \
 	../../linear-arrangement-library/lal/detail/linarr/syntactic_dependency_tree.hpp \
-	../../linear-arrangement-library/lal/detail/linear_queue.hpp \
-	../../linear-arrangement-library/lal/detail/linear_set.hpp \
+	../../linear-arrangement-library/lal/detail/queue_array.hpp \
+	../../linear-arrangement-library/lal/detail/set_array.hpp \
 	../../linear-arrangement-library/lal/detail/macros/basic_convert.hpp \
 	../../linear-arrangement-library/lal/detail/macros/search.hpp \
 	../../linear-arrangement-library/lal/detail/make_array.hpp \
