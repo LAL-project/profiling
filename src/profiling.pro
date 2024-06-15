@@ -130,7 +130,6 @@ SOURCES += \
 	../../linear-arrangement-library/lal/properties/D_rla.cpp \
 	../../linear-arrangement-library/lal/properties/Q.cpp \
 	../../linear-arrangement-library/lal/properties/bipartite_graph_colorability.cpp \
-	../../linear-arrangement-library/lal/properties/branchless_path_find.cpp \
 	../../linear-arrangement-library/lal/properties/branchless_paths_compute.cpp \
 	../../linear-arrangement-library/lal/properties/connected_components_compute.cpp \
 	../../linear-arrangement-library/lal/properties/hierarchical_distance.cpp \
