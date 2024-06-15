@@ -131,6 +131,8 @@ SOURCES += \
 	../../linear-arrangement-library/lal/properties/Q.cpp \
 	../../linear-arrangement-library/lal/properties/bipartite_graph_colorability.cpp \
 	../../linear-arrangement-library/lal/properties/branchless_path_find.cpp \
+	../../linear-arrangement-library/lal/properties/branchless_paths_compute.cpp \
+	../../linear-arrangement-library/lal/properties/connected_components_compute.cpp \
 	../../linear-arrangement-library/lal/properties/hierarchical_distance.cpp \
 	../../linear-arrangement-library/lal/properties/maximum_spanning_trees.cpp \
 	../../linear-arrangement-library/lal/properties/tree_centre.cpp \
@@ -219,7 +221,7 @@ HEADERS += \
 	../../linear-arrangement-library/lal/detail/numeric/utils.hpp \
 	../../linear-arrangement-library/lal/detail/pairs_utils.hpp \
 	../../linear-arrangement-library/lal/detail/properties/bipartite_graph_colorability.hpp \
-	../../linear-arrangement-library/lal/detail/properties/branchless_path_find.hpp \
+	../../linear-arrangement-library/lal/detail/properties/branchless_paths_compute.hpp \
 	../../linear-arrangement-library/lal/detail/properties/tree_centre.hpp \
 	../../linear-arrangement-library/lal/detail/properties/tree_centroid.hpp \
 	../../linear-arrangement-library/lal/detail/properties/tree_diameter.hpp \
@@ -318,7 +320,9 @@ HEADERS += \
 	../../linear-arrangement-library/lal/properties/bipartite_graph_colorability.hpp \
 	../../linear-arrangement-library/lal/properties/bipartite_graph_coloring.hpp \
 	../../linear-arrangement-library/lal/properties/branchless_path.hpp \
-	../../linear-arrangement-library/lal/properties/branchless_path_find.hpp \
+	../../linear-arrangement-library/lal/properties/branchless_paths_compute.hpp \
+	../../linear-arrangement-library/lal/properties/connected_components.hpp \
+	../../linear-arrangement-library/lal/properties/connected_components_compute.hpp \
 	../../linear-arrangement-library/lal/properties/degrees.hpp \
 	../../linear-arrangement-library/lal/properties/hierarchical_distance.hpp \
 	../../linear-arrangement-library/lal/properties/maximum_spanning_trees.hpp \
