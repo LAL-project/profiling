@@ -21,7 +21,7 @@
  *
  * Contact:
  *
- *    Lluís Alemany Puig (lalemany@cs.upc.edu)
+ *    Lluís Alemany Puig (lluis.alemany.puig@upc.edu)
  * 
  ***********************************************************************/
 
