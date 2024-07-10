@@ -82,6 +82,12 @@ SOURCES += \
 	../../linear-arrangement-library/lal/detail/linarr/D/DMax/unconstrained/branch_and_bound/AEF/BnB_execution_independent_set.cpp \
 	../../linear-arrangement-library/lal/detail/linarr/D/DMax/unconstrained/branch_and_bound/AEF/BnB_initialisation.cpp \
 	../../linear-arrangement-library/lal/detail/linarr/D/DMax/unconstrained/branch_and_bound/AEF/BnB_next_action.cpp \
+	../../linear-arrangement-library/lal/detail/linarr/D/DMax/unconstrained/branch_and_bound/AEF/BnB_propagate.cpp \
+	../../linear-arrangement-library/lal/detail/linarr/D/DMax/unconstrained/branch_and_bound/AEF/BnB_propagate__antenna.cpp \
+	../../linear-arrangement-library/lal/detail/linarr/D/DMax/unconstrained/branch_and_bound/AEF/BnB_propagate__bridge.cpp \
+	../../linear-arrangement-library/lal/detail/linarr/D/DMax/unconstrained/branch_and_bound/AEF/BnB_roll_back.cpp \
+	../../linear-arrangement-library/lal/detail/linarr/D/DMax/unconstrained/branch_and_bound/AEF/BnB_roll_back__antenna.cpp \
+	../../linear-arrangement-library/lal/detail/linarr/D/DMax/unconstrained/branch_and_bound/AEF/BnB_roll_back__bridge.cpp \
 	../../linear-arrangement-library/lal/detail/linarr/D/DMax/unconstrained/branch_and_bound/AEF/BnB_state_manipulation.cpp \
 	../../linear-arrangement-library/lal/detail/linarr/D/DMax/unconstrained/branch_and_bound/AEF/BnB_utils.cpp \
 	../../linear-arrangement-library/lal/generate/all_arrangements.cpp \
@@ -193,6 +199,10 @@ HEADERS += \
 	../../linear-arrangement-library/lal/detail/linarr/D/DMax/Projective_AEF.hpp \
 	../../linear-arrangement-library/lal/detail/linarr/D/DMax/necessary_conditions.hpp \
 	../../linear-arrangement-library/lal/detail/linarr/D/DMax/unconstrained/branch_and_bound/AEF/BnB.hpp \
+	../../linear-arrangement-library/lal/detail/linarr/D/DMax/unconstrained/branch_and_bound/AEF/level_value_propagation_origin.hpp \
+	../../linear-arrangement-library/lal/detail/linarr/D/DMax/unconstrained/branch_and_bound/AEF/next_action.hpp \
+	../../linear-arrangement-library/lal/detail/linarr/D/DMax/unconstrained/branch_and_bound/AEF/propagation_result.hpp \
+	../../linear-arrangement-library/lal/detail/linarr/D/DMax/unconstrained/branch_and_bound/AEF/reason_discard.hpp \
 	../../linear-arrangement-library/lal/detail/linarr/D/DMax/unconstrained/branch_and_bound/AEF/set_maximum_arrangements.hpp \
 	../../linear-arrangement-library/lal/detail/linarr/D/DMax/utils.hpp \
 	../../linear-arrangement-library/lal/detail/linarr/D/Dmin/Bipartite_AEF.hpp \
