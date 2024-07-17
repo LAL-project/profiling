@@ -170,8 +170,8 @@ HEADERS += \
 	../../linear-arrangement-library/lal/D.hpp \
 	../../linear-arrangement-library/lal/basic_types.hpp \
 	../../linear-arrangement-library/lal/detail/arrangement_wrapper.hpp \
-	../../linear-arrangement-library/lal/detail/avl.hpp \
 	../../linear-arrangement-library/lal/detail/array.hpp \
+	../../linear-arrangement-library/lal/detail/avl.hpp \
 	../../linear-arrangement-library/lal/detail/generate/make_arrangement.hpp \
 	../../linear-arrangement-library/lal/detail/graphs/conversions.hpp \
 	../../linear-arrangement-library/lal/detail/graphs/cycles.hpp \
@@ -217,13 +217,12 @@ HEADERS += \
 	../../linear-arrangement-library/lal/detail/linarr/D/bipartite_opt_utils.hpp \
 	../../linear-arrangement-library/lal/detail/linarr/chunking/Anderson.hpp \
 	../../linear-arrangement-library/lal/detail/linarr/chunking/Macutek.hpp \
+	../../linear-arrangement-library/lal/detail/linarr/chunking/generic.hpp \
 	../../linear-arrangement-library/lal/detail/linarr/dependency_flux.hpp \
 	../../linear-arrangement-library/lal/detail/linarr/formal_constraints.hpp \
 	../../linear-arrangement-library/lal/detail/linarr/headedness.hpp \
 	../../linear-arrangement-library/lal/detail/linarr/level_signature.hpp \
 	../../linear-arrangement-library/lal/detail/linarr/syntactic_dependency_tree.hpp \
-	../../linear-arrangement-library/lal/detail/queue_array.hpp \
-	../../linear-arrangement-library/lal/detail/set_array.hpp \
 	../../linear-arrangement-library/lal/detail/macros/basic_convert.hpp \
 	../../linear-arrangement-library/lal/detail/macros/search.hpp \
 	../../linear-arrangement-library/lal/detail/make_array.hpp \
@@ -231,10 +230,13 @@ HEADERS += \
 	../../linear-arrangement-library/lal/detail/pairs_utils.hpp \
 	../../linear-arrangement-library/lal/detail/properties/bipartite_graph_colorability.hpp \
 	../../linear-arrangement-library/lal/detail/properties/branchless_paths_compute.hpp \
+	../../linear-arrangement-library/lal/detail/properties/connected_components_compute.hpp \
 	../../linear-arrangement-library/lal/detail/properties/tree_centre.hpp \
 	../../linear-arrangement-library/lal/detail/properties/tree_centroid.hpp \
 	../../linear-arrangement-library/lal/detail/properties/tree_diameter.hpp \
 	../../linear-arrangement-library/lal/detail/properties/tree_maximum_caterpillar.hpp \
+	../../linear-arrangement-library/lal/detail/queue_array.hpp \
+	../../linear-arrangement-library/lal/detail/set_array.hpp \
 	../../linear-arrangement-library/lal/detail/sorting/bit_sort.hpp \
 	../../linear-arrangement-library/lal/detail/sorting/counting_sort.hpp \
 	../../linear-arrangement-library/lal/detail/sorting/insertion_sort.hpp \
@@ -282,14 +284,17 @@ HEADERS += \
 	../../linear-arrangement-library/lal/io/check_correctness.hpp \
 	../../linear-arrangement-library/lal/io/edge_list.hpp \
 	../../linear-arrangement-library/lal/io/head_vector.hpp \
-	../../linear-arrangement-library/lal/io/process_treebank_base.hpp \
-	../../linear-arrangement-library/lal/io/report_correctness.hpp \
+	../../linear-arrangement-library/lal/io/head_vector_error.hpp \
+	../../linear-arrangement-library/lal/io/head_vector_error_type.hpp \
 	../../linear-arrangement-library/lal/io/treebank_collection_processor.hpp \
 	../../linear-arrangement-library/lal/io/treebank_collection_reader.hpp \
-	../../linear-arrangement-library/lal/io/treebank_error.hpp \
-	../../linear-arrangement-library/lal/io/treebank_error_type.hpp \
+	../../linear-arrangement-library/lal/io/treebank_collection_report.hpp \
 	../../linear-arrangement-library/lal/io/treebank_feature.hpp \
+	../../linear-arrangement-library/lal/io/treebank_file_error.hpp \
+	../../linear-arrangement-library/lal/io/treebank_file_error_type.hpp \
+	../../linear-arrangement-library/lal/io/treebank_file_report.hpp \
 	../../linear-arrangement-library/lal/io/treebank_processor.hpp \
+	../../linear-arrangement-library/lal/io/treebank_processor_base.hpp \
 	../../linear-arrangement-library/lal/io/treebank_reader.hpp \
 	../../linear-arrangement-library/lal/iterators.hpp \
 	../../linear-arrangement-library/lal/iterators/E_iterator.hpp \
@@ -311,6 +316,7 @@ HEADERS += \
 	../../linear-arrangement-library/lal/linarr/chunking/chunking.hpp \
 	../../linear-arrangement-library/lal/linarr/chunking/output.hpp \
 	../../linear-arrangement-library/lal/linarr/dependency_flux.hpp \
+	../../linear-arrangement-library/lal/linarr/dependency_flux_compute.hpp \
 	../../linear-arrangement-library/lal/linarr/formal_constraints.hpp \
 	../../linear-arrangement-library/lal/linarr/head_initial.hpp \
 	../../linear-arrangement-library/lal/linarr/syntactic_dependency_tree/classify.hpp \
@@ -357,19 +363,4 @@ SUBDIRS += \
 	../../linear-arrangement-library/lal/lal.pro
 
 DISTFILES += \
-	../../linear-arrangement-library/lal/CMakeLists.txt \
-	../../linear-arrangement-library/lal/documentation/page_concepts.dox \
-	../../linear-arrangement-library/lal/documentation/page_main.dox \
-	../../linear-arrangement-library/lal/documentation/page_namespace_lal.dox \
-	../../linear-arrangement-library/lal/documentation/page_namespace_lal_detail.dox \
-	../../linear-arrangement-library/lal/documentation/page_namespace_lal_generate.dox \
-	../../linear-arrangement-library/lal/documentation/page_namespace_lal_graphs.dox \
-	../../linear-arrangement-library/lal/documentation/page_namespace_lal_io.dox \
-	../../linear-arrangement-library/lal/documentation/page_namespace_lal_iterators.dox \
-	../../linear-arrangement-library/lal/documentation/page_namespace_lal_linarr.dox \
-	../../linear-arrangement-library/lal/documentation/page_namespace_lal_numeric.dox \
-	../../linear-arrangement-library/lal/documentation/page_namespace_lal_properties.dox \
-	../../linear-arrangement-library/lal/documentation/page_namespace_lal_utilities.dox \
-	../../linear-arrangement-library/lal/documentation/page_notation.dox \
-	../../linear-arrangement-library/lal/documentation/page_user_defined_literals.dox \
 	../../linear-arrangement-library/lal/license_header
