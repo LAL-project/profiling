@@ -37,15 +37,14 @@
 #include <lal/utilities/tree_isomorphism.hpp>
 #include <lal/generate/all_ulab_free_trees.hpp>
 #include <lal/generate/all_ulab_rooted_trees.hpp>
+#include <lal/detail/macros/basic_convert.hpp>
 
 #include "time.hpp"
-
-#define to_uint64(x) static_cast<uint64_t>(x)
 
 namespace profiling {
 
 void relabel_edges(std::vector<lal::edge>& edges, lal::node& r) {
-	const uint64_t n = to_uint64(edges.size() + 1);
+	const uint64_t n = edges.size() + 1;
 
 	std::mt19937 gen(1234);
 
@@ -72,14 +71,14 @@ void shuffle_tree(std::vector<lal::edge>& edges, lal::graphs::rooted_tree& T) {
 
 	T.clear();
 
-	T.init(to_uint64(edges.size() + 1));
+	T.init(edges.size() + 1);
 	T.set_root(r);
 	T.set_edges(edges);
 }
 
 void shuffle_tree(std::vector<lal::edge>& edges, lal::graphs::free_tree& T) {
 	T.clear();
-	T.init(to_uint64(edges.size() + 1));
+	T.init(edges.size() + 1);
 
 	lal::node dummy = 0;
 	relabel_edges(edges, dummy);
@@ -90,8 +89,8 @@ void output_info(uint64_t n, uint64_t N_relabs, uint64_t n_calls, double total_t
 	std::cout << "Number of vertices: " << n << '\n';
 	std::cout << "Total calls: " << n_calls << '\n';
 	std::cout << "Total time: " << time_to_str(total_time) << '\n';
-	std::cout << "    Time per tree: " << time_to_str(total_time/N_relabs) << '\n';
-	std::cout << "    Time per call: " << time_to_str(total_time/n_calls) << '\n';
+	std::cout << "    Time per tree: " << time_to_str(total_time/lal::detail::to_double(N_relabs)) << '\n';
+	std::cout << "    Time per call: " << time_to_str(total_time/lal::detail::to_double(n_calls)) << '\n';
 }
 
 // ground truth: ISOMORPHIC
@@ -119,7 +118,7 @@ void pos_exh_test(uint64_t n, uint64_t N_relabs) {
 			shuffle_tree(edges_cur, relab_tree);
 
 			const auto begin = now();
-			lal::utilities::are_trees_isomorphic(cur_tree, relab_tree);
+			std::ignore = lal::utilities::are_trees_isomorphic(cur_tree, relab_tree);
 			const auto end = now();
 			total_time += elapsed_time(begin, end);
 		}
@@ -178,7 +177,7 @@ void neg_exh_test(uint64_t n, uint64_t N_relabs) {
 				shuffle_tree(edges_tj, relab_tree);
 
 				const auto begin = now();
-				lal::utilities::are_trees_isomorphic(ti, relab_tree);
+				std::ignore = lal::utilities::are_trees_isomorphic(ti, relab_tree);
 				const auto end = now();
 				total_time += elapsed_time(begin, end);
 			}
