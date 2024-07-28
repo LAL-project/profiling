@@ -95,6 +95,7 @@ SOURCES += \
 	../../linear-arrangement-library/lal/generate/all_lab_free_trees.cpp \
 	../../linear-arrangement-library/lal/generate/all_planar_arrangements.cpp \
 	../../linear-arrangement-library/lal/generate/all_projective_arrangements.cpp \
+	../../linear-arrangement-library/lal/generate/all_ulab_free_bistar_trees.cpp \
 	../../linear-arrangement-library/lal/generate/all_ulab_free_trees.cpp \
 	../../linear-arrangement-library/lal/generate/all_ulab_rooted_trees.cpp \
 	../../linear-arrangement-library/lal/generate/rand_arrangements.cpp \
@@ -256,6 +257,7 @@ HEADERS += \
 	../../linear-arrangement-library/lal/generate/all_lab_rooted_trees.hpp \
 	../../linear-arrangement-library/lal/generate/all_planar_arrangements.hpp \
 	../../linear-arrangement-library/lal/generate/all_projective_arrangements.hpp \
+	../../linear-arrangement-library/lal/generate/all_ulab_free_bistar_trees.hpp \
 	../../linear-arrangement-library/lal/generate/all_ulab_free_trees.hpp \
 	../../linear-arrangement-library/lal/generate/all_ulab_rooted_trees.hpp \
 	../../linear-arrangement-library/lal/generate/rand_arrangements.hpp \
@@ -289,7 +291,8 @@ HEADERS += \
 	../../linear-arrangement-library/lal/io/treebank_collection_processor.hpp \
 	../../linear-arrangement-library/lal/io/treebank_collection_reader.hpp \
 	../../linear-arrangement-library/lal/io/treebank_collection_report.hpp \
-	../../linear-arrangement-library/lal/io/treebank_feature.hpp \
+	../../linear-arrangement-library/lal/io/treebank_collection_report_location.hpp \
+	../../linear-arrangement-library/lal/io/treebank_feature_type.hpp \
 	../../linear-arrangement-library/lal/io/treebank_file_error.hpp \
 	../../linear-arrangement-library/lal/io/treebank_file_error_type.hpp \
 	../../linear-arrangement-library/lal/io/treebank_file_report.hpp \
@@ -313,6 +316,7 @@ HEADERS += \
 	../../linear-arrangement-library/lal/linarr/aggregations/2level.hpp \
 	../../linear-arrangement-library/lal/linarr/chunking/algorithms.hpp \
 	../../linear-arrangement-library/lal/linarr/chunking/chunk.hpp \
+	../../linear-arrangement-library/lal/linarr/chunking/chunk_sequence.hpp \
 	../../linear-arrangement-library/lal/linarr/chunking/chunking.hpp \
 	../../linear-arrangement-library/lal/linarr/chunking/output.hpp \
 	../../linear-arrangement-library/lal/linarr/dependency_flux.hpp \
@@ -363,4 +367,18 @@ SUBDIRS += \
 	../../linear-arrangement-library/lal/lal.pro
 
 DISTFILES += \
+	../../linear-arrangement-library/lal/documentation/page_concepts.dox \
+	../../linear-arrangement-library/lal/documentation/page_main.dox \
+	../../linear-arrangement-library/lal/documentation/page_namespace_lal.dox \
+	../../linear-arrangement-library/lal/documentation/page_namespace_lal_detail.dox \
+	../../linear-arrangement-library/lal/documentation/page_namespace_lal_generate.dox \
+	../../linear-arrangement-library/lal/documentation/page_namespace_lal_graphs.dox \
+	../../linear-arrangement-library/lal/documentation/page_namespace_lal_io.dox \
+	../../linear-arrangement-library/lal/documentation/page_namespace_lal_iterators.dox \
+	../../linear-arrangement-library/lal/documentation/page_namespace_lal_linarr.dox \
+	../../linear-arrangement-library/lal/documentation/page_namespace_lal_numeric.dox \
+	../../linear-arrangement-library/lal/documentation/page_namespace_lal_properties.dox \
+	../../linear-arrangement-library/lal/documentation/page_namespace_lal_utilities.dox \
+	../../linear-arrangement-library/lal/documentation/page_notation.dox \
+	../../linear-arrangement-library/lal/documentation/page_user_defined_literals.dox \
 	../../linear-arrangement-library/lal/license_header
