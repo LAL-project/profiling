@@ -95,20 +95,20 @@ void output_info(uint64_t n, uint64_t N_relabs, uint64_t n_calls, double total_t
 
 // ground truth: ISOMORPHIC
 
-template<class Tree, class GEN>
+template<class tree_t, class GEN>
 void pos_exh_test(uint64_t n, uint64_t N_relabs) {
 	uint64_t n_calls = 0;
 	double total_time = 0.0;
 
-	Tree relab_tree;
+	tree_t relab_tree;
 	GEN Gen(n);
 
 	while (not Gen.end()) {
-		const Tree cur_tree = Gen.get_tree();
+		const tree_t cur_tree = Gen.get_tree();
 		Gen.next();
 
 		std::vector<lal::edge> edges_cur = cur_tree.get_edges();
-		if constexpr (std::is_base_of_v<lal::graphs::directed_graph, Tree>) {
+		if constexpr (std::is_base_of_v<lal::graphs::directed_graph, tree_t>) {
 			relab_tree.init(n);
 			relab_tree.set_root(cur_tree.get_root());
 		}
@@ -190,7 +190,7 @@ void neg_exh_test(uint64_t n, uint64_t N_relabs) {
 }
 
 void utilities_tree_isomorphism(uint64_t argc, char *argv[]) {
-	if (argc != 6) {
+	if (argc != 4) {
 		std::cout << "free positive   n r" << '\n';
 		std::cout << "free negative   n r" << '\n';
 		std::cout << "rooted positive n r" << '\n';
@@ -205,10 +205,16 @@ void utilities_tree_isomorphism(uint64_t argc, char *argv[]) {
 		return;
 	}
 
-	const std::string tree_type(argv[2]);
-	const std::string expected_answer(argv[3]);
-	const uint64_t n = static_cast<uint64_t>(atoi(argv[4]));
-	const uint64_t r = static_cast<uint64_t>(atoi(argv[5]));
+	const std::string tree_type(argv[0]);
+	const std::string expected_answer(argv[1]);
+	const uint64_t n = static_cast<uint64_t>(atoi(argv[2]));
+	const uint64_t r = static_cast<uint64_t>(atoi(argv[3]));
+
+	std::cout << "tree_type= " << tree_type << '\n';
+	std::cout << "expected_answer= " << expected_answer << '\n';
+	std::cout << "n= " << n << '\n';
+	std::cout << "r= " << r << '\n';
+
 	if (tree_type == "free") {
 		if (expected_answer == "positive") {
 			pos_exh_test<lal::graphs::free_tree, lal::generate::all_ulab_free_trees>(n, r);
