@@ -70,7 +70,7 @@ equals(ENVIR, "CLUSTER") {
     QMAKE_CXX = /home/soft/gcc-11.2.0/bin/g++
 	QMAKE_LINK = /home/soft/gcc-11.2.0/bin/g++
 
-	LAL_DIR = $$(HOME)/lalemany/LAL-dev/latest/linear-arrangement-library
+	LAL_DIR = $$(HOME)/LAL-dev/latest/linear-arrangement-library
 	INCLUDEPATH += $$LAL_DIR
 
 	DEFINES += "__ENVIR=1"
