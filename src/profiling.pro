@@ -58,7 +58,7 @@ isEmpty(ENVIR) {
 
 # configure home
 equals(ENVIR, "HOME") {
-	LAL_DIR = /home/lluis/Documents/projects/LAL-dev/latest/linear-arrangement-library
+	LAL_DIR = $$(HOME)/Documents/projects/LAL-dev/24.10/linear-arrangement-library
 	INCLUDEPATH += $$LAL_DIR
 
 	# add definitions
@@ -70,7 +70,7 @@ equals(ENVIR, "CLUSTER") {
     QMAKE_CXX = /home/soft/gcc-11.2.0/bin/g++
 	QMAKE_LINK = /home/soft/gcc-11.2.0/bin/g++
 
-	LAL_DIR = /home/usuaris/lalemany/LAL-dev/latest/linear-arrangement-library
+	LAL_DIR = $$(HOME)/LAL-dev/24.10/linear-arrangement-library
 	INCLUDEPATH += $$LAL_DIR
 
 	DEFINES += "__ENVIR=1"
