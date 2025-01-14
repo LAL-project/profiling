@@ -34,7 +34,11 @@
 namespace profiling {
 namespace dir_to_undir {
 
-void dir_to_undir::print_usage() const {
+#define out std::cout
+
+void dir_to_undir::print_usage() const noexcept
+{
+	// clang-format off
 	std::cout << "Profiling -- Conversion of directed to undirected \n";
 	std::cout << "================================================= \n";
 	std::cout << '\n';
@@ -60,15 +64,17 @@ void dir_to_undir::print_usage() const {
 	std::cout << "          " << algo << '\n';
 	}
 	std::cout << '\n';
+	// clang-format on
 }
 
-int dir_to_undir::parse_params() {
+int dir_to_undir::parse_params() noexcept
+{
 	if (m_argc == 0) {
 		print_usage();
 		return 1;
 	}
 
-	for (int i = 0; i < m_argc; ++i) {
+	for (uint64_t i = 0; i < m_argc; ++i) {
 		const std::string param(m_argv[i]);
 
 		if (param == "--help" or param == "-h") {
@@ -95,14 +101,15 @@ int dir_to_undir::parse_params() {
 		}
 		else {
 			std::cerr << "Error: unrecognised option\n";
-			std::cerr << "    " << std::string(m_argv[i]) << '\n';
+			std::cerr << "    " << param << '\n';
 			return 2;
 		}
 	}
 	return 0;
 }
 
-int dir_to_undir::check_errors() const {
+int dir_to_undir::check_errors() const noexcept
+{
 	if (not m_has_n) {
 		std::cout << "Error: missing parameter '-n'.\n";
 		return 1;
@@ -119,5 +126,5 @@ int dir_to_undir::check_errors() const {
 	return 0;
 }
 
-} // -- namespace dir_to_undir
-} // -- namespace profiling
+} // namespace dir_to_undir
+} // namespace profiling

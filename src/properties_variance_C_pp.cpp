@@ -42,31 +42,26 @@ properties_variance_C_pp::properties_variance_C_pp(uint64_t argc, char *argv[])
 
 void properties_variance_C_pp::print_usage() const noexcept
 {
-	std::cout << "Profiling -- Calculation of the variance of C of a tree/graph"
-			  << '\n';
-	std::cout << "============================================================="
-			  << '\n';
+	// clang-format off
+	std::cout << "Profiling -- Calculation of the variance of C of a tree/graph\n";
+	std::cout << "=============================================================\n";
 	std::cout << '\n';
-	std::cout << "This program's options are the following:" << '\n';
-	std::cout
-		<< "    Those marked with [*] are mandatory for all execution modes."
-		<< '\n';
-	std::cout << "    Those marked with [i] are mandatory for execution mode i."
-			  << '\n';
-	std::cout << "    Those marked with [?] are optional." << '\n';
+	std::cout << "This program's options are the following:\n";
+	std::cout << "    Those marked with [*] are mandatory for all execution modes.\n";
+	std::cout << "    Those marked with [i] are mandatory for execution mode i.\n";
+	std::cout << "    Those marked with [?] are optional.\n";
 	std::cout << '\n';
-	std::cout << "    [*]   -nK n" << '\n';
-	std::cout
-		<< "          Indicate the number of vertices of the complete graph.\n";
+	std::cout << "    [*]   -nK n\n";
+	std::cout << "          Indicate the number of vertices of the complete graph.\n";
 	std::cout << '\n';
-	std::cout << "    [*]   -nKK n1 n2" << '\n';
-	std::cout
-		<< "          Indicate the number of vertices of the complete bipartite graph.\n";
+	std::cout << "    [*]   -nKK n1 n2\n";
+	std::cout << "          Indicate the number of vertices of the complete bipartite graph.\n";
 	std::cout << '\n';
-	std::cout << "    [?]   -R number of replicas" << '\n';
+	std::cout << "    [?]   -R number of replicas\n";
 	std::cout << '\n';
-	std::cout << "    [?]   -reuse Reuse memory? true/false" << '\n';
+	std::cout << "    [?]   -reuse Reuse memory? true/false\n";
 	std::cout << '\n';
+	// clang-format on
 }
 
 int properties_variance_C_pp::parse_params() noexcept
@@ -109,8 +104,8 @@ int properties_variance_C_pp::parse_params() noexcept
 			i += 2;
 		}
 		else {
-			std::cerr << "Error: unrecognised option" << '\n';
-			std::cerr << "    " << std::string(m_argv[i]) << '\n';
+			std::cerr << "Error: unrecognised option\n";
+			std::cerr << "    " << param << '\n';
 			return 2;
 		}
 	}

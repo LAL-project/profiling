@@ -36,27 +36,47 @@ namespace generate {
 
 class generate_arrangements_pp {
 public:
-	generate_arrangements_pp(uint64_t argc, char *argv[]) noexcept : m_argc(argc), m_argv(argv) { }
+
+	generate_arrangements_pp(uint64_t argc, char *argv[]) noexcept
+		: m_argc(argc),
+		  m_argv(argv)
+	{ }
 	~generate_arrangements_pp() noexcept { }
 
-	const std::string& get_gen_class() const noexcept { return m_gen_class; }
-	uint64_t get_n() const noexcept { return m_n; }
-	uint64_t get_T() const noexcept { return m_nT; }
-	uint64_t get_N() const noexcept { return m_N; }
-	uint64_t get_R() const noexcept { return m_R; }
+	[[nodiscard]] const std::string& get_gen_class() const noexcept
+	{
+		return m_gen_class;
+	}
+	[[nodiscard]] uint64_t get_n() const noexcept
+	{
+		return m_n;
+	}
+	[[nodiscard]] uint64_t get_T() const noexcept
+	{
+		return m_nT;
+	}
+	[[nodiscard]] uint64_t get_N() const noexcept
+	{
+		return m_N;
+	}
+	[[nodiscard]] uint64_t get_R() const noexcept
+	{
+		return m_R;
+	}
 
 	void print_usage() const noexcept;
 
 	// returns 0 on success,
 	// returns 1 on help,
 	// returns 2 on error
-	int parse_params() noexcept;
+	[[nodiscard]] int parse_params() noexcept;
 
 	// returns 0 if there are no errors.
 	// returns 1 if there are errors.
-	int check_errors() const noexcept;
+	[[nodiscard]] int check_errors() const noexcept;
 
 private:
+
 	// number of vertices
 	uint64_t m_n = 0;
 	bool m_has_n = false;
@@ -79,13 +99,15 @@ private:
 	// algorithm to execute
 	std::string m_gen_class = "none";
 
-	const std::set<std::string> m_allowed_gen_classes =
-	std::set<std::string>({
-	"all_arrangements", "all_projective_arrangements", "all_planar_arrangements",
-	"rand_arrangements", "rand_projective_arrangements", "rand_planar_arrangements",
-	}
-	);
+	const std::set<std::string> m_allowed_gen_classes = std::set<std::string>({
+		"all_arrangements",
+		"all_projective_arrangements",
+		"all_planar_arrangements",
+		"rand_arrangements",
+		"rand_projective_arrangements",
+		"rand_planar_arrangements",
+	});
 };
 
-} // -- namespace generate
-} // -- namespace profiling
+} // namespace generate
+} // namespace profiling

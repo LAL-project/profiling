@@ -36,25 +36,36 @@ namespace linarr_Dmin {
 
 class linarr_Dmin_pp {
 public:
-	linarr_Dmin_pp(uint64_t argc, char *argv[]);
-	~linarr_Dmin_pp();
 
-	const std::string& get_algo() const { return m_gen_algo; }
-	uint64_t get_n() const { return m_n; }
-	uint64_t get_T() const { return m_T; }
+	linarr_Dmin_pp(uint64_t argc, char *argv[]) noexcept;
+	~linarr_Dmin_pp() noexcept;
 
-	void print_usage() const;
+	[[nodiscard]] const std::string& get_algo() const noexcept
+	{
+		return m_gen_algo;
+	}
+	[[nodiscard]] uint64_t get_n() const noexcept
+	{
+		return m_n;
+	}
+	[[nodiscard]] uint64_t get_T() const noexcept
+	{
+		return m_T;
+	}
+
+	void print_usage() const noexcept;
 
 	// returns 0 on success,
 	// returns 1 on help,
 	// returns 2 on error
-	int parse_params();
+	[[nodiscard]] int parse_params() noexcept;
 
 	// returns 0 if there are no errors.
 	// returns 1 if there are errors.
-	int check_errors() const;
+	[[nodiscard]] int check_errors() const noexcept;
 
 private:
+
 	// algorithm to execute
 	std::string m_gen_algo = "none";
 
@@ -66,16 +77,17 @@ private:
 	uint64_t m_T = 0;
 	bool m_has_T = false;
 
-	const std::set<std::string> m_allowed_algorithms =
-	std::set<std::string>({
-		"unconstrained_YS", "unconstrained_FC",
-		"projective_AEF", "projective_HS",
-		"planar_AEF", "planar_HS"
-	}
+	const std::set<std::string> m_allowed_algorithms = std::set<std::string>(
+		{"unconstrained_YS",
+		 "unconstrained_FC",
+		 "projective_AEF",
+		 "projective_HS",
+		 "planar_AEF",
+		 "planar_HS"}
 	);
 	uint64_t m_argc;
 	char **m_argv;
 };
 
-} // -- namespace linarr_Dmin
-} // -- namespace profiling
+} // namespace linarr_Dmin
+} // namespace profiling

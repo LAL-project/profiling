@@ -42,14 +42,26 @@
 namespace profiling {
 namespace dir_to_undir {
 
-void output_total_time(double total, size_t num_calls, uint64_t n, uint64_t T) {
+void output_total_time(
+	const double total,
+	const std::size_t num_calls,
+	const uint64_t n,
+	const uint64_t T
+) noexcept
+{
 	std::cout << "Number of vertices: " << n << '\n';
 	std::cout << "Total execution time: " << time_to_str(total) << '\n';
-	std::cout << "    Time per graph: " << time_to_str(total/T) << '\n';
-	std::cout << "    Time per call: " << time_to_str(total/(num_calls*T)) << '\n';
+	std::cout << "    Time per graph: "
+			  << time_to_str(total / static_cast<double>(T)) << '\n';
+	std::cout << "    Time per call: "
+			  << time_to_str(total / static_cast<double>((num_calls * T)))
+			  << '\n';
 }
 
-void dgraph_to_ugraph(size_t num_calls, uint64_t n, uint64_t nT) {
+void dgraph_to_ugraph(
+	const std::size_t num_calls, const uint64_t n, const uint64_t nT
+) noexcept
+{
 	double total_time = 0.0;
 
 	lal::generate::rand_ulab_rooted_trees Gen(n);
@@ -68,7 +80,10 @@ void dgraph_to_ugraph(size_t num_calls, uint64_t n, uint64_t nT) {
 	output_total_time(total_time, num_calls, n, nT);
 }
 
-void rtree_to_ftree(size_t num_calls, uint64_t n, uint64_t T) {
+void rtree_to_ftree(
+	const std::size_t num_calls, const uint64_t n, const uint64_t T
+) noexcept
+{
 	double total_time = 0.0;
 
 	lal::generate::rand_ulab_rooted_trees Gen(n);
@@ -86,13 +101,18 @@ void rtree_to_ftree(size_t num_calls, uint64_t n, uint64_t T) {
 	output_total_time(total_time, num_calls, n, T);
 }
 
-} // -- namespace dir_to_undir
+} // namespace dir_to_undir
 
-void conversion(uint64_t argc, char *argv[]) {
+void conversion(uint64_t argc, char *argv[]) noexcept
+{
 	dir_to_undir::dir_to_undir parser(argc, argv);
 	{
-	if (parser.parse_params() > 0) { return; }
-	if (parser.check_errors() > 0) { return; }
+		if (parser.parse_params() > 0) {
+			return;
+		}
+		if (parser.check_errors() > 0) {
+			return;
+		}
 	}
 
 	const std::string mode = parser.get_mode();
@@ -108,4 +128,4 @@ void conversion(uint64_t argc, char *argv[]) {
 	}
 }
 
-} // -- namespace profiling
+} // namespace profiling

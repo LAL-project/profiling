@@ -40,8 +40,11 @@ namespace profiling {
 namespace properties_variance_C {
 
 void output_execution_time(
-	double totalglobal_ms, double totallocal_ms, uint64_t n, uint64_t R
-)
+	const double totalglobal_ms,
+	const double totallocal_ms,
+	const uint64_t n,
+	const uint64_t R
+) noexcept
 {
 	std::cout << "Number of vertices (n)= " << n << '\n';
 	std::cout << "Number of replicas (R)= " << R << '\n';
@@ -56,7 +59,7 @@ void output_execution_time(
 
 } // namespace properties_variance_C
 
-void properties_variance_C_graph(uint64_t argc, char *argv[])
+void properties_variance_C_graph(uint64_t argc, char *argv[]) noexcept
 {
 	properties_variance_C::properties_variance_C_pp parser(argc, argv);
 	if (parser.parse_params() > 0) {

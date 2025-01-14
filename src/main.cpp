@@ -30,21 +30,21 @@
 
 namespace profiling {
 
-void graph_operations(uint64_t argc, char *argv[]);
-void generate_trees(uint64_t argc, char *argv[]);
-void generate_arrangements(uint64_t argc, char *argv[]);
-void linarr_crossings(uint64_t argc, char *argv[]);
-void linarr_minimum_D(uint64_t argc, char *argv[]);
-void linarr_maximum_D(uint64_t argc, char *argv[]);
-void properties_variance_C_graph(uint64_t argc, char *argv[]);
-void properties_centroid_tree(uint64_t argc, char *argv[]);
-void properties_centre_tree(uint64_t argc, char *argv[]);
-void utilities_tree_isomorphism(uint64_t argc, char *argv[]);
-void conversion(uint64_t argc, char *argv[]);
+void graph_operations(uint64_t argc, char *argv[]) noexcept;
+void generate_trees(uint64_t argc, char *argv[]) noexcept;
+void generate_arrangements(uint64_t argc, char *argv[]) noexcept;
+void linarr_crossings(uint64_t argc, char *argv[]) noexcept;
+void linarr_minimum_D(uint64_t argc, char *argv[]) noexcept;
+void linarr_maximum_D(uint64_t argc, char *argv[]) noexcept;
+void properties_variance_C_graph(uint64_t argc, char *argv[]) noexcept;
+void properties_centroid_tree(uint64_t argc, char *argv[]) noexcept;
+void properties_centre_tree(uint64_t argc, char *argv[]) noexcept;
+void utilities_tree_isomorphism(uint64_t argc, char *argv[]) noexcept;
+void conversion(uint64_t argc, char *argv[]) noexcept;
 
 } // namespace profiling
 
-void usage()
+void usage() noexcept
 {
 	// clang-format off
 	std::cout << "Profiler of the Linear Arrangement Library\n";
@@ -87,7 +87,7 @@ void usage()
 	// clang-format on
 }
 
-int main(int argc, char *argv[])
+int main(int argc, char *argv[]) noexcept
 {
 	if (argc == 1) {
 		usage();
@@ -132,6 +132,5 @@ int main(int argc, char *argv[])
 	}
 	else {
 		std::cout << "Unknown/Unhandled: '" << first << "'\n";
-		;
 	}
 }

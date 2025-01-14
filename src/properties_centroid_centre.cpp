@@ -42,23 +42,37 @@ namespace profiling {
 namespace properties_centroid_centre {
 
 void output_execution_time(
-	double totalglobal_ms, double totallocal_ms, uint64_t n, uint64_t T
-)
+	const double totalglobal_ms,
+	const double totallocal_ms,
+	const uint64_t n,
+	const uint64_t T
+) noexcept
 {
 	std::cout << "Number of vertices (n)= " << n << '\n';
 	std::cout << "Number of trees generated (T)= " << T << '\n';
-	std::cout << "Total (global) execution time: " << profiling::time_to_str(totalglobal_ms) << '\n';
-	std::cout << "Total (local) execution time: " << profiling::time_to_str(totallocal_ms) << '\n';
-	std::cout << "    Average (ms/tree): " << profiling::time_to_str(totallocal_ms/T) << '\n';
+	std::cout << "Total (global) execution time: "
+			  << profiling::time_to_str(totalglobal_ms) << '\n';
+	std::cout << "Total (local) execution time: "
+			  << profiling::time_to_str(totallocal_ms) << '\n';
+	std::cout << "    Average (ms/tree): "
+			  << profiling::time_to_str(totallocal_ms / static_cast<double>(T))
+			  << '\n';
 }
 
-} // -- namespace properties_centroid
+} // namespace properties_centroid_centre
 
-void properties_centroid_tree(uint64_t argc, char *argv[]) {
-	properties_centroid_centre::properties_centroid_centre_pp parser(argc, argv);
+void properties_centroid_tree(uint64_t argc, char *argv[]) noexcept
+{
+	properties_centroid_centre::properties_centroid_centre_pp parser(
+		argc, argv
+	);
 	{
-	if (parser.parse_params() > 0) { return; }
-	if (parser.check_errors() > 0) { return; }
+		if (parser.parse_params() > 0) {
+			return;
+		}
+		if (parser.check_errors() > 0) {
+			return;
+		}
 	}
 
 	const uint64_t n = parser.get_n();
@@ -69,8 +83,8 @@ void properties_centroid_tree(uint64_t argc, char *argv[]) {
 	lal::generate::tree_generator_type_t<
 		lal::generate::random_t,
 		lal::generate::unlabelled_t,
-		lal::graphs::free_tree
-	> Gen(n, 1234);
+		lal::graphs::free_tree>
+		Gen(n, 1234);
 
 	const auto beginglobal = profiling::now();
 	for (uint64_t t = 0; t < T; ++t) {
@@ -87,14 +101,23 @@ void properties_centroid_tree(uint64_t argc, char *argv[]) {
 	const auto endglobal = profiling::now();
 	const double totalglobal = profiling::elapsed_time(beginglobal, endglobal);
 
-	properties_centroid_centre::output_execution_time(totalglobal, totallocal, n, T);
+	properties_centroid_centre::output_execution_time(
+		totalglobal, totallocal, n, T
+	);
 }
 
-void properties_centre_tree(uint64_t argc, char *argv[]) {
-	properties_centroid_centre::properties_centroid_centre_pp parser(argc, argv);
+void properties_centre_tree(uint64_t argc, char *argv[]) noexcept
+{
+	properties_centroid_centre::properties_centroid_centre_pp parser(
+		argc, argv
+	);
 	{
-	if (parser.parse_params() > 0) { return; }
-	if (parser.check_errors() > 0) { return; }
+		if (parser.parse_params() > 0) {
+			return;
+		}
+		if (parser.check_errors() > 0) {
+			return;
+		}
 	}
 
 	const uint64_t n = parser.get_n();
@@ -105,8 +128,8 @@ void properties_centre_tree(uint64_t argc, char *argv[]) {
 	lal::generate::tree_generator_type_t<
 		lal::generate::random_t,
 		lal::generate::unlabelled_t,
-		lal::graphs::free_tree
-	> Gen(n, 1234);
+		lal::graphs::free_tree>
+		Gen(n, 1234);
 
 	const auto beginglobal = profiling::now();
 	for (uint64_t t = 0; t < T; ++t) {
@@ -123,7 +146,9 @@ void properties_centre_tree(uint64_t argc, char *argv[]) {
 	const auto endglobal = profiling::now();
 	const double totalglobal = profiling::elapsed_time(beginglobal, endglobal);
 
-	properties_centroid_centre::output_execution_time(totalglobal, totallocal, n, T);
+	properties_centroid_centre::output_execution_time(
+		totalglobal, totallocal, n, T
+	);
 }
 
-} // -- namespace profiling
+} // namespace profiling

@@ -46,23 +46,24 @@ namespace profiling {
 namespace graphs {
 
 template <class graph_t>
-static constexpr bool is_undirected_graph
-	= std::is_same_v<lal::graphs::undirected_graph, graph_t>;
+static constexpr bool is_undirected_graph =
+	std::is_same_v<lal::graphs::undirected_graph, graph_t>;
 template <class graph_t>
-static constexpr bool is_directed_graph
-	= std::is_same_v<lal::graphs::directed_graph, graph_t>;
+static constexpr bool is_directed_graph =
+	std::is_same_v<lal::graphs::directed_graph, graph_t>;
 template <class graph_t>
-static constexpr bool is_free_tree
-	= std::is_same_v<lal::graphs::free_tree, graph_t>;
+static constexpr bool is_free_tree =
+	std::is_same_v<lal::graphs::free_tree, graph_t>;
 template <class graph_t>
-static constexpr bool is_rooted_tree
-	= std::is_same_v<lal::graphs::rooted_tree, graph_t>;
+static constexpr bool is_rooted_tree =
+	std::is_same_v<lal::graphs::rooted_tree, graph_t>;
 template <class graph_t>
-static constexpr bool is_tree
-	= is_free_tree<graph_t> or is_rooted_tree<graph_t>;
+static constexpr bool is_tree =
+	is_free_tree<graph_t> or is_rooted_tree<graph_t>;
 
 template <class graph_t>
-void do_operation(const graphs_pp& parser, graph_t& g) noexcept {
+void do_operation(const graphs_pp& parser, graph_t& g) noexcept
+{
 	const std::string& operation = parser.get_operation();
 
 	if (operation == "add/remove-edges") {
@@ -72,7 +73,9 @@ void do_operation(const graphs_pp& parser, graph_t& g) noexcept {
 
 		std::cout << "Picking edge list...\n";
 		lal::edge_list el;
-		el.reserve(g.get_num_edges()*prob_choose);
+		el.reserve(static_cast<std::size_t>(
+			static_cast<double>(g.get_num_edges()) * prob_choose
+		));
 		for (lal::iterators::E_iterator it(g); not it.end(); it.next()) {
 			// with a random probability, pick the edge
 			if (d(gen)) {
@@ -91,8 +94,11 @@ void do_operation(const graphs_pp& parser, graph_t& g) noexcept {
 		const auto end = profiling::now();
 		const double total = profiling::elapsed_time(begin, end);
 
-		std::cout << "Total execution time: " << profiling::time_to_str(total) << '\n';
-		std::cout << "    Average (per replica): " << profiling::time_to_str(total/R) << '\n';
+		std::cout << "Total execution time: " << profiling::time_to_str(total)
+				  << '\n';
+		std::cout << "    Average (per replica): "
+				  << profiling::time_to_str(total / static_cast<double>(R))
+				  << '\n';
 	}
 	else if (operation == "add/remove-edges-bulk") {
 		const double prob_choose = 0.5;
@@ -101,7 +107,9 @@ void do_operation(const graphs_pp& parser, graph_t& g) noexcept {
 
 		std::cout << "Picking edge list...\n";
 		lal::edge_list el;
-		el.reserve(g.get_num_edges()*prob_choose);
+		el.reserve(static_cast<std::size_t>(
+			static_cast<double>(g.get_num_edges()) * prob_choose
+		));
 		for (lal::iterators::E_iterator it(g); not it.end(); it.next()) {
 			// with a random probability, pick the edge
 			if (d(gen)) {
@@ -114,11 +122,11 @@ void do_operation(const graphs_pp& parser, graph_t& g) noexcept {
 
 		const auto begin = profiling::now();
 		for (uint64_t r = 0; r < R; ++r) {
-			for (const auto& [u,v] : el) {
+			for (const auto& [u, v] : el) {
 				g.remove_edge_bulk(u, v);
 			}
 			g.finish_bulk_remove(false, false);
-			for (const auto& [u,v] : el) {
+			for (const auto& [u, v] : el) {
 				g.add_edge_bulk(u, v);
 			}
 			g.finish_bulk_add(false, false);
@@ -126,32 +134,38 @@ void do_operation(const graphs_pp& parser, graph_t& g) noexcept {
 		const auto end = profiling::now();
 		const double total = profiling::elapsed_time(begin, end);
 
-		std::cout << "Total execution time: " << profiling::time_to_str(total) << '\n';
-		std::cout << "    Average (per replica): " << profiling::time_to_str(total/R) << '\n';
+		std::cout << "Total execution time: " << profiling::time_to_str(total)
+				  << '\n';
+		std::cout << "    Average (per replica): "
+				  << profiling::time_to_str(total / static_cast<double>(R))
+				  << '\n';
 	}
 }
 
 template <class graph_t>
-void do_profiling(const graphs_pp& parser) noexcept {
+void do_profiling(const graphs_pp& parser) noexcept
+{
 	const std::string& where = parser.get_graph_from();
 	graph_t g;
 	if (where == "edge-list") {
-		g = lal::detail::from_edge_list_to_graph<graph_t>(parser.get_edge_list(), false, false);
+		g = lal::detail::from_edge_list_to_graph<graph_t>(
+			parser.get_edge_list(), false, false
+		);
 	}
 	else if (where == "head-vector") {
-		g = lal::detail::from_head_vector_to_graph<graph_t>(parser.get_head_vector(), false, false);
+		g = lal::detail::from_head_vector_to_graph<graph_t>(
+			parser.get_head_vector(), false, false
+		);
 	}
 	else if (where == "random-tree") {
 		if constexpr (is_tree<graph_t>) {
 			std::cout << "Choosing tree...\n";
 
-			lal::generate::tree_generator_type_t
-			<
+			lal::generate::tree_generator_type_t<
 				lal::generate::random_t,
 				lal::generate::labelled_t,
-				graph_t
-			>
-			gen(parser.get_n(), 1234);
+				graph_t>
+				gen(parser.get_n(), 1234);
 
 			g = gen.get_tree();
 		}
@@ -160,13 +174,18 @@ void do_profiling(const graphs_pp& parser) noexcept {
 	do_operation(parser, g);
 }
 
-} // -- namespace linarr_C
+} // namespace graphs
 
-void graph_operations(uint64_t argc, char *argv[]) {
+void graph_operations(uint64_t argc, char *argv[])
+{
 	graphs::graphs_pp parser(argc, argv);
 	{
-		if (parser.parse_params() > 0) { return; }
-		if (parser.check_errors() > 0) { return; }
+		if (parser.parse_params() > 0) {
+			return;
+		}
+		if (parser.check_errors() > 0) {
+			return;
+		}
 	}
 
 	const std::string& graph_class = parser.get_graph_class();
@@ -184,4 +203,4 @@ void graph_operations(uint64_t argc, char *argv[]) {
 	}
 }
 
-} // -- namespace profiling
+} // namespace profiling

@@ -65,11 +65,11 @@ public:
 	// returns 0 on success,
 	// returns 1 on help,
 	// returns 2 on error
-	int parse_params() noexcept;
+	[[nodiscard]] int parse_params() noexcept;
 
 	// returns 0 if there are no errors.
 	// returns 1 if there are errors.
-	int check_errors() const noexcept;
+	[[nodiscard]] int check_errors() const noexcept;
 
 private:
 

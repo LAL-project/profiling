@@ -39,38 +39,56 @@ namespace linarr_DMax {
 
 class linarr_DMax_pp {
 public:
-	linarr_DMax_pp(uint64_t argc, char *argv[]) noexcept : m_argc(argc), m_argv(argv) { }
+
+	linarr_DMax_pp(uint64_t argc, char *argv[]) noexcept
+		: m_argc(argc),
+		  m_argv(argv)
+	{ }
 	~linarr_DMax_pp() noexcept { }
 
-	const std::string& get_algo() const noexcept { return m_gen_algo; }
-	const std::string& get_mode() const noexcept { return m_mode; }
-	const lal::head_vector& get_head_vector() const noexcept { return m_hv; }
-	uint64_t get_n() const noexcept { return m_n; }
-	uint64_t get_T() const noexcept { return m_T; }
-	uint64_t get_R() const noexcept { return m_R; }
+	[[nodiscard]] const std::string& get_algo() const noexcept
+	{
+		return m_gen_algo;
+	}
+	[[nodiscard]] const std::string& get_mode() const noexcept
+	{
+		return m_mode;
+	}
+	[[nodiscard]] const lal::head_vector& get_head_vector() const noexcept
+	{
+		return m_hv;
+	}
+	[[nodiscard]] uint64_t get_n() const noexcept
+	{
+		return m_n;
+	}
+	[[nodiscard]] uint64_t get_T() const noexcept
+	{
+		return m_T;
+	}
+	[[nodiscard]] uint64_t get_R() const noexcept
+	{
+		return m_R;
+	}
 
 	void print_usage() const noexcept;
 
 	// returns 0 on success,
 	// returns 1 on help,
 	// returns 2 on error
-	int parse_params() noexcept;
+	[[nodiscard]] int parse_params() noexcept;
 
 	// returns 0 if there are no errors.
 	// returns 1 if there are errors.
-	int check_errors() const noexcept;
+	[[nodiscard]] int check_errors() const noexcept;
 
 private:
-	const std::set<std::string> m_allowed_modes =
-	std::set<std::string>({
-		"automatic", "manual"
-	}
-	);
 
-	const std::set<std::string> m_allowed_algorithms =
-	std::set<std::string>({
-		"projective", "planar", "bipartite", "1_eq_thistle"
-	}
+	const std::set<std::string> m_allowed_modes =
+		std::set<std::string>({"automatic", "manual"});
+
+	const std::set<std::string> m_allowed_algorithms = std::set<std::string>(
+		{"projective", "planar", "bipartite", "1_eq_thistle"}
 	);
 
 	// algorithm to execute
@@ -98,5 +116,5 @@ private:
 	char **m_argv;
 };
 
-} // -- namespace linarr_DMax
-} // -- namespace profiling
+} // namespace linarr_DMax
+} // namespace profiling

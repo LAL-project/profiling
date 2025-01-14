@@ -36,26 +36,43 @@ namespace dir_to_undir {
 
 class dir_to_undir {
 public:
-	dir_to_undir(uint64_t argc, char *argv[]) noexcept : m_argc(argc), m_argv(argv) { }
+
+	dir_to_undir(uint64_t argc, char *argv[]) noexcept
+		: m_argc(argc),
+		  m_argv(argv)
+	{ }
 	~dir_to_undir() noexcept { }
 
-	const std::string& get_mode() const { return m_mode; }
-	constexpr uint64_t get_n() const { return m_n; }
-	constexpr uint64_t get_T() const { return m_T; }
-	constexpr uint64_t get_C() const { return m_C; }
+	[[nodiscard]] const std::string& get_mode() const noexcept
+	{
+		return m_mode;
+	}
+	[[nodiscard]] uint64_t get_n() const noexcept
+	{
+		return m_n;
+	}
+	[[nodiscard]] constexpr uint64_t get_T() const noexcept
+	{
+		return m_T;
+	}
+	[[nodiscard]] constexpr uint64_t get_C() const noexcept
+	{
+		return m_C;
+	}
 
-	void print_usage() const;
+	void print_usage() const noexcept;
 
 	// returns 0 on success,
 	// returns 1 on help,
 	// returns 2 on error
-	int parse_params();
+	[[nodiscard]] int parse_params() noexcept;
 
 	// returns 0 if there are no errors.
 	// returns 1 if there are errors.
-	int check_errors() const;
+	[[nodiscard]] int check_errors() const noexcept;
 
 private:
+
 	// algorithm to execute
 	std::string m_mode = "none";
 
@@ -71,13 +88,10 @@ private:
 	uint64_t m_C = 1;
 
 	const std::set<std::string> m_allowed_modes =
-	std::set<std::string>({
-		"dgraph_to_ugraph", "rtree_to_ftree"
-	}
-	);
-	uint64_t  m_argc;
+		std::set<std::string>({"dgraph_to_ugraph", "rtree_to_ftree"});
+	uint64_t m_argc;
 	char **m_argv;
 };
 
-} // -- namespace dir_to_undir
-} // -- namespace profiling
+} // namespace dir_to_undir
+} // namespace profiling

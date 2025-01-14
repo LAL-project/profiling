@@ -38,30 +38,55 @@ namespace graphs {
 
 class graphs_pp {
 public:
-	graphs_pp(uint64_t argc, char *argv[]) noexcept : m_argc(argc), m_argv(argv)
+
+	graphs_pp(uint64_t argc, char *argv[]) noexcept
+		: m_argc(argc),
+		  m_argv(argv)
 	{ }
 	~graphs_pp() { }
 
-	const lal::edge_list& get_edge_list() const noexcept { return m_list; }
-	const lal::head_vector& get_head_vector() const noexcept { return m_hv; }
-	const std::string& get_graph_class() const noexcept { return m_graph_class; }
-	const std::string& get_operation() const noexcept { return m_operation; }
-	const std::string& get_graph_from() const noexcept { return m_graph_from; }
-	uint64_t get_n() const noexcept { return m_n; }
-	uint64_t get_replicas() const noexcept { return m_R; }
+	[[nodiscard]] const lal::edge_list& get_edge_list() const noexcept
+	{
+		return m_list;
+	}
+	[[nodiscard]] const lal::head_vector& get_head_vector() const noexcept
+	{
+		return m_hv;
+	}
+	[[nodiscard]] const std::string& get_graph_class() const noexcept
+	{
+		return m_graph_class;
+	}
+	[[nodiscard]] const std::string& get_operation() const noexcept
+	{
+		return m_operation;
+	}
+	[[nodiscard]] const std::string& get_graph_from() const noexcept
+	{
+		return m_graph_from;
+	}
+	[[nodiscard]] uint64_t get_n() const noexcept
+	{
+		return m_n;
+	}
+	[[nodiscard]] uint64_t get_replicas() const noexcept
+	{
+		return m_R;
+	}
 
 	void print_usage() const noexcept;
 
 	// returns 0 on success,
 	// returns 1 on help,
 	// returns 2 on error
-	int parse_params() noexcept;
+	[[nodiscard]] int parse_params() noexcept;
 
 	// returns 0 if there are no errors.
 	// returns 1 if there are errors.
-	int check_errors() const noexcept;
+	[[nodiscard]] int check_errors() const noexcept;
 
 private:
+
 	std::string m_operation = "none";
 	std::string m_graph_class = "none";
 	std::string m_graph_from = "none";
@@ -86,5 +111,5 @@ private:
 	char **m_argv;
 };
 
-} // -- namespace graphs
-} // -- namespace profiling
+} // namespace graphs
+} // namespace profiling

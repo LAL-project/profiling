@@ -42,23 +42,33 @@ namespace profiling {
 namespace generate {
 
 template <class tree_t>
-inline lal::edge gimme_edge(const tree_t& t) noexcept {
+lal::edge gimme_edge(const tree_t& t) noexcept
+{
 	lal::iterators::E_iterator it(t);
 	it.next();
 	return it.get_edge();
 }
 
-void output_execution_time_trees(double total_ms, uint64_t n, uint64_t N, uint64_t R) {
+void output_execution_time_trees(
+	const double total_ms, const uint64_t n, const uint64_t N, const uint64_t R
+) noexcept
+{
 	std::cout << "n= " << n << '\n';
 	std::cout << "N= " << N << '\n';
 	std::cout << "R= " << R << '\n';
-	std::cout << "Total execution time: " << profiling::time_to_str(total_ms) << '\n';
-	std::cout << "    Average (ms/replica): " << profiling::time_to_str(total_ms/R) << '\n';
-	std::cout << "    Average (ms/get_tree): " << profiling::time_to_str(total_ms/(R*N)) << '\n';
+	std::cout << "Total execution time: " << profiling::time_to_str(total_ms)
+			  << '\n';
+	std::cout << "    Average (ms/replica): "
+			  << profiling::time_to_str(total_ms / static_cast<double>(R))
+			  << '\n';
+	std::cout << "    Average (ms/get_tree): "
+			  << profiling::time_to_str(total_ms / static_cast<double>(R * N))
+			  << '\n';
 }
 
 template <class tree_t, class gen_t>
-void profile_exhaustive_trees(uint64_t n, uint64_t N, uint64_t R) noexcept {
+void profile_exhaustive_trees(uint64_t n, uint64_t N, uint64_t R) noexcept
+{
 	double total = 0.0;
 
 	for (uint64_t r = 0; r < R; ++r) {
@@ -78,7 +88,8 @@ void profile_exhaustive_trees(uint64_t n, uint64_t N, uint64_t R) noexcept {
 }
 
 template <class tree_t, class gen_t>
-void profile_random_trees(uint64_t n, uint64_t N, uint64_t R) noexcept {
+void profile_random_trees(uint64_t n, uint64_t N, uint64_t R) noexcept
+{
 	double total = 0.0;
 
 	for (uint64_t r = 0; r < R; ++r) {
@@ -104,13 +115,18 @@ void profile_random_trees(uint64_t n, uint64_t N, uint64_t R) noexcept {
 	output_execution_time_trees(total, n, N, R);
 }
 
-} // -- namespace generate
+} // namespace generate
 
-void generate_trees(uint64_t argc, char *argv[]) {
+void generate_trees(uint64_t argc, char *argv[]) noexcept
+{
 	generate::generate_trees_pp parser(argc, argv);
 	{
-	if (parser.parse_params() > 0) { return; }
-	if (parser.check_errors() > 0) { return; }
+		if (parser.parse_params() > 0) {
+			return;
+		}
+		if (parser.check_errors() > 0) {
+			return;
+		}
 	}
 
 	const std::string& what = parser.get_gen_class();
@@ -119,28 +135,44 @@ void generate_trees(uint64_t argc, char *argv[]) {
 	const uint64_t R = parser.get_R();
 
 	if (what == "all_lab_free") {
-		generate::profile_exhaustive_trees<lal::graphs::free_tree, lal::generate::all_lab_free_trees>(n, N, R);
+		generate::profile_exhaustive_trees<
+			lal::graphs::free_tree,
+			lal::generate::all_lab_free_trees>(n, N, R);
 	}
 	else if (what == "all_lab_rooted") {
-		generate::profile_exhaustive_trees<lal::graphs::rooted_tree, lal::generate::all_lab_rooted_trees>(n, N, R);
+		generate::profile_exhaustive_trees<
+			lal::graphs::rooted_tree,
+			lal::generate::all_lab_rooted_trees>(n, N, R);
 	}
 	else if (what == "all_ulab_free") {
-		generate::profile_exhaustive_trees<lal::graphs::free_tree, lal::generate::all_ulab_free_trees>(n, N, R);
+		generate::profile_exhaustive_trees<
+			lal::graphs::free_tree,
+			lal::generate::all_ulab_free_trees>(n, N, R);
 	}
 	else if (what == "all_ulab_rooted") {
-		generate::profile_exhaustive_trees<lal::graphs::rooted_tree, lal::generate::all_ulab_rooted_trees>(n, N, R);
+		generate::profile_exhaustive_trees<
+			lal::graphs::rooted_tree,
+			lal::generate::all_ulab_rooted_trees>(n, N, R);
 	}
 	else if (what == "rand_lab_free") {
-		generate::profile_random_trees<lal::graphs::free_tree, lal::generate::rand_lab_free_trees>(n, N, R);
+		generate::profile_random_trees<
+			lal::graphs::free_tree,
+			lal::generate::rand_lab_free_trees>(n, N, R);
 	}
 	else if (what == "rand_lab_rooted") {
-		generate::profile_random_trees<lal::graphs::rooted_tree, lal::generate::rand_lab_rooted_trees>(n, N, R);
+		generate::profile_random_trees<
+			lal::graphs::rooted_tree,
+			lal::generate::rand_lab_rooted_trees>(n, N, R);
 	}
 	else if (what == "rand_ulab_free") {
-		generate::profile_random_trees<lal::graphs::free_tree, lal::generate::rand_ulab_free_trees>(n, N, R);
+		generate::profile_random_trees<
+			lal::graphs::free_tree,
+			lal::generate::rand_ulab_free_trees>(n, N, R);
 	}
 	else if (what == "rand_ulab_rooted") {
-		generate::profile_random_trees<lal::graphs::rooted_tree, lal::generate::rand_ulab_rooted_trees>(n, N, R);
+		generate::profile_random_trees<
+			lal::graphs::rooted_tree,
+			lal::generate::rand_ulab_rooted_trees>(n, N, R);
 	}
 	else {
 		std::cout << "Error:" << '\n';
@@ -152,41 +184,48 @@ void generate_trees(uint64_t argc, char *argv[]) {
 
 namespace generate {
 
-void output_execution_time_arrangements
-(double total_ms, uint64_t n, uint64_t R, uint64_t T, uint64_t N)
+void output_execution_time_arrangements(
+	const double total_ms,
+	const uint64_t n,
+	const uint64_t R,
+	const uint64_t T,
+	const uint64_t N
+) noexcept
 {
 	std::cout << "n= " << n << '\n';
 	std::cout << "R= " << R << '\n';
 	std::cout << "T= " << T << '\n';
 	std::cout << "N= " << N << '\n';
-	std::cout << "Total execution time: "
-		 << profiling::time_to_str(total_ms)
-		 << '\n';
+	std::cout << "Total execution time: " << profiling::time_to_str(total_ms)
+			  << '\n';
 	std::cout << "    Average (ms/replica): "
-		 << profiling::time_to_str(total_ms/R)
-		 << '\n';
+			  << profiling::time_to_str(total_ms / static_cast<double>(R))
+			  << '\n';
 	std::cout << "    Average (ms/(replica*tree)): "
-		 << profiling::time_to_str(total_ms/(R*T))
-		 << '\n';
+			  << profiling::time_to_str(total_ms / static_cast<double>(R * T))
+			  << '\n';
 	std::cout << "    Average (ms/(replica*tree*arrangement)): "
-		 << profiling::time_to_str(total_ms/(R*T*N))
-		 << '\n';
+			  << profiling::time_to_str(
+					 total_ms / static_cast<double>(R * T * N)
+				 )
+			  << '\n';
 }
 
-template<class tree_type, class tree_randgen_type, class arr_gen_type>
-void profile_exhaustive_arrangements
-(uint64_t n, uint64_t R, uint64_t T, uint64_t N)
+template <class tree_t, class tree_rand_gen_t, class arr_gen_t>
+void profile_exhaustive_arrangements(
+	const uint64_t n, const uint64_t R, const uint64_t T, const uint64_t N
+) noexcept
 {
 	double total = 0.0;
 
 	for (uint64_t r = 0; r < R; ++r) {
-		tree_randgen_type TreeGen(n);
+		tree_rand_gen_t TreeGen(n);
 		for (size_t i = 0; i < T; ++i) {
-			const tree_type randtree = TreeGen.get_tree();
+			const tree_t randtree = TreeGen.get_tree();
 
 			const auto begin = profiling::now();
 			size_t k = 0;
-			arr_gen_type ArrGen(randtree);
+			arr_gen_t ArrGen(randtree);
 			while (k < N and not ArrGen.end()) {
 				auto arr = ArrGen.get_arrangement();
 				arr.assign(0ULL, 1ULL);
@@ -201,19 +240,20 @@ void profile_exhaustive_arrangements
 	output_execution_time_arrangements(total, n, R, T, N);
 }
 
-template<class tree_type, class tree_randgen_type, class arr_gen_type>
-void profile_random_arrangements
-(uint64_t n, uint64_t R, uint64_t T, uint64_t N)
+template <class tree_t, class tree_rand_gen_t, class arr_gen_t>
+void profile_random_arrangements(
+	const uint64_t n, const uint64_t R, const uint64_t T, const uint64_t N
+) noexcept
 {
 	double total = 0.0;
 
 	for (uint64_t r = 0; r < R; ++r) {
-		tree_randgen_type TreeGen(n);
+		tree_rand_gen_t TreeGen(n);
 		for (size_t i = 0; i < T; ++i) {
-			const tree_type randtree = TreeGen.get_tree();
+			const tree_t randtree = TreeGen.get_tree();
 
 			const auto begin = profiling::now();
-			arr_gen_type ArrGen(randtree);
+			arr_gen_t ArrGen(randtree);
 			for (size_t k = 0; k < N; ++k) {
 				auto arr = ArrGen.get_arrangement();
 				arr.assign(0ULL, 1ULL);
@@ -226,13 +266,18 @@ void profile_random_arrangements
 	output_execution_time_arrangements(total, n, R, T, N);
 }
 
-} // -- namespace generate
+} // namespace generate
 
-void generate_arrangements(uint64_t argc, char *argv[]) {
+void generate_arrangements(uint64_t argc, char *argv[]) noexcept
+{
 	generate::generate_arrangements_pp parser(argc, argv);
 	{
-	if (parser.parse_params() > 0) { return; }
-	if (parser.check_errors() > 0) { return; }
+		if (parser.parse_params() > 0) {
+			return;
+		}
+		if (parser.check_errors() > 0) {
+			return;
+		}
 	}
 
 	const std::string& what = parser.get_gen_class();
@@ -242,34 +287,40 @@ void generate_arrangements(uint64_t argc, char *argv[]) {
 	const uint64_t N = parser.get_N();
 
 	if (what == "all_arrangements") {
-		generate::profile_exhaustive_arrangements
-		<lal::graphs::free_tree, lal::generate::rand_ulab_free_trees, lal::generate::all_arrangements>
-		(n, R, T, N);
+		generate::profile_exhaustive_arrangements<
+			lal::graphs::free_tree,
+			lal::generate::rand_ulab_free_trees,
+			lal::generate::all_arrangements>(n, R, T, N);
 	}
 	else if (what == "all_projective_arrangements") {
-		generate::profile_exhaustive_arrangements
-		<lal::graphs::rooted_tree, lal::generate::rand_ulab_rooted_trees, lal::generate::all_projective_arrangements>
-		(n, R, T, N);
+		generate::profile_exhaustive_arrangements<
+			lal::graphs::rooted_tree,
+			lal::generate::rand_ulab_rooted_trees,
+			lal::generate::all_projective_arrangements>(n, R, T, N);
 	}
 	else if (what == "all_planar_arrangements") {
-		generate::profile_exhaustive_arrangements
-		<lal::graphs::free_tree, lal::generate::rand_ulab_free_trees, lal::generate::all_planar_arrangements>
-		(n, R, T, N);
+		generate::profile_exhaustive_arrangements<
+			lal::graphs::free_tree,
+			lal::generate::rand_ulab_free_trees,
+			lal::generate::all_planar_arrangements>(n, R, T, N);
 	}
 	else if (what == "rand_arrangements") {
-		generate::profile_random_arrangements
-		<lal::graphs::free_tree, lal::generate::rand_ulab_free_trees, lal::generate::rand_arrangements>
-		(n, R, T, N);
+		generate::profile_random_arrangements<
+			lal::graphs::free_tree,
+			lal::generate::rand_ulab_free_trees,
+			lal::generate::rand_arrangements>(n, R, T, N);
 	}
 	else if (what == "rand_projective_arrangements") {
-		generate::profile_random_arrangements
-		<lal::graphs::rooted_tree, lal::generate::rand_ulab_rooted_trees, lal::generate::rand_projective_arrangements>
-		(n, R, T, N);
+		generate::profile_random_arrangements<
+			lal::graphs::rooted_tree,
+			lal::generate::rand_ulab_rooted_trees,
+			lal::generate::rand_projective_arrangements>(n, R, T, N);
 	}
 	else if (what == "rand_planar_arrangements") {
-		generate::profile_random_arrangements
-		<lal::graphs::free_tree, lal::generate::rand_ulab_free_trees, lal::generate::rand_planar_arrangements>
-		(n, R, T, N);
+		generate::profile_random_arrangements<
+			lal::graphs::free_tree,
+			lal::generate::rand_ulab_free_trees,
+			lal::generate::rand_planar_arrangements>(n, R, T, N);
 	}
 	else {
 		std::cout << "Error:" << '\n';
@@ -277,4 +328,4 @@ void generate_arrangements(uint64_t argc, char *argv[]) {
 	}
 }
 
-} // -- namespace profiling
+} // namespace profiling

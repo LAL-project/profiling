@@ -35,24 +35,32 @@ namespace properties_centroid_centre {
 
 class properties_centroid_centre_pp {
 public:
+
 	properties_centroid_centre_pp(uint64_t argc, char *argv[]) noexcept;
 	~properties_centroid_centre_pp() noexcept = default;
 
-	constexpr uint64_t get_n() const noexcept { return m_n; }
-	constexpr uint64_t get_T() const noexcept { return m_T; }
+	[[nodiscard]] constexpr uint64_t get_n() const noexcept
+	{
+		return m_n;
+	}
+	[[nodiscard]] constexpr uint64_t get_T() const noexcept
+	{
+		return m_T;
+	}
 
 	void print_usage() const noexcept;
 
 	// returns 0 on success,
 	// returns 1 on help,
 	// returns 2 on error
-	int parse_params() noexcept;
+	[[nodiscard]] int parse_params() noexcept;
 
 	// returns 0 if there are no errors.
 	// returns 1 if there are errors.
-	int check_errors() const noexcept;
+	[[nodiscard]] int check_errors() const noexcept;
 
 private:
+
 	// number of vertices
 	uint64_t m_n = 0;
 	bool m_has_n = false;
@@ -65,5 +73,5 @@ private:
 	char **m_argv;
 };
 
-} // -- namespace properties_centroid
-} // -- namespace profiling
+} // namespace properties_centroid_centre
+} // namespace profiling

@@ -34,36 +34,40 @@
 namespace profiling {
 namespace generate {
 
-void generate_trees_pp::print_usage() const noexcept {
-	std::cout << "Profiling -- Generation of trees" << '\n';
-	std::cout << "==================" << '\n';
+void generate_trees_pp::print_usage() const noexcept
+{
+	// clang-format off
+	std::cout << "Profiling -- Generation of trees\n";
+	std::cout << "==================\n";
 	std::cout << '\n';
-	std::cout << "This program's options are the following:" << '\n';
-	std::cout << "    Those marked with [*] are mandatory for all execution modes." << '\n';
-	std::cout << "    Those marked with [i] are mandatory for execution mode i." << '\n';
-	std::cout << "    Those marked with [?] are optional." << '\n';
+	std::cout << "This program's options are the following:\n";
+	std::cout << "    Those marked with [*] are mandatory for all execution modes.\n";
+	std::cout << "    Those marked with [i] are mandatory for execution mode i.\n";
+	std::cout << "    Those marked with [?] are optional.\n";
 	std::cout << '\n';
-	std::cout << "    [*]   -n n" << '\n';
-	std::cout << "          Indicate the number of vertices of the trees." << '\n';
+	std::cout << "    [*]   -n n\n";
+	std::cout << "          Indicate the number of vertices of the trees.\n";
 	std::cout << '\n';
-	std::cout << "    [*]   -N N" << '\n';
-	std::cout << "          Indicate the number of trees to generate." << '\n';
+	std::cout << "    [*]   -N N\n";
+	std::cout << "          Indicate the number of trees to generate.\n";
 	std::cout << '\n';
-	std::cout << "    [*]   -R R" << '\n';
-	std::cout << "          Indicate the number of replicas (times to replicate an" << '\n';
-	std::cout << "          execution)." << '\n';
+	std::cout << "    [*]   -R R\n";
+	std::cout << "          Indicate the number of replicas (times to replicate an\n";
+	std::cout << "          execution).\n";
 	std::cout << '\n';
-	std::cout << "    [*]   -class C" << '\n';
-	std::cout << "          Indicate the class of generation to profile. The available" << '\n';
-	std::cout << "          classes are the following:" << '\n';
+	std::cout << "    [*]   -class C\n";
+	std::cout << "          Indicate the class of generation to profile. The available\n";
+	std::cout << "          classes are the following:\n";
 	std::cout << '\n';
 	for (const std::string& algo : m_allowed_gen_classes) {
 	std::cout << "          " << algo << '\n';
 	}
 	std::cout << '\n';
+	// clang-format on
 }
 
-int generate_trees_pp::parse_params() noexcept {
+int generate_trees_pp::parse_params() noexcept
+{
 	if (m_argc == 0) {
 		print_usage();
 		return 1;
@@ -96,34 +100,35 @@ int generate_trees_pp::parse_params() noexcept {
 			++i;
 		}
 		else {
-			std::cerr << "Error: unrecognised option" << '\n';
-			std::cerr << "    " << std::string(m_argv[i]) << '\n';
+			std::cerr << "Error: unrecognised option\n";
+			std::cerr << "    " << param << '\n';
 			return 2;
 		}
 	}
 	return 0;
 }
 
-int generate_trees_pp::check_errors() const noexcept {
+int generate_trees_pp::check_errors() const noexcept
+{
 	if (not m_has_n) {
-		std::cout << "Error: missing parameter '-n'." << '\n';
+		std::cout << "Error: missing parameter '-n'.\n";
 		return 1;
 	}
 	if (not m_has_N) {
-		std::cout << "Error: missing parameter '-N'." << '\n';
+		std::cout << "Error: missing parameter '-N'.\n";
 		return 1;
 	}
 	if (not m_has_R) {
-		std::cout << "Error: missing parameter '-R'." << '\n';
+		std::cout << "Error: missing parameter '-R'.\n";
 		return 1;
 	}
 	if (m_gen_class == "none") {
-		std::cout << "Error: missing parameter '-class'." << '\n';
+		std::cout << "Error: missing parameter '-class'.\n";
 		return 1;
 	}
 
 	return 0;
 }
 
-} // -- namespace generate
-} // -- namespace profiling
+} // namespace generate
+} // namespace profiling

@@ -43,19 +43,26 @@
 namespace profiling {
 namespace linarr_DMax {
 
-void output_execution_time
-(double totalglobal_ms, double totallocal_ms, uint64_t n, uint64_t T)
-noexcept
+void output_execution_time(
+	const double totalglobal_ms,
+	const double totallocal_ms,
+	const uint64_t n,
+	const uint64_t T
+) noexcept
 {
 	std::cout << "Number of vertices (n)= " << n << '\n';
 	std::cout << "Number of trees generated (T)= " << T << '\n';
-	std::cout << "Total (global) execution time: " << profiling::time_to_str(totalglobal_ms) << '\n';
-	std::cout << "Total (local) execution time: " << profiling::time_to_str(totallocal_ms) << '\n';
-	std::cout << "    Average (ms/tree): " << profiling::time_to_str(totallocal_ms/T) << '\n';
+	std::cout << "Total (global) execution time: "
+			  << profiling::time_to_str(totalglobal_ms) << '\n';
+	std::cout << "Total (local) execution time: "
+			  << profiling::time_to_str(totallocal_ms) << '\n';
+	std::cout << "    Average (ms/tree): "
+			  << profiling::time_to_str(totallocal_ms / static_cast<double>(T))
+			  << '\n';
 }
 
 template <class tree_t, typename function_t>
-double exe_algo(const tree_t& t, const function_t& A, uint64_t R) noexcept
+double exe_algo(const tree_t& t, const function_t& A, const uint64_t R) noexcept
 {
 	const auto beginlocal = profiling::now();
 	for (uint64_t r = 0; r < R; ++r) {
@@ -66,13 +73,15 @@ double exe_algo(const tree_t& t, const function_t& A, uint64_t R) noexcept
 }
 
 template <class tree_t, typename function_t>
-void profile_algo(const function_t& A, uint64_t n, uint64_t T, uint64_t R) noexcept
+void profile_algo(
+	const function_t& A, const uint64_t n, const uint64_t T, const uint64_t R
+) noexcept
 {
 	lal::generate::tree_generator_type_t<
 		lal::generate::random_t,
 		lal::generate::unlabelled_t,
-		tree_t
-	> Gen(n, 1234);
+		tree_t>
+		Gen(n, 1234);
 	Gen.deactivate_all_postprocessing_actions();
 
 	double totallocal = 0.0;
@@ -87,29 +96,34 @@ void profile_algo(const function_t& A, uint64_t n, uint64_t T, uint64_t R) noexc
 	output_execution_time(totalglobal, totallocal, n, T);
 }
 
-} // -- namespace linarr_DMax
+} // namespace linarr_DMax
 
-void linarr_maximum_D(uint64_t argc, char *argv[]) {
+void linarr_maximum_D(uint64_t argc, char *argv[]) noexcept
+{
 	linarr_DMax::linarr_DMax_pp parser(argc, argv);
 	{
-	if (parser.parse_params() > 0) { return; }
-	if (parser.check_errors() > 0) { return; }
+		if (parser.parse_params() > 0) {
+			return;
+		}
+		if (parser.check_errors() > 0) {
+			return;
+		}
 	}
 
-	static const auto projective =
-	[](const lal::graphs::rooted_tree& t) {
+	static const auto projective = [](const lal::graphs::rooted_tree& t)
+	{
 		return lal::linarr::max_sum_edge_lengths_projective(t);
 	};
-	static const auto planar =
-	[](const lal::graphs::free_tree& t) {
+	static const auto planar = [](const lal::graphs::free_tree& t)
+	{
 		return lal::linarr::max_sum_edge_lengths_planar(t);
 	};
-	static const auto bipartite =
-	[](const lal::graphs::free_tree& t) {
+	static const auto bipartite = [](const lal::graphs::free_tree& t)
+	{
 		return lal::linarr::max_sum_edge_lengths_bipartite(t);
 	};
-	static const auto onethistle =
-	[](const lal::graphs::free_tree& t) {
+	static const auto onethistle = [](const lal::graphs::free_tree& t)
+	{
 		return lal::linarr::max_sum_edge_lengths_1_eq_thistle(t);
 	};
 
@@ -121,20 +135,22 @@ void linarr_maximum_D(uint64_t argc, char *argv[]) {
 		const uint64_t T = parser.get_T();
 
 		if (what == "projective") {
-			linarr_DMax::profile_algo<lal::graphs::rooted_tree>
-			(projective, n, T, R);
+			linarr_DMax::profile_algo<lal::graphs::rooted_tree>(
+				projective, n, T, R
+			);
 		}
 		else if (what == "planar") {
-			linarr_DMax::profile_algo<lal::graphs::free_tree>
-			(planar, n, T, R);
+			linarr_DMax::profile_algo<lal::graphs::free_tree>(planar, n, T, R);
 		}
 		else if (what == "bipartite") {
-			linarr_DMax::profile_algo<lal::graphs::free_tree>
-			(bipartite, n, T, R);
+			linarr_DMax::profile_algo<lal::graphs::free_tree>(
+				bipartite, n, T, R
+			);
 		}
 		else if (what == "1_eq_thistle") {
-			linarr_DMax::profile_algo<lal::graphs::free_tree>
-			(onethistle, n, T, R);
+			linarr_DMax::profile_algo<lal::graphs::free_tree>(
+				onethistle, n, T, R
+			);
 		}
 		else {
 			std::cout << "Error:" << '\n';
@@ -168,9 +184,12 @@ void linarr_maximum_D(uint64_t argc, char *argv[]) {
 		}
 
 		const auto endglobal = profiling::now();
-		const double totalglobal = profiling::elapsed_time(beginglobal, endglobal);
-		linarr_DMax::output_execution_time(totalglobal, totallocal, fT.get_num_nodes(), 1);
+		const double totalglobal =
+			profiling::elapsed_time(beginglobal, endglobal);
+		linarr_DMax::output_execution_time(
+			totalglobal, totallocal, fT.get_num_nodes(), 1
+		);
 	}
 }
 
-} // -- namespace profiling
+} // namespace profiling

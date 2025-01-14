@@ -35,39 +35,50 @@ namespace profiling {
 
 typedef std::chrono::high_resolution_clock::time_point time_point;
 
-inline std::string __time_to_str(uint64_t t, const std::string& unit) {
+inline std::string
+__time_to_str(const uint64_t t, const std::string& unit) noexcept
+{
 	if (unit == "ms") {
-		const uint64_t ms = t%1000;
+		const uint64_t ms = t % 1000;
 		const std::string base = std::to_string(ms) + " ms";
-		if (t < 1000) { return base; }
-		return __time_to_str(t/1000, "s") + " " + base;
+		if (t < 1000) {
+			return base;
+		}
+		return __time_to_str(t / 1000, "s") + " " + base;
 	}
 
 	if (unit == "s") {
-		const uint64_t s = t%60;
+		const uint64_t s = t % 60;
 		const std::string base = std::to_string(s) + " s";
-		if (t < 60) { return base; }
-		return __time_to_str(t/60, "min") + " " + base;
+		if (t < 60) {
+			return base;
+		}
+		return __time_to_str(t / 60, "min") + " " + base;
 	}
 
 	if (unit == "min") {
-		const uint64_t min = t%60;
+		const uint64_t min = t % 60;
 		const std::string base = std::to_string(min) + " min";
-		if (t < 60) { return base; }
-		return __time_to_str(t/60, "h") + " " + base;
+		if (t < 60) {
+			return base;
+		}
+		return __time_to_str(t / 60, "h") + " " + base;
 	}
 
 	if (unit == "h") {
-		const uint64_t h = t%24;
+		const uint64_t h = t % 24;
 		const std::string base = std::to_string(h) + " h";
-		if (t < 24) { return base; }
-		return __time_to_str(t/24, "d") + " " + base;
+		if (t < 24) {
+			return base;
+		}
+		return __time_to_str(t / 24, "d") + " " + base;
 	}
 
 	return std::to_string(t) + " d";
 }
 
-inline std::string time_to_str(double ms) {
+inline std::string time_to_str(const double ms) noexcept
+{
 	if (ms < 1000.0) {
 		return std::to_string(ms) + " ms";
 	}
@@ -75,13 +86,19 @@ inline std::string time_to_str(double ms) {
 }
 
 // Returns the current time
-inline time_point now() {
+inline time_point now() noexcept
+{
 	return std::chrono::high_resolution_clock::now();
 }
 
 // Returns the elapsed time between 'begin' and 'end' in milliseconds
-inline double elapsed_time(const time_point& begin, const time_point& end) {
-	return std::chrono::duration<double, std::chrono::milliseconds::period>( end - begin ).count();
+inline double
+elapsed_time(const time_point& begin, const time_point& end) noexcept
+{
+	return std::chrono::duration<double, std::chrono::milliseconds::period>(
+			   end - begin
+	)
+		.count();
 }
 
-} // -- namespace res_linarr
+} // namespace profiling

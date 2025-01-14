@@ -34,49 +34,53 @@
 namespace profiling {
 namespace graphs {
 
-void graphs_pp::print_usage() const noexcept {
-	std::cout << "Profiling -- Calculation of minimum D" << '\n';
-	std::cout << "=====================================" << '\n';
+void graphs_pp::print_usage() const noexcept
+{
+	// clang-format off
+	std::cout << "Profiling -- Calculation of minimum D\n";
+	std::cout << "=====================================\n";
 	std::cout << '\n';
 	std::cout << '\n';
-	std::cout << "    -hv k p_1 ... p_k" << '\n';
-	std::cout << "        Head vector of the graph." << '\n';
+	std::cout << "    -hv k p_1 ... p_k\n";
+	std::cout << "        Head vector of the graph.\n";
 	std::cout << '\n';
-	std::cout << "    -el k u_1 v_1 ... u_k v_k" << '\n';
-	std::cout << "        Edge list of the graph." << '\n';
+	std::cout << "    -el k u_1 v_1 ... u_k v_k\n";
+	std::cout << "        Edge list of the graph.\n";
 	std::cout << '\n';
-	std::cout << "    -n n" << '\n';
-	std::cout << "        Indicate the number of vertices of the trees." << '\n';
+	std::cout << "    -n n\n";
+	std::cout << "        Indicate the number of vertices of the trees.\n";
 	std::cout << '\n';
-	std::cout << "    -T T" << '\n';
-	std::cout << "        Indicate the number of trees to generate." << '\n';
+	std::cout << "    -T T\n";
+	std::cout << "        Indicate the number of trees to generate.\n";
 	std::cout << '\n';
-	std::cout << "    -R r" << '\n';
-	std::cout << "        Number of replicas to execute the algorithm." << '\n';
+	std::cout << "    -R r\n";
+	std::cout << "        Number of replicas to execute the algorithm.\n";
 	std::cout << '\n';
-	std::cout << "    -graph-from" << '\n';
-	std::cout << "        Where to get the graph from." << '\n';
-	std::cout << "            head-vector (requires '-hv')" << '\n';
-	std::cout << "            edge-list (requires '-el')" << '\n';
-	std::cout << "            random-tree (labelled trees only)" << '\n';
+	std::cout << "    -graph-from\n";
+	std::cout << "        Where to get the graph from.\n";
+	std::cout << "            head-vector (requires '-hv')\n";
+	std::cout << "            edge-list (requires '-el')\n";
+	std::cout << "            random-tree (labelled trees only)\n";
 	std::cout << '\n';
-	std::cout << "    -operation o" << '\n';
-	std::cout << "        Operation to perform. Possible values:" << '\n';
+	std::cout << "    -operation o\n";
+	std::cout << "        Operation to perform. Possible values:\n";
 	std::cout << "            - add/remove-edges : first removes and then adds\n";
 	std::cout << "                a random set of edges.\n";
 	std::cout << "            - add/remove-edges-bulk : first remove and then adds\n";
 	std::cout << "                a series of edges in bulk.\n";
 	std::cout << '\n';
-	std::cout << "    -graph-class g" << '\n';
-	std::cout << "        Graph class to use. Possible values:" << '\n';
-	std::cout << "            undirected_graph" << '\n';
-	std::cout << "            directed_graph" << '\n';
-	std::cout << "            free_tree" << '\n';
-	std::cout << "            rooted_tree" << '\n';
+	std::cout << "    -graph-class g\n";
+	std::cout << "        Graph class to use. Possible values:\n";
+	std::cout << "            undirected_graph\n";
+	std::cout << "            directed_graph\n";
+	std::cout << "            free_tree\n";
+	std::cout << "            rooted_tree\n";
 	std::cout << '\n';
+	// clang-format on
 }
 
-int graphs_pp::parse_params() noexcept {
+int graphs_pp::parse_params() noexcept
+{
 	if (m_argc == 0) {
 		print_usage();
 		return 1;
@@ -115,12 +119,14 @@ int graphs_pp::parse_params() noexcept {
 			m_list = lal::edge_list(k);
 			uint64_t j;
 			for (j = 0; j < k; ++j) {
-				m_list[j].first = static_cast<uint64_t>(atoi(m_argv[j + i + 2]));
-				m_list[j].second = static_cast<uint64_t>(atoi(m_argv[j + i + 2 + 1]));
+				m_list[j].first =
+					static_cast<uint64_t>(atoi(m_argv[j + i + 2]));
+				m_list[j].second =
+					static_cast<uint64_t>(atoi(m_argv[j + i + 2 + 1]));
 				std::cout << m_list[j].first << ' ' << m_list[j].second << '\n';
 			}
 			m_has_list = true;
-			i = i + 1 + 2*k;
+			i = i + 1 + 2 * k;
 		}
 		else if (param == "-operation") {
 			m_operation = std::string(m_argv[i + 1]);
@@ -135,67 +141,60 @@ int graphs_pp::parse_params() noexcept {
 			++i;
 		}
 		else {
-			std::cerr << "Error: unrecognised option" << '\n';
-			std::cerr << "    " << std::string(m_argv[i]) << '\n';
+			std::cerr << "Error: unrecognised option\n";
+			std::cerr << "    " << param << '\n';
 			return 2;
 		}
 	}
 	return 0;
 }
 
-int graphs_pp::check_errors() const noexcept {
+int graphs_pp::check_errors() const noexcept
+{
 	if (not m_has_R) {
-		std::cerr << "Error: missing parameter '-R'." << '\n';
+		std::cerr << "Error: missing parameter '-R'.\n";
 		return 1;
 	}
 
 	if (m_operation == "none") {
-		std::cerr << "Error: missing parameter '-operation'." << '\n';
+		std::cerr << "Error: missing parameter '-operation'.\n";
 		return 1;
 	}
 
 	if (m_graph_class == "none") {
-		std::cerr << "Error: missing parameter '-graph-class'." << '\n';
+		std::cerr << "Error: missing parameter '-graph-class'.\n";
 		return 1;
 	}
 	if (m_graph_class != "undirected_graph" and
-		m_graph_class != "directed_graph" and
-		m_graph_class != "free_tree" and
-		m_graph_class != "rooted_tree"
-	)
-	{
-		std::cerr << "Error: wrong value for parameter '-graph-class'." << '\n';
+		m_graph_class != "directed_graph" and m_graph_class != "free_tree" and
+		m_graph_class != "rooted_tree") {
+		std::cerr << "Error: wrong value for parameter '-graph-class'.\n";
 		std::cerr << "    Value: '" << m_graph_class << "'\n";
 		return 1;
 	}
 
 	if (m_graph_from == "none") {
-		std::cerr << "Error: missing parameter '-graph-from'." << '\n';
+		std::cerr << "Error: missing parameter '-graph-from'.\n";
 		return 1;
 	}
-	if (m_graph_from != "head-vector" and
-		m_graph_from != "edge-list" and
-		m_graph_from != "random-tree"
-	)
-	{
-		std::cerr << "Error: wrong value for parameter '-graph-from'." << '\n';
+	if (m_graph_from != "head-vector" and m_graph_from != "edge-list" and
+		m_graph_from != "random-tree") {
+		std::cerr << "Error: wrong value for parameter '-graph-from'.\n";
 		return 1;
 	}
 
 	if (m_operation == "none") {
-		std::cerr << "Error: missing parameter '-operation'." << '\n';
+		std::cerr << "Error: missing parameter '-operation'.\n";
 		return 1;
 	}
 	if (m_operation != "add/remove-edges" and
-		m_operation != "add/remove-edges-bulk"
-	)
-	{
-		std::cerr << "Error: wrong value for parameter '-operation'." << '\n';
+		m_operation != "add/remove-edges-bulk") {
+		std::cerr << "Error: wrong value for parameter '-operation'.\n";
 		return 1;
 	}
 
 	return 0;
 }
 
-} // -- namespace graphs
-} // -- namespace profiling
+} // namespace graphs
+} // namespace profiling

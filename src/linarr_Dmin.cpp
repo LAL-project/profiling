@@ -44,29 +44,40 @@ namespace profiling {
 namespace linarr_Dmin {
 
 void output_execution_time(
-	double totalglobal_ms, double totallocal_ms, uint64_t n, uint64_t T
-)
+	const double totalglobal_ms,
+	const double totallocal_ms,
+	const uint64_t n,
+	const uint64_t T
+) noexcept
 {
 	std::cout << "Number of vertices (n)= " << n << '\n';
 	std::cout << "Number of trees generated (T)= " << T << '\n';
-	std::cout << "Total (global) execution time: " << profiling::time_to_str(totalglobal_ms) << '\n';
-	std::cout << "Total (local) execution time: " << profiling::time_to_str(totallocal_ms) << '\n';
-	std::cout << "    Average (ms/tree): " << profiling::time_to_str(totallocal_ms/T) << '\n';
+	std::cout << "Total (global) execution time: "
+			  << profiling::time_to_str(totalglobal_ms) << '\n';
+	std::cout << "Total (local) execution time: "
+			  << profiling::time_to_str(totallocal_ms) << '\n';
+	std::cout << "    Average (ms/tree): "
+			  << profiling::time_to_str(totallocal_ms / static_cast<double>(T))
+			  << '\n';
 }
 
-template<class tree_t>
-void profile_algo(
-	const std::function<std::pair<uint64_t, lal::linear_arrangement> (const tree_t&)>& A,
-	uint64_t n, uint64_t T
-)
+template <class tree_t, typename Callable>
+void profile_algo(const Callable& A, const uint64_t n, const uint64_t T)
+	noexcept
 {
+	static_assert(std::is_constructible_v<
+				  std::function<std::pair<
+					  uint64_t,
+					  lal::linear_arrangement>(const tree_t&)>,
+				  Callable>);
+
 	double totallocal = 0.0;
 
 	lal::generate::tree_generator_type_t<
 		lal::generate::random_t,
 		lal::generate::unlabelled_t,
-		tree_t
-	> Gen(n, 1234);
+		tree_t>
+		Gen(n, 1234);
 	Gen.deactivate_all_postprocessing_actions();
 
 	const auto beginglobal = profiling::now();
@@ -87,13 +98,18 @@ void profile_algo(
 	output_execution_time(totalglobal, totallocal, n, T);
 }
 
-} // -- namespace linarr_Dmin
+} // namespace linarr_Dmin
 
-void linarr_minimum_D(uint64_t argc, char *argv[]) {
+void linarr_minimum_D(uint64_t argc, char *argv[]) noexcept
+{
 	linarr_Dmin::linarr_Dmin_pp parser(argc, argv);
 	{
-	if (parser.parse_params() > 0) { return; }
-	if (parser.check_errors() > 0) { return; }
+		if (parser.parse_params() > 0) {
+			return;
+		}
+		if (parser.check_errors() > 0) {
+			return;
+		}
 	}
 
 	const std::string what = parser.get_algo();
@@ -101,57 +117,78 @@ void linarr_minimum_D(uint64_t argc, char *argv[]) {
 	const uint64_t T = parser.get_T();
 
 	if (what == "unconstrained_YS") {
-		linarr_Dmin::profile_algo<lal::graphs::free_tree>
-		(
-		[](const lal::graphs::free_tree& t) {
-			return lal::linarr::min_sum_edge_lengths(t, lal::linarr::algorithms_Dmin::Shiloach);
-		},
-		n, T
+		linarr_Dmin::profile_algo<lal::graphs::free_tree>(
+			[](const lal::graphs::free_tree& t)
+			{
+				return lal::linarr::min_sum_edge_lengths(
+					t, lal::linarr::algorithms_Dmin::Shiloach
+				);
+			},
+			n,
+			T
 		);
 	}
 	else if (what == "unconstrained_FC") {
-		linarr_Dmin::profile_algo<lal::graphs::free_tree>
-		(
-		[](const lal::graphs::free_tree& t) {
-			return lal::linarr::min_sum_edge_lengths(t, lal::linarr::algorithms_Dmin::Chung_2);
-		},
-		n, T
+		linarr_Dmin::profile_algo<lal::graphs::free_tree>(
+			[](const lal::graphs::free_tree& t)
+			{
+				return lal::linarr::min_sum_edge_lengths(
+					t, lal::linarr::algorithms_Dmin::Chung_2
+				);
+			},
+			n,
+			T
 		);
 	}
 	else if (what == "projective_AEF") {
-		linarr_Dmin::profile_algo<lal::graphs::rooted_tree>
-		(
-		[](const lal::graphs::rooted_tree& t) {
-			return lal::linarr::min_sum_edge_lengths_projective(t, lal::linarr::algorithms_Dmin_projective::AlemanyEstebanFerrer);
-		},
-		n, T
+		linarr_Dmin::profile_algo<lal::graphs::rooted_tree>(
+			[](const lal::graphs::rooted_tree& t)
+			{
+				return lal::linarr::min_sum_edge_lengths_projective(
+					t,
+					lal::linarr::algorithms_Dmin_projective::
+						AlemanyEstebanFerrer
+				);
+			},
+			n,
+			T
 		);
 	}
 	else if (what == "projective_HS") {
-		linarr_Dmin::profile_algo<lal::graphs::rooted_tree>
-		(
-		[](const lal::graphs::rooted_tree& t) {
-			return lal::linarr::min_sum_edge_lengths_projective(t, lal::linarr::algorithms_Dmin_projective::HochbergStallmann);
-		},
-		n, T
+		linarr_Dmin::profile_algo<lal::graphs::rooted_tree>(
+			[](const lal::graphs::rooted_tree& t)
+			{
+				return lal::linarr::min_sum_edge_lengths_projective(
+					t,
+					lal::linarr::algorithms_Dmin_projective::HochbergStallmann
+				);
+			},
+			n,
+			T
 		);
 	}
 	else if (what == "planar_AEF") {
-		linarr_Dmin::profile_algo<lal::graphs::free_tree>
-		(
-		[](const lal::graphs::free_tree& t) {
-			return lal::linarr::min_sum_edge_lengths_planar(t, lal::linarr::algorithms_Dmin_planar::AlemanyEstebanFerrer);
-		},
-		n, T
+		linarr_Dmin::profile_algo<lal::graphs::free_tree>(
+			[](const lal::graphs::free_tree& t)
+			{
+				return lal::linarr::min_sum_edge_lengths_planar(
+					t, lal::linarr::algorithms_Dmin_planar::AlemanyEstebanFerrer
+				);
+			},
+			n,
+			T
 		);
 	}
 	else if (what == "planar_HS") {
-		linarr_Dmin::profile_algo<lal::graphs::free_tree>
-		(
-		[](const lal::graphs::free_tree& t) {
-			return lal::linarr::min_sum_edge_lengths_planar(t, lal::linarr::algorithms_Dmin_planar::HochbergStallmann);
-		},
-		n, T
+		linarr_Dmin::profile_algo<lal::graphs::free_tree>(
+			[](const lal::graphs::free_tree& t)
+			{
+				return lal::linarr::min_sum_edge_lengths_planar(
+					t, lal::linarr::algorithms_Dmin_planar::HochbergStallmann
+				);
+			},
+			n,
+			T
 		);
 	}
 	else {
@@ -160,4 +197,4 @@ void linarr_minimum_D(uint64_t argc, char *argv[]) {
 	}
 }
 
-} // -- namespace profiling
+} // namespace profiling

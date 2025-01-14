@@ -370,6 +370,7 @@ SUBDIRS += \
 	../../linear-arrangement-library/lal/lal.pro
 
 DISTFILES += \
+	.clang-format \
 	../../linear-arrangement-library/lal/documentation/page_concepts.dox \
 	../../linear-arrangement-library/lal/documentation/page_main.dox \
 	../../linear-arrangement-library/lal/documentation/page_namespace_lal.dox \

@@ -34,41 +34,47 @@
 namespace profiling {
 namespace linarr_Dmin {
 
-linarr_Dmin_pp::linarr_Dmin_pp(uint64_t argc, char *argv[]) : m_argc(argc), m_argv(argv)
+linarr_Dmin_pp::linarr_Dmin_pp(uint64_t argc, char *argv[]) noexcept
+	: m_argc(argc),
+	  m_argv(argv)
 { }
-linarr_Dmin_pp::~linarr_Dmin_pp() { }
+linarr_Dmin_pp::~linarr_Dmin_pp() noexcept { }
 
-void linarr_Dmin_pp::print_usage() const {
-	std::cout << "Profiling -- Calculation of minimum D" << '\n';
-	std::cout << "=====================================" << '\n';
+void linarr_Dmin_pp::print_usage() const noexcept
+{
+	// clang-format off
+	std::cout << "Profiling -- Calculation of minimum D\n";
+	std::cout << "=====================================\n";
 	std::cout << '\n';
-	std::cout << "This program's options are the following:" << '\n';
-	std::cout << "    Those marked with [*] are mandatory for all execution modes." << '\n';
-	std::cout << "    Those marked with [i] are mandatory for execution mode i." << '\n';
-	std::cout << "    Those marked with [?] are optional." << '\n';
+	std::cout << "This program's options are the following:\n";
+	std::cout << "    Those marked with [*] are mandatory for all execution modes.\n";
+	std::cout << "    Those marked with [i] are mandatory for execution mode i.\n";
+	std::cout << "    Those marked with [?] are optional.\n";
 	std::cout << '\n';
-	std::cout << "    [*]   -n n" << '\n';
-	std::cout << "          Indicate the number of vertices of the trees." << '\n';
+	std::cout << "    [*]   -n n\n";
+	std::cout << "          Indicate the number of vertices of the trees.\n";
 	std::cout << '\n';
-	std::cout << "    [*]   -T T" << '\n';
-	std::cout << "          Indicate the number of trees to generate." << '\n';
+	std::cout << "    [*]   -T T\n";
+	std::cout << "          Indicate the number of trees to generate.\n";
 	std::cout << '\n';
-	std::cout << "    [*]   -algorithm A" << '\n';
-	std::cout << "          Indicate the algorithm to profile:" << '\n';
+	std::cout << "    [*]   -algorithm A\n";
+	std::cout << "          Indicate the algorithm to profile:\n";
 	std::cout << '\n';
 	for (const std::string& algo : m_allowed_algorithms) {
 	std::cout << "          " << algo << '\n';
 	}
 	std::cout << '\n';
+	// clang-format on
 }
 
-int linarr_Dmin_pp::parse_params() {
+int linarr_Dmin_pp::parse_params() noexcept
+{
 	if (m_argc == 0) {
 		print_usage();
 		return 1;
 	}
 
-	for (int i = 0; i < m_argc; ++i) {
+	for (uint64_t i = 0; i < m_argc; ++i) {
 		const std::string param(m_argv[i]);
 
 		if (param == "--help" or param == "-h") {
@@ -90,30 +96,31 @@ int linarr_Dmin_pp::parse_params() {
 			++i;
 		}
 		else {
-			std::cerr << "Error: unrecognised option" << '\n';
-			std::cerr << "    " << std::string(m_argv[i]) << '\n';
+			std::cerr << "Error: unrecognised option\n";
+			std::cerr << "    " << param << '\n';
 			return 2;
 		}
 	}
 	return 0;
 }
 
-int linarr_Dmin_pp::check_errors() const {
+int linarr_Dmin_pp::check_errors() const noexcept
+{
 	if (not m_has_n) {
-		std::cout << "Error: missing parameter '-n'." << '\n';
+		std::cout << "Error: missing parameter '-n'.\n";
 		return 1;
 	}
 	if (not m_has_T) {
-		std::cout << "Error: missing parameter '-T'." << '\n';
+		std::cout << "Error: missing parameter '-T'.\n";
 		return 1;
 	}
 	if (m_gen_algo == "none") {
-		std::cout << "Error: missing parameter '-algorithm'." << '\n';
+		std::cout << "Error: missing parameter '-algorithm'.\n";
 		return 1;
 	}
 
 	return 0;
 }
 
-} // -- namespace linarr_Dmin
-} // -- namespace profiling
+} // namespace linarr_Dmin
+} // namespace profiling

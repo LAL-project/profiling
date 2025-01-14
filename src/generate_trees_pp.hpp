@@ -36,26 +36,43 @@ namespace generate {
 
 class generate_trees_pp {
 public:
-	generate_trees_pp(uint64_t argc, char *argv[]) noexcept : m_argc(argc), m_argv(argv) { }
+
+	generate_trees_pp(uint64_t argc, char *argv[]) noexcept
+		: m_argc(argc),
+		  m_argv(argv)
+	{ }
 	~generate_trees_pp() noexcept { }
 
-	const std::string& get_gen_class() const noexcept { return m_gen_class; }
-	uint64_t get_n() const noexcept { return m_n; }
-	uint64_t get_N() const noexcept { return m_N; }
-	uint64_t get_R() const noexcept { return m_R; }
+	[[nodiscard]] const std::string& get_gen_class() const noexcept
+	{
+		return m_gen_class;
+	}
+	[[nodiscard]] uint64_t get_n() const noexcept
+	{
+		return m_n;
+	}
+	[[nodiscard]] uint64_t get_N() const noexcept
+	{
+		return m_N;
+	}
+	[[nodiscard]] uint64_t get_R() const noexcept
+	{
+		return m_R;
+	}
 
 	void print_usage() const noexcept;
 
 	// returns 0 on success,
 	// returns 1 on help,
 	// returns 2 on error
-	int parse_params() noexcept;
+	[[nodiscard]] int parse_params() noexcept;
 
 	// returns 0 if there are no errors.
 	// returns 1 if there are errors.
-	int check_errors() const noexcept;
+	[[nodiscard]] int check_errors() const noexcept;
 
 private:
+
 	// algorithm to execute
 	std::string m_gen_class = "none";
 
@@ -71,15 +88,19 @@ private:
 	uint64_t m_R = 0;
 	bool m_has_R = false;
 
-	const std::set<std::string> m_allowed_gen_classes =
-	std::set<std::string>({
-		"all_lab_free", "all_lab_rooted", "all_ulab_free", "all_ulab_rooted",
-		"rand_lab_free", "rand_lab_rooted", "rand_ulab_free", "rand_ulab_rooted",
-	}
-	);
+	const std::set<std::string> m_allowed_gen_classes = std::set<std::string>({
+		"all_lab_free",
+		"all_lab_rooted",
+		"all_ulab_free",
+		"all_ulab_rooted",
+		"rand_lab_free",
+		"rand_lab_rooted",
+		"rand_ulab_free",
+		"rand_ulab_rooted",
+	});
 	uint64_t m_argc;
 	char **m_argv;
 };
 
-} // -- namespace generate
-} // -- namespace profiling
+} // namespace generate
+} // namespace profiling
