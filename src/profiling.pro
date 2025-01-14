@@ -164,6 +164,8 @@ SOURCES += \
 	main.cpp \
     properties_centroid_centre.cpp \
     properties_centroid_centre_pp.cpp \
+	properties_variance_C.cpp \
+	properties_variance_C_pp.cpp \
     utilities_tree_isomorphism.cpp
 
 HEADERS += \
@@ -360,6 +362,7 @@ HEADERS += \
     linarr_Dmin_pp.hpp \
 	linarr_DMax_pp.hpp \
     properties_centroid_centre_pp.hpp \
+	properties_variance_C_pp.hpp \
     time.hpp
 
 SUBDIRS += \
