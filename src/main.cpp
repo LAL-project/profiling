@@ -27,6 +27,7 @@
 
 // C++ includes
 #include <iostream>
+#include <cstdint>
 
 namespace profiling {
 

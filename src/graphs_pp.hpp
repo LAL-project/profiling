@@ -28,6 +28,7 @@
 #pragma once
 
 // C++ includes
+#include <cstdint>
 #include <string>
 
 // lal includes

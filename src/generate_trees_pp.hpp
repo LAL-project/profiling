@@ -28,6 +28,8 @@
 #pragma once
 
 // C++ includes
+#include <cstdint>
+#include <cstdlib>
 #include <string>
 #include <set>
 
