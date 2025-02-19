@@ -2,9 +2,9 @@ TEMPLATE = app
 CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
-CONFIG += c++17
+CONFIG += c++23
 
-QMAKE_CXXFLAGS += -std=c++17 -fPIC -fopenmp
+QMAKE_CXXFLAGS += -std=c++23 -fPIC -fopenmp
 QMAKE_CXXFLAGS +=			\
 	-Wall					\
 	-Wextra					\ # reasonable and standard
