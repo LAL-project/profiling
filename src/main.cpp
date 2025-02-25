@@ -37,6 +37,7 @@ void generate_arrangements(uint64_t argc, char *argv[]) noexcept;
 void linarr_crossings(uint64_t argc, char *argv[]) noexcept;
 void linarr_minimum_D(uint64_t argc, char *argv[]) noexcept;
 void linarr_maximum_D(uint64_t argc, char *argv[]) noexcept;
+void numeric_integer(uint64_t argc, char *argv[]) noexcept;
 void properties_variance_C_graph(uint64_t argc, char *argv[]) noexcept;
 void properties_centroid_tree(uint64_t argc, char *argv[]) noexcept;
 void properties_centre_tree(uint64_t argc, char *argv[]) noexcept;
@@ -69,6 +70,8 @@ void usage() noexcept
 	std::cout << '\n';
 	std::cout << "    linarr_DMax : Profile the algorithms for the calculation\n";
 	std::cout << "        of the maximum sum of edge lengths.\n";
+	std::cout << '\n';
+	std::cout << "    numeric_integer : Profile the operations with integer numbers.\n";
 	std::cout << '\n';
 	std::cout << "    properties_variance_C_graph : Profile the algorithm for the computation\n";
 	std::cout << "        of the variance of C on graphs.\n";
@@ -115,6 +118,9 @@ int main(int argc, char *argv[]) noexcept
 	}
 	else if (first == "linarr_DMax") {
 		profiling::linarr_maximum_D(_argc - 2, &argv[2]);
+	}
+	else if (first == "numeric_integer") {
+		profiling::numeric_integer(_argc - 2, &argv[2]);
 	}
 	else if (first == "properties_variance_C_graph") {
 		profiling::properties_variance_C_graph(_argc - 2, &argv[2]);
