@@ -163,6 +163,7 @@ SOURCES += \
 	linarr_DMax_pp.cpp \
 	main.cpp \
 	numeric_integer.cpp \
+	numeric_rational.cpp \
     properties_centroid_centre.cpp \
     properties_centroid_centre_pp.cpp \
 	properties_variance_C.cpp \
