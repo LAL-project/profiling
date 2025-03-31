@@ -149,6 +149,8 @@ SOURCES += \
 	../../linear-arrangement-library/lal/properties/vertex_orbits.cpp \
 	../../linear-arrangement-library/lal/utilities/tree_isomorphism.cpp \
     conversion.cpp \
+	detail_sorting.cpp \
+	detail_sorting_pp.cpp \
     dir_to_undir_pp.cpp \
     generate.cpp \
     generate_arrangements_pp.cpp \
@@ -356,6 +358,7 @@ HEADERS += \
 	../../linear-arrangement-library/lal/utilities.hpp \
 	../../linear-arrangement-library/lal/utilities/aggregations.hpp \
 	../../linear-arrangement-library/lal/utilities/tree_isomorphism.hpp \
+	detail_sorting_pp.hpp \
     dir_to_undir_pp.hpp \
     generate_arrangements_pp.hpp \
     generate_trees_pp.hpp \

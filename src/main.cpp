@@ -43,6 +43,7 @@ void properties_variance_C_graph(uint64_t argc, char *argv[]) noexcept;
 void properties_centroid_tree(uint64_t argc, char *argv[]) noexcept;
 void properties_centre_tree(uint64_t argc, char *argv[]) noexcept;
 void utilities_tree_isomorphism(uint64_t argc, char *argv[]) noexcept;
+void detail_sorting_algorithms(uint64_t argc, char *argv[]) noexcept;
 void conversion(uint64_t argc, char *argv[]) noexcept;
 
 } // namespace profiling
@@ -87,6 +88,8 @@ void usage() noexcept
 	std::cout << '\n';
 	std::cout << "    utilities_isomorphism : Profile the algorithms for the tree\n";
 	std::cout << "        isomorphism test.\n";
+	std::cout << '\n';
+	std::cout << "    detail_sorting : Profile sorting algorithms.\n";
 	std::cout << '\n';
 	std::cout << "    conversion : Profile the conversion of a directed\n";
 	std::cout << "        graph to an undirected graph.\n";
@@ -139,6 +142,9 @@ int main(int argc, char *argv[]) noexcept
 	}
 	else if (first == "utilities_isomorphism") {
 		profiling::utilities_tree_isomorphism(_argc - 2, &argv[2]);
+	}
+	else if (first == "detail_sorting") {
+		profiling::detail_sorting_algorithms(_argc - 2, &argv[2]);
 	}
 	else if (first == "conversion") {
 		profiling::conversion(_argc - 2, &argv[2]);
