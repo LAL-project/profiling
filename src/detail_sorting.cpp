@@ -39,13 +39,46 @@
 namespace profiling {
 namespace detail_sorting {
 
-void profile_insertion_sort(const uint64_t n, const uint64_t R) noexcept
+void insertion_sort_int(const uint64_t n, const uint64_t R) noexcept
 {
 	std::vector<uint64_t> v(n);
 
-	std::random_device rd;
-	std::mt19937 g(rd());
+	std::mt19937 g(1234);
 	std::iota(v.begin(), v.end(), 0);
+
+	double total_time = 0;
+	for (uint64_t r = 0; r < R; ++r) {
+		std::shuffle(v.begin(), v.end(), g);
+		const auto begin = now();
+		lal::detail::sorting::insertion_sort(v.begin(), v.end());
+		const auto end = now();
+		total_time += elapsed_time(begin, end);
+	}
+
+	std::cout << "Total execution time:   " << time_to_str(total_time) << '\n';
+	std::cout << "Total time per replica: "
+			  << time_to_str(total_time / static_cast<double>(R)) << '\n';
+}
+
+void insertion_sort_string(const uint64_t n, const uint64_t R) noexcept
+{
+	static constexpr std::string_view abc = "abcdefghijklmnopqrstuvwxyz";
+	std::vector<std::string> v(n);
+
+	std::mt19937 g(1234);
+
+	std::for_each(
+		v.begin(),
+		v.end(),
+		[&](std::string& s)
+		{
+			s.resize(100);
+			for (char& c : s) {
+				const std::size_t idx = g() % abc.size();
+				c = abc[idx];
+			}
+		}
+	);
 
 	double total_time = 0;
 	for (uint64_t r = 0; r < R; ++r) {
@@ -76,7 +109,8 @@ void detail_sorting_algorithms(uint64_t argc, char *argv[]) noexcept
 	}
 
 	if (parser.get_algo() == "insertion") {
-		detail_sorting::profile_insertion_sort(parser.get_n(), parser.get_R());
+		detail_sorting::insertion_sort_int(parser.get_n(), parser.get_R());
+		detail_sorting::insertion_sort_string(parser.get_n(), parser.get_R());
 	}
 }
 
