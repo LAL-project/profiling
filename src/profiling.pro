@@ -77,6 +77,7 @@ equals(ENVIR, "CLUSTER") {
 }
 
 SOURCES += \
+	../../linear-arrangement-library/lal/bibliography.cpp \
 	../../linear-arrangement-library/lal/detail/linarr/D/DMax/unconstrained/branch_and_bound/AEF/BnB_constraints.cpp \
 	../../linear-arrangement-library/lal/detail/linarr/D/DMax/unconstrained/branch_and_bound/AEF/BnB_execution.cpp \
 	../../linear-arrangement-library/lal/detail/linarr/D/DMax/unconstrained/branch_and_bound/AEF/BnB_execution_independent_set.cpp \
@@ -139,6 +140,7 @@ SOURCES += \
 	../../linear-arrangement-library/lal/properties/bipartite_graph_colorability.cpp \
 	../../linear-arrangement-library/lal/properties/branchless_paths_compute.cpp \
 	../../linear-arrangement-library/lal/properties/connected_components_compute.cpp \
+	../../linear-arrangement-library/lal/properties/degrees.cpp \
 	../../linear-arrangement-library/lal/properties/hierarchical_distance.cpp \
 	../../linear-arrangement-library/lal/properties/maximum_spanning_trees.cpp \
 	../../linear-arrangement-library/lal/properties/tree_centre.cpp \
@@ -176,9 +178,12 @@ HEADERS += \
 	../../linear-arrangement-library/lal/C.hpp \
 	../../linear-arrangement-library/lal/D.hpp \
 	../../linear-arrangement-library/lal/basic_types.hpp \
+	../../linear-arrangement-library/lal/bibliography.hpp \
+	../../linear-arrangement-library/lal/bibliography_entries.hpp \
 	../../linear-arrangement-library/lal/detail/arrangement_wrapper.hpp \
 	../../linear-arrangement-library/lal/detail/array.hpp \
 	../../linear-arrangement-library/lal/detail/avl.hpp \
+	../../linear-arrangement-library/lal/detail/bibliography.hpp \
 	../../linear-arrangement-library/lal/detail/generate/make_arrangement.hpp \
 	../../linear-arrangement-library/lal/detail/graphs/conversions.hpp \
 	../../linear-arrangement-library/lal/detail/graphs/cycles.hpp \
