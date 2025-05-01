@@ -43,34 +43,35 @@
 
 namespace profiling {
 
-void relabel_edges(std::vector<lal::edge>& edges, lal::node& r) noexcept
+void relabel_edges(
+	std::vector<lal::edge>& edges, lal::node& r, std::mt19937& gen
+) noexcept
 {
 	const uint64_t n = edges.size() + 1;
 
-	std::mt19937 gen(1234);
-
-	std::vector<lal::node> relab(n);
+	lal::detail::array<lal::node> relab(n);
 	std::iota(relab.begin(), relab.end(), 0);
 
-	for (uint64_t i = 0; i < n; ++i) {
-		shuffle(relab.begin(), relab.end(), gen);
+	shuffle(relab.begin(), relab.end(), gen);
 
-		// relabel each vertex accoring to 'relab'
-		for (lal::edge& e : edges) {
-			lal::node& s = e.first;
-			lal::node& t = e.second;
-			s = relab[s];
-			t = relab[t];
-		}
-		r = relab[r];
+	// relabel each vertex accoring to 'relab'
+	for (lal::edge& e : edges) {
+		lal::node& s = e.first;
+		lal::node& t = e.second;
+		s = relab[s];
+		t = relab[t];
 	}
+	r = relab[r];
 }
 
-void shuffle_tree(std::vector<lal::edge>& edges, lal::graphs::rooted_tree& T)
-	noexcept
+void shuffle_tree(
+	std::vector<lal::edge>& edges,
+	lal::graphs::rooted_tree& T,
+	std::mt19937& gen
+) noexcept
 {
 	lal::node r = T.get_root();
-	relabel_edges(edges, r);
+	relabel_edges(edges, r, gen);
 
 	T.clear();
 
@@ -79,14 +80,15 @@ void shuffle_tree(std::vector<lal::edge>& edges, lal::graphs::rooted_tree& T)
 	T.set_edges(edges);
 }
 
-void shuffle_tree(std::vector<lal::edge>& edges, lal::graphs::free_tree& T)
-	noexcept
+void shuffle_tree(
+	std::vector<lal::edge>& edges, lal::graphs::free_tree& T, std::mt19937& gen
+) noexcept
 {
 	T.clear();
 	T.init(edges.size() + 1);
 
 	lal::node dummy = 0;
-	relabel_edges(edges, dummy);
+	relabel_edges(edges, dummy, gen);
 	T.set_edges(edges);
 }
 
@@ -111,7 +113,7 @@ void output_info(
 // ground truth: ISOMORPHIC
 
 template <class tree_t, class gen_t>
-void pos_exh_test(const uint64_t n, const uint64_t N_relabs)
+void pos_exh_test(const uint64_t n, const uint64_t N_relabs, std::mt19937& gen)
 {
 	uint64_t n_calls = 0;
 	double total_time = 0.0;
@@ -130,11 +132,10 @@ void pos_exh_test(const uint64_t n, const uint64_t N_relabs)
 		}
 
 		for (uint64_t N = 0; N < N_relabs; ++N) {
-			relab_tree.clear();
-			shuffle_tree(edges_cur, relab_tree);
+			shuffle_tree(edges_cur, relab_tree, gen);
 
 			const auto begin = now();
-			std::ignore =
+			[[maybe_unused]] const bool r =
 				lal::utilities::are_trees_isomorphic(cur_tree, relab_tree);
 			const auto end = now();
 			total_time += elapsed_time(begin, end);
@@ -149,7 +150,7 @@ void pos_exh_test(const uint64_t n, const uint64_t N_relabs)
 // ground truth: NON-ISOMORPHIC
 
 template <class tree_t, class gen_t>
-void neg_exh_test(const uint64_t n, const uint64_t N_relabs)
+void neg_exh_test(const uint64_t n, const uint64_t N_relabs, std::mt19937& gen)
 {
 
 	if constexpr (std::is_base_of_v<lal::graphs::undirected_graph, tree_t>) {
@@ -196,7 +197,7 @@ void neg_exh_test(const uint64_t n, const uint64_t N_relabs)
 			}
 
 			for (uint64_t l = 0; l < N_relabs; ++l) {
-				shuffle_tree(edges_tj, relab_tree);
+				shuffle_tree(edges_tj, relab_tree, gen);
 
 				const auto begin = now();
 				std::ignore =
@@ -231,6 +232,8 @@ void utilities_tree_isomorphism(uint64_t argc, char *argv[]) noexcept
 		return;
 	}
 
+	std::mt19937 gen(1234);
+
 	const std::string tree_type(argv[0]);
 	const std::string expected_answer(argv[1]);
 	const uint64_t n = static_cast<uint64_t>(atoi(argv[2]));
@@ -245,24 +248,24 @@ void utilities_tree_isomorphism(uint64_t argc, char *argv[]) noexcept
 		if (expected_answer == "positive") {
 			pos_exh_test<
 				lal::graphs::free_tree,
-				lal::generate::all_ulab_free_trees>(n, r);
+				lal::generate::all_ulab_free_trees>(n, r, gen);
 		}
 		else {
 			neg_exh_test<
 				lal::graphs::free_tree,
-				lal::generate::all_ulab_free_trees>(n, r);
+				lal::generate::all_ulab_free_trees>(n, r, gen);
 		}
 	}
 	else if (tree_type == "rooted") {
 		if (expected_answer == "positive") {
 			pos_exh_test<
 				lal::graphs::rooted_tree,
-				lal::generate::all_ulab_rooted_trees>(n, r);
+				lal::generate::all_ulab_rooted_trees>(n, r, gen);
 		}
 		else {
 			neg_exh_test<
 				lal::graphs::rooted_tree,
-				lal::generate::all_ulab_rooted_trees>(n, r);
+				lal::generate::all_ulab_rooted_trees>(n, r, gen);
 		}
 	}
 }
