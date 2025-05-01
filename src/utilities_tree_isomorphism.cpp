@@ -78,6 +78,7 @@ void shuffle_tree(
 	T.init(edges.size() + 1);
 	T.set_root(r);
 	T.set_edges(edges);
+	T.normalize();
 }
 
 void shuffle_tree(
@@ -90,6 +91,7 @@ void shuffle_tree(
 	lal::node dummy = 0;
 	relabel_edges(edges, dummy, gen);
 	T.set_edges(edges);
+	T.normalize();
 }
 
 void output_info(
