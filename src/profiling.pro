@@ -261,6 +261,7 @@ HEADERS += \
 	../../linear-arrangement-library/lal/detail/type_traits/ith_type.hpp \
 	../../linear-arrangement-library/lal/detail/type_traits/type_sequence.hpp \
 	../../linear-arrangement-library/lal/detail/utilities/tree_isomorphism.hpp \
+	../../linear-arrangement-library/lal/detail/utilities/tree_isomorphism_fast_noniso.hpp \
 	../../linear-arrangement-library/lal/generate.hpp \
 	../../linear-arrangement-library/lal/generate/all_arrangements.hpp \
 	../../linear-arrangement-library/lal/generate/all_bipartite_arrangements.hpp \
