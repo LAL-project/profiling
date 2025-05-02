@@ -115,7 +115,12 @@ void output_info(
 // ground truth: ISOMORPHIC
 
 template <class tree_t, class gen_t>
-void pos_exh_test(const uint64_t n, const uint64_t N_relabs, std::mt19937& gen)
+void pos_exh_test(
+	const uint64_t n,
+	const uint64_t T,
+	const uint64_t N_relabs,
+	std::mt19937& gen
+)
 {
 	uint64_t n_calls = 0;
 	double total_time = 0.0;
@@ -123,7 +128,8 @@ void pos_exh_test(const uint64_t n, const uint64_t N_relabs, std::mt19937& gen)
 	tree_t relab_tree;
 	gen_t Gen(n);
 
-	while (not Gen.end()) {
+	std::size_t idx = 0;
+	while (not Gen.end() and idx < T) {
 		const tree_t cur_tree = Gen.get_tree();
 		Gen.next();
 
@@ -137,13 +143,19 @@ void pos_exh_test(const uint64_t n, const uint64_t N_relabs, std::mt19937& gen)
 			shuffle_tree(edges_cur, relab_tree, gen);
 
 			const auto begin = now();
-			[[maybe_unused]] const bool r =
+			const bool r =
 				lal::utilities::are_trees_isomorphic(cur_tree, relab_tree);
 			const auto end = now();
 			total_time += elapsed_time(begin, end);
+
+			if (not r) {
+				std::cerr << "ERROR!\n";
+				std::abort();
+			}
 		}
 
 		n_calls += N_relabs;
+		++idx;
 	}
 
 	output_info(n, N_relabs, n_calls, total_time);
@@ -152,34 +164,21 @@ void pos_exh_test(const uint64_t n, const uint64_t N_relabs, std::mt19937& gen)
 // ground truth: NON-ISOMORPHIC
 
 template <class tree_t, class gen_t>
-void neg_exh_test(const uint64_t n, const uint64_t N_relabs, std::mt19937& gen)
+void neg_exh_test(
+	const uint64_t n,
+	const uint64_t T,
+	const uint64_t N_relabs,
+	std::mt19937& gen
+)
 {
-
-	if constexpr (std::is_base_of_v<lal::graphs::undirected_graph, tree_t>) {
-		if (n > 21) {
-			std::cerr << "ERROR\n";
-			std::cerr << "    Using n>21 (n=" << n
-					  << ") is going to freeze the computer.\n";
-			std::cerr << "    Aborting.\n";
-			return;
-		}
-	}
-	else if constexpr (std::is_base_of_v<lal::graphs::directed_graph, tree_t>) {
-		if (n > 18) {
-			std::cerr << "ERROR\n";
-			std::cerr << "    Using n>18 (n=" << n
-					  << ") is going to freeze the computer.\n";
-			std::cerr << "    Aborting.\n";
-			return;
-		}
-	}
-
 	std::vector<tree_t> all_trees;
 	gen_t Gen(n);
-	while (not Gen.end()) {
+	while (not Gen.end() and all_trees.size() < T) {
 		all_trees.push_back(Gen.get_tree());
 		Gen.next();
 	}
+
+	std::cout << "Pool of trees calculated\n";
 
 	uint64_t n_calls = 0;
 	double total_time = 0.0;
@@ -202,10 +201,15 @@ void neg_exh_test(const uint64_t n, const uint64_t N_relabs, std::mt19937& gen)
 				shuffle_tree(edges_tj, relab_tree, gen);
 
 				const auto begin = now();
-				std::ignore =
+				const bool r =
 					lal::utilities::are_trees_isomorphic(ti, relab_tree);
 				const auto end = now();
 				total_time += elapsed_time(begin, end);
+
+				if (r) {
+					std::cerr << "ERROR!\n";
+					std::abort();
+				}
 			}
 
 			n_calls += N_relabs;
@@ -217,18 +221,19 @@ void neg_exh_test(const uint64_t n, const uint64_t N_relabs, std::mt19937& gen)
 
 void utilities_tree_isomorphism(uint64_t argc, char *argv[]) noexcept
 {
-	if (argc != 4) {
+	if (argc != 5) {
 		// clang-format off
-		std::cout << "free positive   n r\n";
-		std::cout << "free negative   n r\n";
-		std::cout << "rooted positive n r\n";
-		std::cout << "rooted negative n r\n";
+		std::cout << "free positive   n r T\n";
+		std::cout << "free negative   n r T\n";
+		std::cout << "rooted positive n r T\n";
+		std::cout << "rooted negative n r T\n";
 		std::cout << '\n';
 		std::cout << "free/rooted positive/negative - profile the test for free/rooted\n";
 		std::cout << "trees where the answer of the test is known to be positive/negative\n";
 		std::cout << '\n';
 		std::cout << "    n: number of vertices\n";
 		std::cout << "    r: number of times each tree's vertices will be relabelled\n";
+		std::cout << "    T: number of trees to generate\n";
 		std::cout << '\n';
 		// clang-format on
 		return;
@@ -240,34 +245,36 @@ void utilities_tree_isomorphism(uint64_t argc, char *argv[]) noexcept
 	const std::string expected_answer(argv[1]);
 	const uint64_t n = static_cast<uint64_t>(atoi(argv[2]));
 	const uint64_t r = static_cast<uint64_t>(atoi(argv[3]));
+	const uint64_t T = static_cast<uint64_t>(atoi(argv[4]));
 
 	std::cout << "tree_type= " << tree_type << '\n';
 	std::cout << "expected_answer= " << expected_answer << '\n';
 	std::cout << "n= " << n << '\n';
 	std::cout << "r= " << r << '\n';
+	std::cout << "T= " << T << '\n';
 
 	if (tree_type == "free") {
 		if (expected_answer == "positive") {
 			pos_exh_test<
 				lal::graphs::free_tree,
-				lal::generate::all_ulab_free_trees>(n, r, gen);
+				lal::generate::all_ulab_free_trees>(n, r, T, gen);
 		}
 		else {
 			neg_exh_test<
 				lal::graphs::free_tree,
-				lal::generate::all_ulab_free_trees>(n, r, gen);
+				lal::generate::all_ulab_free_trees>(n, r, T, gen);
 		}
 	}
 	else if (tree_type == "rooted") {
 		if (expected_answer == "positive") {
 			pos_exh_test<
 				lal::graphs::rooted_tree,
-				lal::generate::all_ulab_rooted_trees>(n, r, gen);
+				lal::generate::all_ulab_rooted_trees>(n, r, T, gen);
 		}
 		else {
 			neg_exh_test<
 				lal::graphs::rooted_tree,
-				lal::generate::all_ulab_rooted_trees>(n, r, gen);
+				lal::generate::all_ulab_rooted_trees>(n, r, T, gen);
 		}
 	}
 }
