@@ -34,12 +34,17 @@
 // lal includes
 #include <lal/graphs/free_tree.hpp>
 #include <lal/graphs/rooted_tree.hpp>
-#include <lal/utilities/tree_isomorphism.hpp>
 #include <lal/generate/all_ulab_free_trees.hpp>
 #include <lal/generate/all_ulab_rooted_trees.hpp>
+
 #include <lal/detail/macros/basic_convert.hpp>
+#include <lal/detail/utilities/tree_isomorphism.hpp>
 
 #include "time.hpp"
+
+typedef lal::detail::isomorphism::algorithm algorithm;
+static constexpr auto string = lal::detail::isomorphism::algorithm::string;
+static constexpr auto tuple = lal::detail::isomorphism::algorithm::tuple;
 
 namespace profiling {
 
@@ -52,7 +57,7 @@ void relabel_edges(
 	lal::detail::array<lal::node> relab(n);
 	std::iota(relab.begin(), relab.end(), 0);
 
-	shuffle(relab.begin(), relab.end(), gen);
+	std::shuffle(relab.begin(), relab.end(), gen);
 
 	// relabel each vertex accoring to 'relab'
 	for (lal::edge& e : edges) {
@@ -65,33 +70,32 @@ void relabel_edges(
 }
 
 void shuffle_tree(
+	const uint64_t n,
+	lal::node r,
 	std::vector<lal::edge>& edges,
 	lal::graphs::rooted_tree& T,
 	std::mt19937& gen
 ) noexcept
 {
-	lal::node r = T.get_root();
 	relabel_edges(edges, r, gen);
 
 	T.clear();
-
-	T.init(edges.size() + 1);
+	T.init(n);
 	T.set_root(r);
 	T.set_edges(edges);
-	T.normalize();
 }
 
 void shuffle_tree(
-	std::vector<lal::edge>& edges, lal::graphs::free_tree& T, std::mt19937& gen
+	const uint64_t n,
+	std::vector<lal::edge>& edges,
+	lal::graphs::free_tree& T,
+	std::mt19937& gen
 ) noexcept
 {
-	T.clear();
-	T.init(edges.size() + 1);
-
 	lal::node dummy = 0;
 	relabel_edges(edges, dummy, gen);
+	T.init(n);
 	T.set_edges(edges);
-	T.normalize();
 }
 
 void output_info(
@@ -114,14 +118,14 @@ void output_info(
 
 // ground truth: ISOMORPHIC
 
-template <class tree_t, class gen_t>
-void pos_exh_test(
-	const uint64_t n,
-	const uint64_t T,
-	const uint64_t N_relabs,
-	std::mt19937& gen
+template <algorithm algo, class tree_t, class gen_t>
+void positive_exhaustive_test(
+	const uint64_t n, const uint64_t N, const uint64_t T, std::mt19937& gen
 )
 {
+	static constexpr bool is_rooted =
+		std::is_same_v<lal::graphs::rooted_tree, tree_t>;
+
 	uint64_t n_calls = 0;
 	double total_time = 0.0;
 
@@ -134,51 +138,58 @@ void pos_exh_test(
 		Gen.next();
 
 		std::vector<lal::edge> edges_cur = cur_tree.get_edges();
-		if constexpr (std::is_base_of_v<lal::graphs::directed_graph, tree_t>) {
-			relab_tree.init(n);
-			relab_tree.set_root(cur_tree.get_root());
-		}
 
-		for (uint64_t N = 0; N < N_relabs; ++N) {
-			shuffle_tree(edges_cur, relab_tree, gen);
+		for (uint64_t r = 0; r < N; ++r) {
+			if constexpr (is_rooted) {
+				shuffle_tree(
+					n, cur_tree.get_root(), edges_cur, relab_tree, gen
+				);
+			}
+			else {
+				shuffle_tree(n, edges_cur, relab_tree, gen);
+			}
 
 			const auto begin = now();
-			const bool r =
-				lal::utilities::are_trees_isomorphic(cur_tree, relab_tree);
+			const bool res = lal::detail::are_trees_isomorphic<algo, true>(
+				cur_tree, relab_tree
+			);
 			const auto end = now();
 			total_time += elapsed_time(begin, end);
 
-			if (not r) {
+			if (not res) {
 				std::cerr << "ERROR!\n";
 				std::abort();
 			}
 		}
 
-		n_calls += N_relabs;
+		n_calls += N;
 		++idx;
 	}
 
-	output_info(n, N_relabs, n_calls, total_time);
+	output_info(n, N, n_calls, total_time);
 }
 
 // ground truth: NON-ISOMORPHIC
 
-template <class tree_t, class gen_t>
-void neg_exh_test(
-	const uint64_t n,
-	const uint64_t T,
-	const uint64_t N_relabs,
-	std::mt19937& gen
+template <algorithm algo, class tree_t, class gen_t>
+void negative_exhaustive_test(
+	const uint64_t n, const uint64_t N, const uint64_t T, std::mt19937& gen
 )
 {
-	std::vector<tree_t> all_trees;
-	gen_t Gen(n);
-	while (not Gen.end() and all_trees.size() < T) {
-		all_trees.push_back(Gen.get_tree());
-		Gen.next();
-	}
+	static constexpr bool is_rooted =
+		std::is_same_v<lal::graphs::rooted_tree, tree_t>;
 
-	std::cout << "Pool of trees calculated\n";
+	std::vector<tree_t> all_trees;
+	{
+		std::size_t idx = 0;
+		gen_t Gen(n);
+		while (not Gen.end() and idx < T) {
+			all_trees.push_back(Gen.get_tree());
+			Gen.next();
+			++idx;
+		}
+		std::cout << "idx= " << idx << '\n';
+	}
 
 	uint64_t n_calls = 0;
 	double total_time = 0.0;
@@ -190,50 +201,48 @@ void neg_exh_test(
 
 			const tree_t& tj = all_trees[j];
 			std::vector<lal::edge> edges_tj = tj.get_edges();
-			if constexpr (std::is_base_of_v<
-							  lal::graphs::directed_graph,
-							  tree_t>) {
-				relab_tree.init(n);
-				relab_tree.set_root(tj.get_root());
-			}
 
-			for (uint64_t l = 0; l < N_relabs; ++l) {
-				shuffle_tree(edges_tj, relab_tree, gen);
+			for (uint64_t r = 0; r < N; ++r) {
+
+				if constexpr (is_rooted) {
+					shuffle_tree(n, ti.get_root(), edges_tj, relab_tree, gen);
+				}
+				else {
+					shuffle_tree(n, edges_tj, relab_tree, gen);
+				}
 
 				const auto begin = now();
-				const bool r =
-					lal::utilities::are_trees_isomorphic(ti, relab_tree);
+				const bool res = lal::detail::are_trees_isomorphic<algo, true>(
+					ti, relab_tree
+				);
 				const auto end = now();
 				total_time += elapsed_time(begin, end);
 
-				if (r) {
+				if (res) {
 					std::cerr << "ERROR!\n";
 					std::abort();
 				}
 			}
 
-			n_calls += N_relabs;
+			n_calls += N;
 		}
 	}
 
-	output_info(n, N_relabs, n_calls, total_time);
+	output_info(n, N, n_calls, total_time);
 }
 
 void utilities_tree_isomorphism(uint64_t argc, char *argv[]) noexcept
 {
-	if (argc != 5) {
+	if (argc != 6) {
 		// clang-format off
-		std::cout << "free positive   n r T\n";
-		std::cout << "free negative   n r T\n";
-		std::cout << "rooted positive n r T\n";
-		std::cout << "rooted negative n r T\n";
+		std::cout << "    tree_type test_type num_vertices relabelings trees\n";
 		std::cout << '\n';
-		std::cout << "free/rooted positive/negative - profile the test for free/rooted\n";
-		std::cout << "trees where the answer of the test is known to be positive/negative\n";
-		std::cout << '\n';
-		std::cout << "    n: number of vertices\n";
-		std::cout << "    r: number of times each tree's vertices will be relabelled\n";
-		std::cout << "    T: number of trees to generate\n";
+		std::cout << "    algorithm:    string/tuple - the algorithm to profile\n";
+		std::cout << "    tree_type:    free/rooted - profile the test for free/rooted trees\n";
+		std::cout << "    test_type:    positive/negative - the answer of the test\n";
+		std::cout << "    num_vertices: number of vertices of the tree\n";
+		std::cout << "    relabelings:  number of times the vertices of a tree should be relabelled\n";
+		std::cout << "    trees:        number of trees to use\n";
 		std::cout << '\n';
 		// clang-format on
 		return;
@@ -241,40 +250,78 @@ void utilities_tree_isomorphism(uint64_t argc, char *argv[]) noexcept
 
 	std::mt19937 gen(1234);
 
-	const std::string tree_type(argv[0]);
-	const std::string expected_answer(argv[1]);
-	const uint64_t n = static_cast<uint64_t>(atoi(argv[2]));
-	const uint64_t r = static_cast<uint64_t>(atoi(argv[3]));
-	const uint64_t T = static_cast<uint64_t>(atoi(argv[4]));
+	const std::string algorithm(argv[0]);
+	const std::string tree_type(argv[1]);
+	const std::string test_type(argv[2]);
+	const uint64_t n = static_cast<uint64_t>(atoi(argv[3]));
+	const uint64_t r = static_cast<uint64_t>(atoi(argv[4]));
+	const uint64_t T = static_cast<uint64_t>(atoi(argv[5]));
 
+	std::cout << "algorithm= " << algorithm << '\n';
 	std::cout << "tree_type= " << tree_type << '\n';
-	std::cout << "expected_answer= " << expected_answer << '\n';
+	std::cout << "expected_answer= " << test_type << '\n';
 	std::cout << "n= " << n << '\n';
 	std::cout << "r= " << r << '\n';
 	std::cout << "T= " << T << '\n';
 
-	if (tree_type == "free") {
-		if (expected_answer == "positive") {
-			pos_exh_test<
-				lal::graphs::free_tree,
-				lal::generate::all_ulab_free_trees>(n, r, T, gen);
+	if (algorithm == "string") {
+		if (tree_type == "free") {
+			if (test_type == "positive") {
+				positive_exhaustive_test<
+					string,
+					lal::graphs::free_tree,
+					lal::generate::all_ulab_free_trees>(n, r, T, gen);
+			}
+			else {
+				negative_exhaustive_test<
+					string,
+					lal::graphs::free_tree,
+					lal::generate::all_ulab_free_trees>(n, r, T, gen);
+			}
 		}
-		else {
-			neg_exh_test<
-				lal::graphs::free_tree,
-				lal::generate::all_ulab_free_trees>(n, r, T, gen);
+		else if (tree_type == "rooted") {
+			if (test_type == "positive") {
+				positive_exhaustive_test<
+					string,
+					lal::graphs::rooted_tree,
+					lal::generate::all_ulab_rooted_trees>(n, r, T, gen);
+			}
+			else {
+				negative_exhaustive_test<
+					string,
+					lal::graphs::rooted_tree,
+					lal::generate::all_ulab_rooted_trees>(n, r, T, gen);
+			}
 		}
 	}
-	else if (tree_type == "rooted") {
-		if (expected_answer == "positive") {
-			pos_exh_test<
-				lal::graphs::rooted_tree,
-				lal::generate::all_ulab_rooted_trees>(n, r, T, gen);
+	else {
+		if (tree_type == "free") {
+			if (test_type == "positive") {
+				positive_exhaustive_test<
+					tuple,
+					lal::graphs::free_tree,
+					lal::generate::all_ulab_free_trees>(n, r, T, gen);
+			}
+			else {
+				negative_exhaustive_test<
+					tuple,
+					lal::graphs::free_tree,
+					lal::generate::all_ulab_free_trees>(n, r, T, gen);
+			}
 		}
-		else {
-			neg_exh_test<
-				lal::graphs::rooted_tree,
-				lal::generate::all_ulab_rooted_trees>(n, r, T, gen);
+		else if (tree_type == "rooted") {
+			if (test_type == "positive") {
+				positive_exhaustive_test<
+					tuple,
+					lal::graphs::rooted_tree,
+					lal::generate::all_ulab_rooted_trees>(n, r, T, gen);
+			}
+			else {
+				negative_exhaustive_test<
+					tuple,
+					lal::graphs::rooted_tree,
+					lal::generate::all_ulab_rooted_trees>(n, r, T, gen);
+			}
 		}
 	}
 }
