@@ -252,6 +252,7 @@ HEADERS += \
 	../../linear-arrangement-library/lal/detail/sorting/bit_sort.hpp \
 	../../linear-arrangement-library/lal/detail/sorting/counting_sort.hpp \
 	../../linear-arrangement-library/lal/detail/sorting/insertion_sort.hpp \
+	../../linear-arrangement-library/lal/detail/sorting/radix_sort.hpp \
 	../../linear-arrangement-library/lal/detail/sorting/sorted_vector.hpp \
 	../../linear-arrangement-library/lal/detail/sorting/sorting_types.hpp \
 	../../linear-arrangement-library/lal/detail/type_traits/bool_sequence.hpp \
@@ -262,6 +263,8 @@ HEADERS += \
 	../../linear-arrangement-library/lal/detail/type_traits/type_sequence.hpp \
 	../../linear-arrangement-library/lal/detail/utilities/tree_isomorphism.hpp \
 	../../linear-arrangement-library/lal/detail/utilities/tree_isomorphism_string.hpp \
+	../../linear-arrangement-library/lal/detail/utilities/tree_isomorphism_tuple_large.hpp \
+	../../linear-arrangement-library/lal/detail/utilities/tree_isomorphism_tuple_small.hpp \
 	../../linear-arrangement-library/lal/detail/utilities/tree_isomorphism_tuple.hpp \
 	../../linear-arrangement-library/lal/detail/utilities/tree_isomorphism_fast_noniso.hpp \
 	../../linear-arrangement-library/lal/generate.hpp \
