@@ -44,7 +44,10 @@
 
 typedef lal::detail::isomorphism::algorithm algorithm;
 static constexpr auto string = lal::detail::isomorphism::algorithm::string;
-static constexpr auto tuple = lal::detail::isomorphism::algorithm::tuple;
+static constexpr auto tuple_small =
+	lal::detail::isomorphism::algorithm::tuple_small;
+static constexpr auto tuple_large =
+	lal::detail::isomorphism::algorithm::tuple_large;
 
 namespace profiling {
 
@@ -237,7 +240,7 @@ void utilities_tree_isomorphism(uint64_t argc, char *argv[]) noexcept
 		// clang-format off
 		std::cout << "    tree_type test_type num_vertices relabelings trees\n";
 		std::cout << '\n';
-		std::cout << "    algorithm:    string/tuple - the algorithm to profile\n";
+		std::cout << "    algorithm:    string/tuple_small/tuple_large - the algorithm to profile\n";
 		std::cout << "    tree_type:    free/rooted - profile the test for free/rooted trees\n";
 		std::cout << "    test_type:    positive/negative - the answer of the test\n";
 		std::cout << "    num_vertices: number of vertices of the tree\n";
@@ -294,17 +297,17 @@ void utilities_tree_isomorphism(uint64_t argc, char *argv[]) noexcept
 			}
 		}
 	}
-	else {
+	else if (algorithm == "tuple_small") {
 		if (tree_type == "free") {
 			if (test_type == "positive") {
 				positive_exhaustive_test<
-					tuple,
+					tuple_small,
 					lal::graphs::free_tree,
 					lal::generate::all_ulab_free_trees>(n, r, T, gen);
 			}
 			else {
 				negative_exhaustive_test<
-					tuple,
+					tuple_small,
 					lal::graphs::free_tree,
 					lal::generate::all_ulab_free_trees>(n, r, T, gen);
 			}
@@ -312,13 +315,43 @@ void utilities_tree_isomorphism(uint64_t argc, char *argv[]) noexcept
 		else if (tree_type == "rooted") {
 			if (test_type == "positive") {
 				positive_exhaustive_test<
-					tuple,
+					tuple_small,
 					lal::graphs::rooted_tree,
 					lal::generate::all_ulab_rooted_trees>(n, r, T, gen);
 			}
 			else {
 				negative_exhaustive_test<
-					tuple,
+					tuple_small,
+					lal::graphs::rooted_tree,
+					lal::generate::all_ulab_rooted_trees>(n, r, T, gen);
+			}
+		}
+	}
+	else if (algorithm == "tuple_large") {
+		if (tree_type == "free") {
+			if (test_type == "positive") {
+				positive_exhaustive_test<
+					tuple_large,
+					lal::graphs::free_tree,
+					lal::generate::all_ulab_free_trees>(n, r, T, gen);
+			}
+			else {
+				negative_exhaustive_test<
+					tuple_large,
+					lal::graphs::free_tree,
+					lal::generate::all_ulab_free_trees>(n, r, T, gen);
+			}
+		}
+		else if (tree_type == "rooted") {
+			if (test_type == "positive") {
+				positive_exhaustive_test<
+					tuple_large,
+					lal::graphs::rooted_tree,
+					lal::generate::all_ulab_rooted_trees>(n, r, T, gen);
+			}
+			else {
+				negative_exhaustive_test<
+					tuple_large,
 					lal::graphs::rooted_tree,
 					lal::generate::all_ulab_rooted_trees>(n, r, T, gen);
 			}
