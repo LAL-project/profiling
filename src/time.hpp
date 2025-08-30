@@ -30,13 +30,14 @@
 // C++ includes
 #include <chrono>
 #include <string>
+#include <string_view>
 
 namespace profiling {
 
 typedef std::chrono::high_resolution_clock::time_point time_point;
 
 inline std::string
-__time_to_str(const uint64_t t, const std::string& unit) noexcept
+__time_to_str(const uint64_t t, const std::string_view& unit) noexcept
 {
 	if (unit == "ms") {
 		const uint64_t ms = t % 1000;
