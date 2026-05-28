@@ -173,6 +173,5 @@ find_package(OpenMP REQUIRED)
 # Compile projects
 
 file(GLOB_RECURSE SOURCES ${LAL_PROFILING_DIR}/src/*)
-message(STATUS "    ${SOURCES}")
 add_executable(profiling ${SOURCES})
 configure_object(profiling)
