@@ -3,7 +3,7 @@ CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
 
-QMAKE_CXXFLAGS += -std=c++17 -fPIC -fopenmp #-flto -fno-fat-lto-objects -O3
+QMAKE_CXXFLAGS += -std=c++17 -fPIC -fopenmp -O3 #-flto -fno-fat-lto-objects
 QMAKE_CXXFLAGS_DEBUG += -DDEBUG -D_GLIBCXX_DEBUG
 QMAKE_CXXFLAGS_RELEASE -= -O2
 QMAKE_CXXFLAGS_RELEASE += -UDEBUG -DNDEBUG -fstrict-aliasing
@@ -22,11 +22,11 @@ isEmpty(ENVIR) {
     ENVIR = "HOME"
 }
 
+LAL_DIR = $$LAL_DEV_DIR
+INCLUDEPATH += $$LAL_DIR
+
 # configure home
 equals(ENVIR, "HOME") {
-	LAL_DIR = /home/lluis/Documents/projects/LAL-dev/23.01/linear-arrangement-library
-	INCLUDEPATH += $$LAL_DIR
-
     # add definitions
 	DEFINES += "__ENVIR=0"
 }
@@ -35,9 +35,6 @@ equals(ENVIR, "HOME") {
 equals(ENVIR, "CLUSTER") {
     QMAKE_CXX = /home/soft/gcc-11.2.0/bin/g++
 	QMAKE_LINK = /home/soft/gcc-11.2.0/bin/g++
-
-	LAL_DIR = /home/usuaris/lalemany/LAL-dev/23.01/linear-arrangement-library
-	INCLUDEPATH += $$LAL_DIR
 
 	DEFINES += "__ENVIR=1"
 }

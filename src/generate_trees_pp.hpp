@@ -29,6 +29,7 @@
 
 // C++ includes
 #include <string>
+#include <cstdint>
 #include <set>
 
 namespace profiling {
